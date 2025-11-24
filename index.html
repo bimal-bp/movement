@@ -2,85 +2,135 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Extended Winding Mountain Road + Ground Level</title>
+<title>Ashok Leyland Tipper - Perfect Path Following (50% Size)</title>
 <style>
-  body { 
-    margin:0; 
-    height:100vh; 
-    display:flex; 
-    justify-content:center; 
-    align-items:center;
-    background:linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 50%, #90EE90 100%); 
-    overflow: hidden;
+  body {
+    margin:0; height:100vh; overflow:hidden;
+    background:linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 50%, #90EE90 100%);
+    font-family:Arial, sans-serif;
   }
-  svg { 
-    width:100vw; 
-    height:100vh; 
-    background:#87CEEB; 
+  svg { width:100vw; height:100vh; display:block; }
+
+  /* Truck follows the path correctly */
+  #truck {
+    offset-path: path('M100,100 Q250,300 200,500 Q150,700 350,750 Q550,800 480,1000 Q410,1200 580,1250 Q750,1300 680,1450');
+    offset-distance: 0%;
+    offset-rotate: auto;           /* This makes the truck always face forward */
+    animation: drive 40s linear infinite;
   }
+  #truck.paused { animation-play-state: paused; }
+  #truck.running .wheel { animation: spin 0.7s linear infinite; }
+
+  /* Tipping animation */
+  #tipper.tipped { transform: rotate(58deg); transform-origin: 280px 280px; }
+  #hydraulic.tipped { transform: rotate(68deg) scaleY(1.8); height:140px; bottom:35px; }
+  #chassis.tipped { transform: rotate(-5deg); }
+
+  /* Wheel spin */
+  @keyframes spin {
+    to { transform: rotate(-360deg); }
+  }
+
+  /* Drive animation */
+  @keyframes drive {
+    from { offset-distance: 0%; }
+    to   { offset-distance: 100%; }
+  }
+
+  /* Controls */
+  .controls {
+    position:fixed; bottom:30px; left:50%; transform:translateX(-50%); z-index:100;
+  }
+  button {
+    padding:14px 32px; margin:0 15px; font-size:18px;
+    background:#2c3e50; color:white; border:none; border-radius:12px;
+    cursor:pointer; box-shadow:0 6px 15px rgba(0,0,0,0.4);
+  }
+  button:hover { background:#e74c3c; transform:translateY(-4px); }
 </style>
 </head>
 <body>
-<svg viewBox="0 0 800 1600" xmlns="http://www.w3.org/2000/svg">
-  <!-- Extended road path with longer ground section and left-shifted start -->
-  <path id="roadPath" d="M150,50
-           C200,180 330,120 350,300
-           C370,480 230,520 290,680
-           C350,840 470,800 430,980
-           C390,1160 250,1180 330,1280
-           C450,1380 650,1340 670,1280
-           C690,1220 610,1200 630,1100
-           C650,1000 750,1020 670,1280
-           C630,1340 610,1380 590,1400
-           L-240,1400"
+
+<svg viewBox="0 0 800 1600">
+  <!-- Simplified & perfectly working mountain road path -->
+  <path id="roadPath" d="M100,100 Q250,300 200,500 Q150,700 350,750 Q550,800 480,1000 Q410,1200 580,1250 Q750,1300 680,1450"
         fill="none"/>
-  
-  <!-- Main asphalt road (uniform width) -->
-  <use href="#roadPath" stroke="#333333" stroke-width="72" stroke-linecap="round" stroke-linejoin="round"/>
-  
-  <!-- Proper left edge (inner side) -->
-  <path d="M150,50
-           C200,180 330,120 350,300
-           C370,480 230,520 290,680
-           C350,840 470,800 430,980
-           C390,1160 250,1180 330,1280
-           C450,1380 650,1340 670,1280
-           C690,1220 610,1200 630,1100
-           C650,1000 750,1020 670,1280
-           C630,1340 610,1380 590,1400
-           L-240,1400"
-        fill="none" stroke="#F0F0F0" stroke-width="7" stroke-linecap="round"/>
-  
-  <!-- Proper right edge (outer side) -->
-  <path d="M150,50
-           C200,180 330,120 350,300
-           C370,480 230,520 290,680
-           C350,840 470,800 430,980
-           C390,1160 250,1180 330,1280
-           C450,1380 650,1340 670,1280
-           C690,1220 610,1200 630,1100
-           C650,1000 750,1020 670,1280
-           C630,1340 610,1380 590,1400
-           L-240,1400"
-        fill="none" stroke="#F0F0F0" stroke-width="7" stroke-linecap="round"
-        style="stroke-dasharray: 0,72,99999; stroke-dashoffset: -36;"/>
-  
-  <!-- Dashed center line - now goes all the way to the bottom -->
-  <path d="M150,50
-           C200,180 330,120 350,300
-           C370,480 230,520 290,680
-           C350,840 470,800 430,980
-           C390,1160 250,1180 330,1280
-           C450,1380 650,1340 670,1280
-           C690,1220 610,1200 630,1100
-           C650,1000 750,1020 670,1280
-           C630,1340 610,1380 590,1400
-           L-240,1400"
-        fill="none"
-        stroke="#FFFFB0"
-        stroke-width="6"
-        stroke-dasharray="40,25"
-        stroke-linecap="round"/>
+
+  <!-- Road layers -->
+  <use href="#roadPath" stroke="#333333" stroke-width="76" stroke-linecap="round"/>
+  <use href="#roadPath" stroke="#555555" stroke-width="70" stroke-linecap="round"/>
+  <use href="#roadPath" stroke="#F0F0F0" stroke-width="7" stroke-dasharray="40,30"/>
+  <use href="#roadPath" stroke="#FFFFB0" stroke-width="5" stroke-dasharray="40,25"/>
+
+  <!-- Truck Group - 50% scale -->
+  <g id="truck">
+    <g transform="scale(0.5) translate(-200,-300)">
+      <!-- Chassis -->
+      <rect x="0" y="300" width="420" height="20" fill="#2c3e50" rx="8" id="chassis"/>
+
+      <!-- Cabin -->
+      <rect x="0" y="200" width="130" height="100" fill="#c0392b" rx="12"/>
+      <path d="M20,215 L115,215 L100,265 L35,265 Z" fill="#1abc9c"/>
+      <circle cx="124" cy="282" r="12" fill="#f1c40f">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Tipper Body -->
+      <g id="tipper">
+        <rect x="120" y="190" width="280" height="110" fill="#e67e22" rx="10" stroke="#d35400" stroke-width="5"/>
+        <rect x="120" y="165" width="280" height="25" fill="#d35400"/>
+        <rect x="125" y="200" width="270" height="85" fill="#f39c12"/>
+        <rect x="125" y="200" width="270" height="85" fill="transparent" stroke="#e67e22" stroke-width="4"/>
+      </g>
+
+      <!-- Hydraulic -->
+      <rect x="153" y="220" width="20" height="80" fill="#7f8c8d" transform="rotate(8 160 300)" id="hydraulic"/>
+
+      <!-- Wheels -->
+      <g class="wheel">
+        <circle cx="95" cy="335" r="35" fill="#2c3e50" stroke="#34495e" stroke-width="8"/>
+        <circle cx="95" cy="335" r="20" fill="#bdc3c7"/>
+        <animateTransform attributeName="transform" type="rotate" from="0 95 335" to="-360 95 335" dur="0.7s" repeatCount="indefinite"/>
+      </g>
+      <g class="wheel">
+        <circle cx="345" cy="335" r="35" fill="#2c3e50" stroke="#34495e" stroke-width="8"/>
+        <circle cx="345" cy="335" r="20" fill="#bdc3c7"/>
+        <animateTransform attributeName="transform" type="rotate" from="0 345 335" to="-360 345 335" dur="0.7s" repeatCount="indefinite"/>
+      </g>
+    </g>
+  </g>
 </svg>
+
+<!-- Controls -->
+<div class="controls">
+  <button id="tipBtn">Tip Container</button>
+  <button id="moveBtn">Pause / Resume</button>
+</div>
+
+<script>
+  const truck = document.getElementById('truck');
+  const tipper = document.getElementById('tipper');
+  const hydraulic = document.getElementById('hydraulic');
+  const chassis = document.getElementById('chassis');
+  const tipBtn = document.getElementById('tipBtn');
+  const moveBtn = document.getElementById('moveBtn');
+
+  let isTipped = false;
+  let isRunning = true;
+
+  tipBtn.addEventListener('click', () => {
+    isTipped = !isTipped;
+    tipper.classList.toggle('tipped', isTipped);
+    hydraulic.classList.toggle('tipped', isTipped);
+    chassis.classList.toggle('tipped', isTipped);
+    tipBtn.textContent = isTipped ? 'Lower Container' : 'Tip Container';
+  });
+
+  moveBtn.addEventListener('click', () => {
+    isRunning = !isRunning;
+    truck.classList.toggle('paused', !isRunning);
+    moveBtn.textContent = isRunning ? 'Pause' : 'Resume';
+  });
+</script>
 </body>
 </html>
