@@ -2,25 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ashok Leyland Tipper - Correct Orientation & Long Downhill + Plain Road</title>
+<title>Ashok Leyland Tipper - Long Downhill + Plain with Visible Road</title>
 <style>
   body { margin:0; height:100vh; overflow:hidden;
     background:linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 40%, #90EE90 100%);
   }
   svg { width:100vw; height:100vh; display:block; }
-
   #truck {
     offset-path: path('M100,100 Q250,300 200,500 Q150,700 350,750 Q550,800 480,1000 Q410,1200 580,1250 Q750,1300 680,1450 Q650,1650 780,1800 Q850,2000 720,2200 Q650,2400 750,2600');
     offset-distance: 0%;
-    offset-rotate: auto 180deg; /* 180deg flips the truck so cabin leads downhill */
+    offset-rotate: auto 180deg;
     animation: drive 52s linear infinite;
   }
   #truck.paused { animation-play-state: paused; }
-
-  /* Tipping - now tips upward/backward (correct for real tipper) */
   #tipper.tipped {
     transform: rotate(55deg);
-    transform-origin: 135px 280px; /* hinge near cabin rear */
+    transform-origin: 135px 280px;
   }
   #hydraulic.tipped {
     transform: rotate(65deg) scaleY(2);
@@ -29,15 +26,7 @@
   #chassis.tipped {
     transform: rotate(-4deg);
   }
-
-  @keyframes drive {
-    from { offset-distance: 0%; }
-    to { offset-distance: 100%; }
-  }
-  @keyframes spin {
-    to { transform: rotate(-360deg); }
-  }
-
+  @keyframes drive { from { offset-distance: 0%; } to { offset-distance: 100%; } }
   .controls {
     position:fixed; bottom:30px; left:50%; transform:translateX(-50%); z-index:100;
   }
@@ -50,47 +39,49 @@
 </style>
 </head>
 <body>
+<svg viewBox="0 0 1000 2800" xmlns="http://www.w3.org/2000/svg">
 
-<svg viewBox="0 0 1000 2800">
-  <!-- Very long downhill mountain road + long flat plain at bottom -->
-  <path id="roadPath" 
-        d="M100,100 Q250,300 200,500 Q150,700 350,750 Q550,800 480,1000 
-           Q410,1200 580,1250 Q750,1300 680,1450 Q650,1650 780,1800 
+  <!-- Long winding downhill + flat road path -->
+  <path id="roadPath"
+        d="M100,100 Q250,300 200,500 Q150,700 350,750 Q550,800 480,1000
+           Q410,1200 580,1250 Q750,1300 680,1450 Q650,1650 780,1800
            Q850,2000 720,2200 Q650,2400 750,2600"
-        fill="none" stroke="none"/>
+        fill="none"/>
 
-  <!-- Road layers -->
-  <use href="#roadPath" stroke="#333" stroke-width="78" stroke-linecap="round"/>
-  <use href="#roadPath" stroke="#555" stroke-width="72" stroke-linecap="round"/>
-  <use href="#roadPath" stroke="#F0F0F0" stroke-width="7" stroke-dasharray="40,30"/>
-  <use href="#roadPath" stroke="#FFFFB0" stroke-width="5" stroke-dasharray="40,25"/>
+  <!-- Road surface (dark asphalt) -->
+  <use href="#roadPath" stroke="#2c3e50" stroke-width="90" stroke-linecap="round"/>
+  <use href="#roadPath" stroke="#34495e" stroke-width="82" stroke-linecap="round"/>
 
-  <!-- Truck - cabin at front (left side), tipper at rear -->
+  <!-- Road edges (yellow + white) -->
+  <use href="#roadPath" stroke="#F1C40F" stroke-width="6" stroke-linecap="round"/>
+  <use href="#roadPath" stroke="#FFFFFF" stroke-width="4" stroke-dasharray="45,35"/>
+
+  <!-- Center dashed line -->
+  <use href="#roadPath" stroke="#FFFFB0" stroke-width="4" stroke-dasharray="50,40" opacity="0.9"/>
+
+  <!-- Mountain side rocks / texture (optional decorative) -->
+  <g opacity="0.3">
+    <use href="#roadPath" stroke="#8B7355" stroke-width="120" stroke-linecap="round"/>
+    <use href="#roadPath" stroke="#A0826B" stroke-width="140" stroke-linecap="round"/>
+  </g>
+
+  <!-- Your fully working Ashok Leyland Tipper (unchanged) -->
   <g id="truck">
     <g transform="scale(0.5) translate(-200,-300)">
-      <!-- Chassis -->
       <rect x="0" y="300" width="420" height="20" fill="#2c3e50" rx="8" id="chassis"/>
-
-      <!-- Cabin (now at the front) -->
       <rect x="0" y="200" width="130" height="100" fill="#c0392b" rx="12"/>
       <path d="M20,215 L115,215 L100,265 L35,265 Z" fill="#1abc9c"/>
       <circle cx="124" cy="282" r="12" fill="#f1c40f">
         <animate attributeName="opacity" values="0.7;1;0.7" dur="1.5s" repeatCount="indefinite"/>
       </circle>
-
-      <!-- Tipper Body (rear) -->
       <g id="tipper">
         <rect x="120" y="190" width="280" height="110" fill="#e67e22" rx="10" stroke="#d35400" stroke-width="5"/>
         <rect x="120" y="165" width="280" height="25" fill="#d35400"/>
         <rect x="125" y="200" width="270" height="85" fill="#f39c12"/>
         <rect x="125" y="200" width="270" height="85" fill="transparent" stroke="#e67e22" stroke-width="4"/>
       </g>
-
-      <!-- Hydraulic cylinder -->
-      <rect x="153" y="220" width="20" height="80" fill="#7f8c8d" 
+      <rect x="153" y="220" width="20" height="80" fill="#7f8c8d"
             transform="rotate(8 160 300)" id="hydraulic"/>
-
-      <!-- Wheels -->
       <g class="wheel">
         <circle cx="95" cy="335" r="35" fill="#2c3e50" stroke="#34495e" stroke-width="8"/>
         <circle cx="95" cy="335" r="20" fill="#bdc3c7"/>
