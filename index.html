@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashok Leyland Tipper Truck - Half Size</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, #87CEEB 0%, #E0F7FA 100%);
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+        .road {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 120px;
+            background: #444;
+        }
+        .road::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            width: 100%;
+            height: 8px;
+            background: repeating-linear-gradient(90deg, #ffeb3b 0, #ffeb3b 60px, transparent 60px, transparent 120px);
+        }
+        .container {
+            position: relative;
+            width: 900px;
+            height: 400px;
+        }
+
+        /* === HALF-SIZE TRUCK (50% of original) === */
+        .truck {
+            position: absolute;
+            bottom: 80px;
+            left: 50px;
+            transform: scale(0.5);           /* This makes it exactly half size */
+            transform-origin: bottom left;    /* Keeps positioning correct */
+        }
+
+        .chassis {
+            width: 420px;
+            height: 20px;
+            background: #2c3e50;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            transition: transform 1.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-origin: 80px 20px;
+        }
+        .cabin {
+            position: absolute;
+            width: 130px;
+            height: 100px;
+            background: #c0392b;
+            bottom: 20px;
+            left: 0;
+            border-radius: 12px 25px 8px 8px;
+        }
+        .windshield {
+            position: absolute;
+            width: 95px;
+            height: 50px;
+            background: #1abc9c;
+            top: 15px;
+            left: 20px;
+            border-radius: 5px;
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+        }
+        .headlight {
+            position: absolute;
+            width: 24px;
+            height: 20px;
+            background: #f1c40f;
+            border-radius: 50%;
+            bottom: 18px;
+            left: 100px;
+            box-shadow: 0 0 25px #f1c40f;
+        }
+        .tipper {
+            position: absolute;
+            width: 280px;
+            height: 110px;
+            background: #e67e22;
+            bottom: 20px;
+            left: 120px;
+            border-radius: 10px;
+            border: 5px solid #d35400;
+            transform-origin: left bottom;
+            transition: transform 1.8s cubic-bezier(0.2, 0.8, 0.3, 1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+        .tipper::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 25px;
+            background: linear-gradient(#d35400, #e67e22);
+            top: -25px;
+            border-radius: 10px 10px 0 0;
+        }
+        .tipper-content {
+            position: absolute;
+            width: 100%;
+            height: 85px;
+            background: repeating-linear-gradient(45deg, #f39c12, #f39c12 25px, #e67e22 25px, #e67e22 50px);
+            top: 15px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .hydraulic {
+            position: absolute;
+            width: 20px;
+            height: 80px;
+            background: #7f8c8d;
+            bottom: 30px;
+            left: 160px;
+            transform: rotate(8deg);
+            transform-origin: bottom center;
+            transition: all 1.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 1;
+        }
+        .hydraulic::before {
+            content: '';
+            position: absolute;
+            width: 34px;
+            height: 34px;
+            background: #2c3e50;
+            bottom: -17px;
+            left: -7px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        }
+        .hydraulic::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: #95a5a6;
+            top: -13px;
+            left: -3px;
+            border-radius: 50%;
+        }
+        .wheel {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: #2c3e50;
+            border-radius: 50%;
+            bottom: -35px;
+            border: 8px solid #34495e;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+        }
+        .wheel::before {
+            content: '';
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: #ecf0f1;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .wheel::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 10px, #95a5a6 10px, #95a5a6 15px);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite paused;
+        }
+        .wheel-front { left: 60px; }
+        .wheel-rear { left: 310px; }
+
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        button {
+            padding: 14px 32px;
+            margin: 0 15px;
+            font-size: 18px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #e74c3c;
+            transform: translateY(-4px);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(-360deg); }
+        }
+        @keyframes moveTruck {
+            from { transform: translateX(calc(100vw + 400px)); }
+            to { transform: translateX(-700px); }
+        }
+        .moving {
+            animation: moveTruck 20s linear infinite;
+        }
+        .moving .wheel::after {
+            animation: spin 0.7s linear infinite;
+        }
+        .tipped .tipper {
+            transform: rotate(58deg);
+        }
+        .tipped .hydraulic {
+            transform: rotate(68deg) scaleY(1.8);
+            height: 140px;
+            bottom: 35px;
+        }
+        .tipped .chassis {
+            transform: rotate(-5deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="road"></div>
+    <div class="container">
+        <div class="truck" id="truck">
+            <div class="chassis">
+                <div class="cabin">
+                    <div class="windshield"></div>
+                    <div class="headlight"></div>
+                </div>
+                <div class="tipper" id="tipper">
+                    <div class="tipper-content"></div>
+                </div>
+                <div class="hydraulic"></div>
+                <div class="wheel wheel-front"></div>
+                <div class="wheel wheel-rear"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="tipBtn">Tip Container</button>
+            <button id="moveBtn">Start Truck</button>
+        </div>
+    </div>
+
+    <script>
+        const truck = document.getElementById('truck');
+        const tipBtn = document.getElementById('tipBtn');
+        const moveBtn = document.getElementById('moveBtn');
+        let isTipped = false;
+        let isMoving = false;
+
+        tipBtn.addEventListener('click', () => {
+            if (isTipped) {
+                truck.classList.remove('tipped');
+                tipBtn.textContent = 'Tip Container';
+            } else {
+                truck.classList.add('tipped');
+                tipBtn.textContent = 'Lower Container';
+            }
+            isTipped = !isTipped;
+        });
+
+        moveBtn.addEventListener('click', () => {
+            if (isMoving) {
+                truck.classList.remove('moving');
+                moveBtn.textContent = 'Start Truck';
+            } else {
+                truck.classList.add('moving');
+                moveBtn.textContent = 'Stop Truck';
+            }
+            isMoving = !isMoving;
+        });
+    </script>
+</body>
+</html>
