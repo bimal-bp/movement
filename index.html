@@ -2,49 +2,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Perfect Winding Mountain Road + Extra Long Ground Level</title>
+<title>Extended Winding Mountain Road + Ground Level</title>
 <style>
-  body { margin:0; height:100vh; display:flex; justify-content:center; align-items:center;
-         background:linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 50%, #90EE90 100%); }
-  svg { width:100vw; height:100vh; background:#87CEEB; }
+  body { 
+    margin:0; 
+    height:100vh; 
+    display:flex; 
+    justify-content:center; 
+    align-items:center;
+    background:linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 50%, #90EE90 100%); 
+    overflow: hidden;
+  }
+  svg { 
+    width:100vw; 
+    height:100vh; 
+    background:#87CEEB; 
+  }
 </style>
 </head>
 <body>
-<svg viewBox="0 0 800 1800" xmlns="http://www.w3.org/2000/svg">
-  <!-- Extended road path - starts more to the left + much longer flat ground section -->
-  <path id="roadPath" d="M100,50
-           C150,180 280,120 300,300
-           C320,480 180,520 240,680
-           C300,840 420,800 380,980
-           C340,1160 200,1180 280,1280
-           C400,1380 600,1340 620,1280
-           C640,1220 560,1200 580,1100
-           C600,1000 700,1020 620,1280
-           C580,1340 560,1380 540,1400
-           C520,1420 520,1600 520,1750
-           L100,1750
-           L100,1800
-           L700,1800
-           L700,1750"
+<svg viewBox="0 0 800 1600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Extended road path with longer ground section and left-shifted start -->
+  <path id="roadPath" d="M150,50
+           C200,180 330,120 350,300
+           C370,480 230,520 290,680
+           C350,840 470,800 430,980
+           C390,1160 250,1180 330,1280
+           C450,1380 650,1340 670,1280
+           C690,1220 610,1200 630,1100
+           C650,1000 750,1020 670,1280
+           C630,1340 610,1380 590,1400
+           L-240,1400"
         fill="none"/>
-
-  <!-- Main asphalt road -->
+  
+  <!-- Main asphalt road (uniform width) -->
   <use href="#roadPath" stroke="#333333" stroke-width="72" stroke-linecap="round" stroke-linejoin="round"/>
-
-  <!-- Left white edge line -->
-  <use href="#roadPath" stroke="#F0F0F0" stroke-width="7" stroke-linecap="round"
-       style="stroke-dasharray: 0,72,99999; stroke-dashoffset: 36;"/>
-
-  <!-- Right white edge line -->
-  <use href="#roadPath" stroke="#F0F0F0" stroke-width="7" stroke-linecap="round"
-       style="stroke-dasharray: 0,72,99999; stroke-dashoffset: -36;"/>
-
-  <!-- Dashed yellow center line - continues all the way to the bottom -->
-  <use href="#roadPath" stroke="#FFFFB0" stroke-width="6"
-       stroke-dasharray="40,25" stroke-linecap="round"/>
-
-  <!-- Optional subtle shading (uncomment if desired) -->
-  <!-- <use href="#roadPath" stroke="#222222" stroke-width="68" opacity="0.25"/> -->
+  
+  <!-- Proper left edge (inner side) -->
+  <path d="M150,50
+           C200,180 330,120 350,300
+           C370,480 230,520 290,680
+           C350,840 470,800 430,980
+           C390,1160 250,1180 330,1280
+           C450,1380 650,1340 670,1280
+           C690,1220 610,1200 630,1100
+           C650,1000 750,1020 670,1280
+           C630,1340 610,1380 590,1400
+           L-240,1400"
+        fill="none" stroke="#F0F0F0" stroke-width="7" stroke-linecap="round"/>
+  
+  <!-- Proper right edge (outer side) -->
+  <path d="M150,50
+           C200,180 330,120 350,300
+           C370,480 230,520 290,680
+           C350,840 470,800 430,980
+           C390,1160 250,1180 330,1280
+           C450,1380 650,1340 670,1280
+           C690,1220 610,1200 630,1100
+           C650,1000 750,1020 670,1280
+           C630,1340 610,1380 590,1400
+           L-240,1400"
+        fill="none" stroke="#F0F0F0" stroke-width="7" stroke-linecap="round"
+        style="stroke-dasharray: 0,72,99999; stroke-dashoffset: -36;"/>
+  
+  <!-- Dashed center line - now goes all the way to the bottom -->
+  <path d="M150,50
+           C200,180 330,120 350,300
+           C370,480 230,520 290,680
+           C350,840 470,800 430,980
+           C390,1160 250,1180 330,1280
+           C450,1380 650,1340 670,1280
+           C690,1220 610,1200 630,1100
+           C650,1000 750,1020 670,1280
+           C630,1340 610,1380 590,1400
+           L-240,1400"
+        fill="none"
+        stroke="#FFFFB0"
+        stroke-width="6"
+        stroke-dasharray="40,25"
+        stroke-linecap="round"/>
 </svg>
 </body>
 </html>
