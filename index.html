@@ -202,6 +202,142 @@
                     background: #2980b9;
                 }
                 
+                .machinery-section {
+                    background: white;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+                    overflow: hidden;
+                    margin-top: 20px;
+                }
+                
+                .machinery-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 15px;
+                    padding: 20px;
+                }
+                
+                @media (max-width: 1200px) {
+                    .machinery-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+                
+                @media (max-width: 768px) {
+                    .machinery-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+                
+                .machinery-item {
+                    background: #f8f9fa;
+                    padding: 15px;
+                    border-radius: 8px;
+                    border: 1px solid #e0e0e0;
+                }
+                
+                .machinery-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 10px;
+                    padding-bottom: 8px;
+                    border-bottom: 2px solid #3498db;
+                }
+                
+                .machinery-name {
+                    font-weight: 700;
+                    color: #2c3e50;
+                    font-size: 16px;
+                }
+                
+                .machinery-code {
+                    background: #3498db;
+                    color: white;
+                    padding: 2px 8px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+                
+                .machinery-hours {
+                    font-size: 24px;
+                    font-weight: 700;
+                    color: #2c3e50;
+                    text-align: center;
+                    margin: 10px 0;
+                }
+                
+                .machinery-status {
+                    display: inline-block;
+                    padding: 4px 10px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+                
+                .status-breakdown {
+                    background: #ff6b6b;
+                    color: white;
+                }
+                
+                .status-loading {
+                    background: #4ecdc4;
+                    color: white;
+                }
+                
+                .status-idle {
+                    background: #95a5a6;
+                    color: white;
+                }
+                
+                .status-working {
+                    background: #2ecc71;
+                    color: white;
+                }
+                
+                .machinery-details {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 8px;
+                    margin-top: 10px;
+                    font-size: 13px;
+                }
+                
+                .detail-row {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 4px 0;
+                    border-bottom: 1px dashed #e0e0e0;
+                }
+                
+                .detail-label-small {
+                    color: #666;
+                }
+                
+                .detail-value-small {
+                    font-weight: 600;
+                    color: #2c3e50;
+                }
+                
+                .date-wise-btn {
+                    background: #9b59b6;
+                    color: white;
+                    border: none;
+                    padding: 6px 12px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    font-size: 12px;
+                    margin-top: 10px;
+                    width: 100%;
+                }
+                
+                .date-wise-btn:hover {
+                    background: #8e44ad;
+                }
+                
                 .shift-schedule {
                     background: white;
                     border-radius: 10px;
@@ -533,6 +669,198 @@
                     </div>
                 </div>
                 
+                <!-- Machinery Working Hours Section -->
+                <div class="machinery-section">
+                    <div class="card-header">Machinery Working Hours (Date-wise)</div>
+                    <div class="machinery-grid">
+                        <!-- SGX Volvo 1 -->
+                        <div class="machinery-item">
+                            <div class="machinery-header">
+                                <span class="machinery-name">SGX Volvo 1</span>
+                                <span class="machinery-code">V1</span>
+                            </div>
+                            <div class="machinery-hours">5.6 Hrs</div>
+                            <div class="machinery-status status-breakdown">B</div>
+                            <div class="machinery-details">
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Today</span>
+                                    <span class="detail-value-small">5.6 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Yesterday</span>
+                                    <span class="detail-value-small">7.2 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">This Week</span>
+                                    <span class="detail-value-small">32.8 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">MTD</span>
+                                    <span class="detail-value-small">124.5 hrs</span>
+                                </div>
+                            </div>
+                            <button class="date-wise-btn" onclick="showMachineryDetails('sgx-volvo-1')">
+                                View Date-wise Details
+                            </button>
+                        </div>
+                        
+                        <!-- SGX Volvo 2 -->
+                        <div class="machinery-item">
+                            <div class="machinery-header">
+                                <span class="machinery-name">SGX Volvo 2</span>
+                                <span class="machinery-code">V2</span>
+                            </div>
+                            <div class="machinery-hours">5.9 Hrs</div>
+                            <div class="machinery-status status-loading">L</div>
+                            <div class="machinery-details">
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Today</span>
+                                    <span class="detail-value-small">5.9 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Yesterday</span>
+                                    <span class="detail-value-small">6.8 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">This Week</span>
+                                    <span class="detail-value-small">41.2 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">MTD</span>
+                                    <span class="detail-value-small">156.8 hrs</span>
+                                </div>
+                            </div>
+                            <button class="date-wise-btn" onclick="showMachineryDetails('sgx-volvo-2')">
+                                View Date-wise Details
+                            </button>
+                        </div>
+                        
+                        <!-- Excavator E1 -->
+                        <div class="machinery-item">
+                            <div class="machinery-header">
+                                <span class="machinery-name">Excavator E1</span>
+                                <span class="machinery-code">E1</span>
+                            </div>
+                            <div class="machinery-hours">7.2 Hrs</div>
+                            <div class="machinery-status status-working">W</div>
+                            <div class="machinery-details">
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Today</span>
+                                    <span class="detail-value-small">7.2 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Yesterday</span>
+                                    <span class="detail-value-small">6.5 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">This Week</span>
+                                    <span class="detail-value-small">48.5 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">MTD</span>
+                                    <span class="detail-value-small">185.3 hrs</span>
+                                </div>
+                            </div>
+                            <button class="date-wise-btn" onclick="showMachineryDetails('excavator-e1')">
+                                View Date-wise Details
+                            </button>
+                        </div>
+                        
+                        <!-- Drill Machine D1 -->
+                        <div class="machinery-item">
+                            <div class="machinery-header">
+                                <span class="machinery-name">Drill Machine D1</span>
+                                <span class="machinery-code">D1</span>
+                            </div>
+                            <div class="machinery-hours">6.8 Hrs</div>
+                            <div class="machinery-status status-idle">I</div>
+                            <div class="machinery-details">
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Today</span>
+                                    <span class="detail-value-small">6.8 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Yesterday</span>
+                                    <span class="detail-value-small">7.1 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">This Week</span>
+                                    <span class="detail-value-small">45.6 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">MTD</span>
+                                    <span class="detail-value-small">172.4 hrs</span>
+                                </div>
+                            </div>
+                            <button class="date-wise-btn" onclick="showMachineryDetails('drill-d1')">
+                                View Date-wise Details
+                            </button>
+                        </div>
+                        
+                        <!-- Loader L1 -->
+                        <div class="machinery-item">
+                            <div class="machinery-header">
+                                <span class="machinery-name">Loader L1</span>
+                                <span class="machinery-code">L1</span>
+                            </div>
+                            <div class="machinery-hours">5.2 Hrs</div>
+                            <div class="machinery-status status-breakdown">B</div>
+                            <div class="machinery-details">
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Today</span>
+                                    <span class="detail-value-small">5.2 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Yesterday</span>
+                                    <span class="detail-value-small">6.4 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">This Week</span>
+                                    <span class="detail-value-small">38.9 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">MTD</span>
+                                    <span class="detail-value-small">148.7 hrs</span>
+                                </div>
+                            </div>
+                            <button class="date-wise-btn" onclick="showMachineryDetails('loader-l1')">
+                                View Date-wise Details
+                            </button>
+                        </div>
+                        
+                        <!-- Dozer DZ1 -->
+                        <div class="machinery-item">
+                            <div class="machinery-header">
+                                <span class="machinery-name">Dozer DZ1</span>
+                                <span class="machinery-code">DZ1</span>
+                            </div>
+                            <div class="machinery-hours">4.8 Hrs</div>
+                            <div class="machinery-status status-working">W</div>
+                            <div class="machinery-details">
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Today</span>
+                                    <span class="detail-value-small">4.8 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">Yesterday</span>
+                                    <span class="detail-value-small">5.6 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">This Week</span>
+                                    <span class="detail-value-small">33.7 hrs</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label-small">MTD</span>
+                                    <span class="detail-value-small">128.4 hrs</span>
+                                </div>
+                            </div>
+                            <button class="date-wise-btn" onclick="showMachineryDetails('dozer-dz1')">
+                                View Date-wise Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Shift Schedule -->
                 <div class="shift-schedule">
                     <div class="card-header">Shift Schedule & Machinery</div>
@@ -552,22 +880,22 @@
                                     <td><input type="time" value="06:00"></td>
                                     <td><input type="time" value="14:00"></td>
                                     <td><input type="number" value="8"></td>
-                                    <td><input type="text" value="Excavator x3, Drill x2"></td>
-                                    <td><input type="text" placeholder="Enter remark"></td>
+                                    <td><input type="text" value="Excavator x3, Drill x2, Volvo x2"></td>
+                                    <td><input type="text" value="All machines working normal"></td>
                                 </tr>
                                 <tr>
                                     <td><input type="time" value="14:00"></td>
                                     <td><input type="time" value="22:00"></td>
                                     <td><input type="number" value="7"></td>
-                                    <td><input type="text" value="Excavator x2, Drill x2"></td>
-                                    <td><input type="text" placeholder="Enter remark"></td>
+                                    <td><input type="text" value="Excavator x2, Drill x2, Loader x1"></td>
+                                    <td><input type="text" value="Volvo 1 under maintenance"></td>
                                 </tr>
                                 <tr>
                                     <td><input type="time" value="22:00"></td>
                                     <td><input type="time" value="06:00"></td>
                                     <td><input type="number" value="6"></td>
-                                    <td><input type="text" value="Excavator x2, Drill x1"></td>
-                                    <td><input type="text" placeholder="Enter remark"></td>
+                                    <td><input type="text" value="Excavator x2, Drill x1, Dozer x1"></td>
+                                    <td><input type="text" value="Loader breakdown - parts arriving"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -697,7 +1025,9 @@
                             <textarea class="notes-textarea" placeholder="Enter daily remarks, issues, diesel status, machinery works...">• Excavator #2 needs maintenance check
 • Water supply issue in Pit 3
 • Diesel stock: 2500 liters
-• Machinery breakdown: Drill machine #3</textarea>
+• Loader L1 breakdown - waiting for parts
+• SGX Volvo 1 transmission issue
+• All other machinery working normal</textarea>
                         </div>
                         <div>
                             <div class="notes-label">ERP & Administrative Notes</div>
@@ -705,7 +1035,9 @@
 • Compressor payment pending: ₹12,500
 • Machinery payment due: ₹85,000
 • Quarry material purchase: 50 tons
-• ERP production entry completed</textarea>
+• ERP production entry completed
+• Diesel purchase order: 5000 liters
+• Maintenance schedule updated in ERP</textarea>
                         </div>
                     </div>
                 </div>
@@ -719,5 +1051,18 @@ function showDateWiseData(type) {
     // This function would show a modal or navigate to date-wise data
     alert(`Showing date-wise data for ${type}`);
     // Implementation would depend on your data structure and requirements
+}
+
+function showMachineryDetails(machineId) {
+    // This function would show detailed date-wise hours for specific machinery
+    alert(`Showing date-wise working hours for ${machineId}`);
+    // You can implement a modal showing a table with date-wise hours
+    // Example structure could be:
+    /*
+    Date       | Status | Hours | Remark
+    2024-01-15 | W      | 6.8   | Normal operation
+    2024-01-14 | B      | 2.1   | Breakdown - engine issue
+    2024-01-13 | L      | 7.5   | Loading operation
+    */
 }
 </script>
