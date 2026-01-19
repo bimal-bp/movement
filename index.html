@@ -184,7 +184,7 @@
         }
         
         .variance-positive {
-            color: #27ae60;
+            color: #3498db; /* Changed from green to blue */
         }
         
         .variance-negative {
@@ -320,7 +320,7 @@
         }
         
         .number-green {
-            color: #27ae60 !important;
+            color: #3498db !important; /* Changed from green to blue */
         }
         
         .number-blue {
@@ -387,6 +387,56 @@
         
         .indicator-development {
             background-color: #f39c12;
+        }
+        
+        /* NEW: Wider card for Machinery Status */
+        .card.wider {
+            min-width: 720px;
+            grid-column: span 1.2;
+        }
+        
+        /* NEW: Save button styling */
+        .save-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+        
+        .save-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        /* NEW: Header with button */
+        .card-header-with-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .title-with-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        /* NEW: Performance item spacing */
+        .performance-spaced {
+            margin-bottom: 12px;
+        }
+        
+        .performance-spaced:last-child {
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -462,30 +512,38 @@
                 <div class="compact-performance">
                     <div class="compact-performance-item">
                         <div class="compact-label">Compressor Performance</div>
-                        <div class="compact-value">
-                            <span class="number-green">12</span> 
-                            <span class="compact-variance variance-negative">/ -5</span>
-                            <span class="badge badge-ftd">FTD</span>
+                        <div class="performance-spaced">
+                            <div class="compact-value">
+                                <span class="number-green">12</span> 
+                                <span class="compact-variance variance-negative">/ -5</span>
+                                <span class="badge badge-ftd">FTD</span>
+                            </div>
                         </div>
-                        <div class="compact-value">
-                            <span class="number-blue">652</span> 
-                            <span class="compact-variance variance-negative">/ -36</span>
-                            <span class="badge badge-mtd">MTD</span>
+                        <div class="performance-spaced">
+                            <div class="compact-value">
+                                <span class="number-blue">652</span> 
+                                <span class="compact-variance variance-negative">/ -36</span>
+                                <span class="badge badge-mtd">MTD</span>
+                            </div>
                         </div>
                         <div class="compact-label" style="margin-top: 5px; font-style: italic;">Actual / Variance from Target</div>
                     </div>
                     
                     <div class="compact-performance-item">
                         <div class="compact-label">Holes Performance</div>
-                        <div class="compact-value">
-                            <span class="number-green">782</span> 
-                            <span class="compact-variance variance-negative">/ -218</span>
-                            <span class="badge badge-ftd">FTD</span>
+                        <div class="performance-spaced">
+                            <div class="compact-value">
+                                <span class="number-green">782</span> 
+                                <span class="compact-variance variance-negative">/ -218</span>
+                                <span class="badge badge-ftd">FTD</span>
+                            </div>
                         </div>
-                        <div class="compact-value">
-                            <span class="number-blue">2,653</span> 
-                            <span class="compact-variance variance-negative">/ -495</span>
-                            <span class="badge badge-mtd">MTD</span>
+                        <div class="performance-spaced">
+                            <div class="compact-value">
+                                <span class="number-blue">2,653</span> 
+                                <span class="compact-variance variance-negative">/ -495</span>
+                                <span class="badge badge-mtd">MTD</span>
+                            </div>
                         </div>
                         <div class="compact-label" style="margin-top: 5px; font-style: italic;">Actual / Variance from Target</div>
                     </div>
@@ -624,10 +682,15 @@
                 </table>
             </div>
             
-            <!-- Machinery Status in Row Format -->
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Machinery Status</h2>
+            <!-- Machinery Status in Row Format - WIDER CARD -->
+            <div class="card wider">
+                <div class="card-header-with-btn">
+                    <div class="title-with-btn">
+                        <h2 class="card-title">Machinery Status</h2>
+                        <button class="save-btn" id="saveRemarksBtn">
+                            <i class="fas fa-save"></i> Save Remarks
+                        </button>
+                    </div>
                     <div class="card-icon"><i class="fas fa-tools"></i></div>
                 </div>
                 <table>
@@ -736,6 +799,24 @@
                 row.addEventListener('mouseleave', function() {
                     this.style.backgroundColor = '';
                 });
+            });
+            
+            // Save Remarks button functionality
+            const saveRemarksBtn = document.getElementById('saveRemarksBtn');
+            saveRemarksBtn.addEventListener('click', function() {
+                // Change button text and color temporarily
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                this.style.backgroundColor = '#2ecc71';
+                
+                // Show a simple notification
+                alert('Machinery status remarks saved successfully!');
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.style.backgroundColor = '#3498db';
+                }, 2000);
             });
         });
     </script>
