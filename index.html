@@ -142,6 +142,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
+            margin-bottom: 30px;
         }
         
         .performance-box {
@@ -153,61 +154,94 @@
             border-left: 5px solid #3498db;
         }
         
+        .performance-box.compact {
+            min-width: 200px;
+            padding: 15px;
+        }
+        
         .performance-box h3 {
             margin-bottom: 15px;
             color: #2c3e50;
+            font-size: 1.2rem;
         }
         
         .performance-value {
             font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
-        .positive {
+        .performance-value.compact {
+            font-size: 1.5rem;
+        }
+        
+        .actual-value {
+            color: #2c3e50;
+        }
+        
+        .variance-positive {
             color: #27ae60;
         }
         
-        .negative {
+        .variance-negative {
             color: #e74c3c;
         }
         
         .machinery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
             margin-top: 20px;
         }
         
         .machine-card {
-            background-color: #f8f9fa;
+            background-color: white;
             border-radius: 8px;
-            padding: 18px;
+            padding: 20px;
             border-left: 4px solid #3498db;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
         
         .machine-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .machine-name {
             font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
             color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .machine-detail {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
+            margin-bottom: 12px;
+            font-size: 1rem;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .machine-detail:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
         }
         
         .machine-label {
             color: #7f8c8d;
+            font-weight: 500;
         }
         
         .machine-value {
@@ -222,15 +256,29 @@
         .remark-section {
             background-color: #fff8e1;
             border-left: 5px solid #ffc107;
-            padding: 20px;
+            padding: 25px;
             margin-top: 30px;
             border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         }
         
         .remark-title {
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: #ff9800;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .remark-section p {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+        
+        .remark-section p:last-child {
+            margin-bottom: 0;
         }
         
         footer {
@@ -254,25 +302,95 @@
             h1 {
                 font-size: 1.8rem;
             }
+            
+            .machinery-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         .badge {
             display: inline-block;
-            padding: 4px 10px;
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
-            margin-left: 8px;
         }
         
         .badge-ftd {
             background-color: #d6eaf8;
             color: #3498db;
+            border: 1px solid #3498db;
         }
         
         .badge-mtd {
             background-color: #d5f4e6;
             color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-loading {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .status-breaking {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .status-development {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .operations-table-container {
+            margin-top: 20px;
+        }
+        
+        .compact-performance {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .compact-performance-item {
+            display: flex;
+            flex-direction: column;
+            min-width: 140px;
+        }
+        
+        .compact-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        
+        .compact-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .compact-variance {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .number-green {
+            color: #27ae60 !important;
+        }
+        
+        .number-blue {
+            color: #3498db !important;
         }
     </style>
 </head>
@@ -343,32 +461,74 @@
                     <h2 class="card-title">Performance Summary</h2>
                     <div class="card-icon"><i class="fas fa-tachometer-alt"></i></div>
                 </div>
-                <div class="performance-container">
-                    <div class="performance-box">
-                        <h3>Compressor Performance</h3>
-                        <div class="performance-value">
-                            <span class="ftd">12 <span class="negative">/ -5</span></span>
+                
+                <!-- Compact Performance Section -->
+                <div class="compact-performance">
+                    <div class="compact-performance-item">
+                        <div class="compact-label">Compressor Performance</div>
+                        <div class="compact-value">
+                            <span class="number-green">12</span> 
+                            <span class="compact-variance variance-negative">/ -5</span>
                             <span class="badge badge-ftd">FTD</span>
                         </div>
-                        <div class="performance-value">
-                            <span class="mtd">652 <span class="negative">/ -36</span></span>
+                        <div class="compact-value">
+                            <span class="number-blue">652</span> 
+                            <span class="compact-variance variance-negative">/ -36</span>
                             <span class="badge badge-mtd">MTD</span>
                         </div>
-                        <p>Actual / Variance from Target</p>
+                        <div class="compact-label" style="margin-top: 5px; font-style: italic;">Actual / Variance from Target</div>
                     </div>
                     
-                    <div class="performance-box">
-                        <h3>Holes Performance</h3>
-                        <div class="performance-value">
-                            <span class="ftd">782 <span class="negative">/ -218</span></span>
+                    <div class="compact-performance-item">
+                        <div class="compact-label">Holes Performance</div>
+                        <div class="compact-value">
+                            <span class="number-green">782</span> 
+                            <span class="compact-variance variance-negative">/ -218</span>
                             <span class="badge badge-ftd">FTD</span>
                         </div>
-                        <div class="performance-value">
-                            <span class="mtd">2,653 <span class="negative">/ -495</span></span>
+                        <div class="compact-value">
+                            <span class="number-blue">2,653</span> 
+                            <span class="compact-variance variance-negative">/ -495</span>
                             <span class="badge badge-mtd">MTD</span>
                         </div>
-                        <p>Actual / Variance from Target</p>
+                        <div class="compact-label" style="margin-top: 5px; font-style: italic;">Actual / Variance from Target</div>
                     </div>
+                </div>
+                
+                <!-- Operations Breakdown Table -->
+                <div class="operations-table-container">
+                    <h3 style="color: #2c3e50; margin-bottom: 15px; font-size: 1.2rem;">Operations Breakdown (Hours)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Operation Type</th>
+                                <th>FTD Hours</th>
+                                <th>MTD Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="metric-highlight">Quarry Run Hours</td>
+                                <td class="ftd">6.9</td>
+                                <td class="mtd">169.3</td>
+                            </tr>
+                            <tr>
+                                <td class="metric-highlight">Loading Hours</td>
+                                <td class="ftd">8.5</td>
+                                <td class="mtd">253.6</td>
+                            </tr>
+                            <tr>
+                                <td class="metric-highlight">Breaking Hours</td>
+                                <td class="ftd">6.0</td>
+                                <td class="mtd">143.67</td>
+                            </tr>
+                            <tr>
+                                <td class="metric-highlight">Development Hours</td>
+                                <td class="ftd">5.5</td>
+                                <td class="mtd">62.33</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             
@@ -409,45 +569,6 @@
                             <td>7:00 PM</td>
                             <td>15</td>
                             <td>9</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- Operations Breakdown Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Operations Breakdown (Hours)</h2>
-                    <div class="card-icon"><i class="fas fa-cogs"></i></div>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Operation Type</th>
-                            <th>FTD Hours</th>
-                            <th>MTD Hours</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="metric-highlight">Quarry Run Hours</td>
-                            <td class="ftd">6.9</td>
-                            <td class="mtd">169.3</td>
-                        </tr>
-                        <tr>
-                            <td class="metric-highlight">Loading Hours</td>
-                            <td class="ftd">8.5</td>
-                            <td class="mtd">253.6</td>
-                        </tr>
-                        <tr>
-                            <td class="metric-highlight">Breaking Hours</td>
-                            <td class="ftd">6.0</td>
-                            <td class="mtd">143.67</td>
-                        </tr>
-                        <tr>
-                            <td class="metric-highlight">Development Hours</td>
-                            <td class="ftd">5.5</td>
-                            <td class="mtd">62.33</td>
                         </tr>
                     </tbody>
                 </table>
@@ -515,7 +636,9 @@
                 </div>
                 <div class="machinery-grid">
                     <div class="machine-card work-L">
-                        <div class="machine-name">SGX V -1 <span class="badge" style="background-color:#3498db; color:white;">Loading</span></div>
+                        <div class="machine-name">SGX V -1 
+                            <span class="status-badge status-loading">Loading</span>
+                        </div>
                         <div class="machine-detail">
                             <span class="machine-label">HMR (Open/Close):</span>
                             <span class="machine-value">113.5 / 119.6</span>
@@ -531,7 +654,9 @@
                     </div>
                     
                     <div class="machine-card work-B">
-                        <div class="machine-name">SGX V -2 <span class="badge" style="background-color:#e74c3c; color:white;">Breaking</span></div>
+                        <div class="machine-name">SGX V -2 
+                            <span class="status-badge status-breaking">Breaking</span>
+                        </div>
                         <div class="machine-detail">
                             <span class="machine-label">HMR (Open/Close):</span>
                             <span class="machine-value">152.6 / 163.63</span>
@@ -547,7 +672,9 @@
                     </div>
                     
                     <div class="machine-card work-B">
-                        <div class="machine-name">Govinda - 1 <span class="badge" style="background-color:#e74c3c; color:white;">Breaking</span></div>
+                        <div class="machine-name">Govinda - 1 
+                            <span class="status-badge status-breaking">Breaking</span>
+                        </div>
                         <div class="machine-detail">
                             <span class="machine-label">HMR (Open/Close):</span>
                             <span class="machine-value">114.6 / 121.3</span>
@@ -563,7 +690,9 @@
                     </div>
                     
                     <div class="machine-card work-L">
-                        <div class="machine-name">Govinda - 2 <span class="badge" style="background-color:#3498db; color:white;">Loading</span></div>
+                        <div class="machine-name">Govinda - 2 
+                            <span class="status-badge status-loading">Loading</span>
+                        </div>
                         <div class="machine-detail">
                             <span class="machine-label">HMR (Open/Close):</span>
                             <span class="machine-value">163.9 / 169.7</span>
@@ -579,7 +708,9 @@
                     </div>
                     
                     <div class="machine-card work-D">
-                        <div class="machine-name">Hyundai - rental <span class="badge" style="background-color:#f39c12; color:white;">Development</span></div>
+                        <div class="machine-name">Hyundai - rental 
+                            <span class="status-badge status-development">Development</span>
+                        </div>
                         <div class="machine-detail">
                             <span class="machine-label">HMR (Open/Close):</span>
                             <span class="machine-value">152.6 / 163.63</span>
@@ -628,13 +759,13 @@
                 });
             });
             
-            // Color code performance values
-            const performanceValues = document.querySelectorAll('.performance-value span');
-            performanceValues.forEach(value => {
-                if (value.textContent.includes('-')) {
-                    value.classList.add('negative');
-                }
-            });
+            // Highlight the requested numbers
+            const compressorFtd = document.querySelector('.compact-performance-item:nth-child(1) .compact-value:nth-child(2) .number-green');
+            const compressorMtd = document.querySelector('.compact-performance-item:nth-child(1) .compact-value:nth-child(3) .number-blue');
+            const holesFtd = document.querySelector('.compact-performance-item:nth-child(2) .compact-value:nth-child(2) .number-green');
+            const holesMtd = document.querySelector('.compact-performance-item:nth-child(2) .compact-value:nth-child(3) .number-blue');
+            
+            // These are already styled with the correct colors from CSS classes
         });
     </script>
 </body>
