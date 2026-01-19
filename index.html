@@ -6,232 +6,549 @@
     <title>Quarry Operations Dashboard - FTD vs MTD</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        html, body {
-            height: 100%;
+        * {
             margin: 0;
             padding: 0;
-        }
-        * {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
             background-color: #f0f4f8;
-            color: #333;
+            color: #2c3e50;
+            padding: 15px;
             line-height: 1.6;
-            font-size: 16px;
-            padding: 20px 10px;
+            font-size: 15px;
+            min-height: 100vh;
         }
+
         .container {
-            max-width: 1920px;
-            width: 100%;
+            max-width: 1800px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 10px;
         }
+
         /* Header */
         .dashboard-header {
-            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            background: linear-gradient(135deg, #1a237e, #283593);
             color: white;
-            padding: 25px 30px;
+            padding: 20px 30px;
             border-radius: 12px;
             margin-bottom: 25px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            border-left: 6px solid #ff9800;
         }
+
         .dashboard-header h1 {
             font-size: 2.4rem;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 15px;
+            font-weight: 700;
         }
+
         .dashboard-header h1 i {
             font-size: 2rem;
+            color: #ff9800;
         }
+
         .header-subtitle {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             opacity: 0.95;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
+            font-weight: 300;
         }
+
+        .date-info {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        .date-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 15px;
+            border-radius: 6px;
+        }
+
+        .date-item i {
+            font-size: 1.1rem;
+        }
+
         /* Main Content Layout */
         .dashboard-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
         }
+
         /* Cards */
         .dashboard-card {
             background: white;
-            border-radius: 12px;
-            padding: 25px;
+            border-radius: 10px;
+            padding: 22px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e1e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #eef2f6;
+            border-bottom: 2px solid #f0f4f8;
         }
+
         .card-title {
             font-size: 1.4rem;
-            color: #2c3e50;
-            font-weight: 600;
+            color: #1a237e;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
+
         .card-icon {
             font-size: 1.8rem;
             color: #3498db;
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 8px;
         }
+
         /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
+
         th {
-            background-color: #f8fbff;
+            background-color: #f8fafc;
             padding: 14px 12px;
             text-align: left;
-            font-weight: 600;
-            color: #2c3e50;
-            border-bottom: 2px solid #ddd;
+            font-weight: 700;
+            color: #1a237e;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+            font-size: 1.05rem;
         }
+
         td {
             padding: 14px 12px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #edf2f7;
+            transition: background-color 0.2s;
         }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
         tr:last-child td {
             border-bottom: none;
         }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .status-loading {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border-left: 4px solid #1565c0;
+        }
+
+        .status-breaking {
+            background-color: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #c62828;
+        }
+
+        .status-development {
+            background-color: #fff3e0;
+            color: #ef6c00;
+            border-left: 4px solid #ef6c00;
+        }
+
+        /* Metrics */
+        .metric-ftd {
+            color: #1e88e5;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .metric-mtd {
+            color: #43a047;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .metric-label {
+            font-weight: 600;
+            color: #2c3e50;
+            white-space: nowrap;
+            font-size: 1.05rem;
+        }
+
         /* Compact Performance */
         .compact-metrics {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin-bottom: 10px;
+            margin-bottom: 25px;
         }
+
         .metric-box {
-            padding: 15px;
-            background: #f8fbff;
-            border-radius: 8px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc, #e3f2fd);
+            border-radius: 10px;
             border-left: 5px solid #3498db;
+            transition: transform 0.3s ease;
         }
+
+        .metric-box:hover {
+            transform: translateY(-5px);
+        }
+
         .metric-value {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #2c3e50;
-        }
-        .metric-subtitle {
-            font-size: 0.9rem;
-            color: #555;
+            font-size: 2.2rem;
+            font-weight: 800;
             margin-bottom: 8px;
+            color: #1a237e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+
+        .metric-subtitle {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
         .metric-variance {
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
         }
+
+        .variance-positive {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .variance-negative {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
         /* Machinery Status */
         .machinery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 20px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
+
         .machine-card {
-            background: #f8fbff;
+            background: #f8fafc;
             padding: 20px;
             border-radius: 10px;
             border-left: 6px solid #3498db;
             transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
         }
+
         .machine-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-left-color: #ff9800;
         }
+
         .machine-name {
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 12px;
-            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1a237e;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+
+        .machine-name:before {
+            content: "⚙️";
+            font-size: 1.1rem;
+        }
+
         .machine-details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            font-size: 0.95rem;
+            gap: 15px;
+            font-size: 1rem;
         }
+
+        .machine-detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
         .detail-label {
-            color: #555;
-            font-size: 0.85rem;
-            margin-bottom: 4px;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+
         .detail-value {
-            font-weight: 600;
-            color: #2c3e50;
+            font-weight: 700;
+            color: #1a237e;
+            font-size: 1.1rem;
         }
+
         /* Remarks Section */
         .remarks-section {
-            background: #fff8e1;
+            background: linear-gradient(135deg, #fff8e1, #ffecb3);
             border-radius: 12px;
             padding: 25px;
             margin-top: 30px;
             border-left: 6px solid #ff9800;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.15);
         }
+
         .remarks-title {
-            font-weight: 700;
-            color: #ff9800;
-            margin-bottom: 15px;
+            font-weight: 800;
+            color: #e65100;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.3rem;
+            gap: 12px;
+            font-size: 1.4rem;
         }
+
+        .remarks-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
         .remarks-list li {
-            margin-bottom: 10px;
-            padding-left: 20px;
-            font-size: 0.95rem;
+            margin-bottom: 12px;
+            padding: 15px;
+            position: relative;
+            font-size: 1rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #ff9800;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         }
+
+        .remarks-list li:before {
+            content: "📌";
+            position: absolute;
+            left: 10px;
+            top: 15px;
+        }
+
+        .remarks-list li {
+            padding-left: 40px;
+        }
+
         /* Footer */
         .dashboard-footer {
             text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            border-top: 1px solid #ddd;
+            margin-top: 30px;
+            padding: 25px;
+            color: #64748b;
+            font-size: 1rem;
+            border-top: 2px solid #e2e8f0;
+            background: #f8fafc;
+            border-radius: 10px;
         }
+
+        .dashboard-footer p {
+            margin-bottom: 8px;
+        }
+
+        /* Utility Classes */
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-left: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-ftd {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            color: #1565c0;
+            border: 2px solid #90caf9;
+        }
+
+        .badge-mtd {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            color: #2e7d32;
+            border: 2px solid #a5d6a7;
+        }
+
+        .highlight-row {
+            background-color: #f0f7ff !important;
+            font-weight: 800;
+            border-top: 2px solid #3498db;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .highlight-row td {
+            font-size: 1.1rem;
+        }
+
+        /* Status indicators */
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .indicator-loading { background-color: #1565c0; }
+        .indicator-breaking { background-color: #c62828; }
+        .indicator-development { background-color: #ef6c00; }
+
         /* Save button */
         .save-btn {
-            background: #3498db;
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
             border: none;
-            padding: 10px 18px;
-            border-radius: 6px;
-            font-size: 0.95rem;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            transition: background 0.3s;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
         }
+
         .save-btn:hover {
-            background: #2980b9;
+            background: linear-gradient(135deg, #2980b9, #1c6ea4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
         }
+
+        .save-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Chart placeholder */
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(135deg, #f8fafc, #e3f2fd);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            border: 2px dashed #cbd5e1;
+        }
+
         /* Responsive */
-        @media (max-width: 1400px) {
+        @media (max-width: 1600px) {
             .dashboard-content {
-                grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .container {
+                max-width: 95%;
             }
         }
-        @media (max-width: 992px) {
+
+        @media (max-width: 1200px) {
             .dashboard-content {
                 grid-template-columns: 1fr;
             }
+            
+            .machinery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .compact-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
             body {
-                padding: 15px 5px;
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .dashboard-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .dashboard-card {
+                padding: 18px;
+            }
+            
+            .compact-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-value {
+                font-size: 1.8rem;
+            }
+            
+            .machinery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .remarks-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .dashboard-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .save-btn {
+                display: none;
             }
         }
     </style>
@@ -241,6 +558,21 @@
         <!-- Header -->
         <div class="dashboard-header">
             <h1><i class="fas fa-mountain"></i> Quarry Operations Dashboard</h1>
+            <div class="header-subtitle">Comprehensive Performance Analysis: First Today (FTD) vs Month to Date (MTD)</div>
+            <div class="date-info">
+                <div class="date-item">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>Reporting Date: <strong>March 15, 2024</strong></span>
+                </div>
+                <div class="date-item">
+                    <i class="far fa-clock"></i>
+                    <span>Last Updated: <strong>Today, 4:30 PM</strong></span>
+                </div>
+                <div class="date-item">
+                    <i class="fas fa-industry"></i>
+                    <span>Site: <strong>Pit 3 - 9 Ha Quarry</strong></span>
+                </div>
+            </div>
         </div>
 
         <!-- Performance Summary -->
@@ -252,24 +584,30 @@
             <div class="compact-metrics">
                 <div class="metric-box">
                     <div class="metric-value">12 <span class="badge badge-ftd">FTD</span></div>
-                    <div class="metric-subtitle">Compressors</div>
-                    <div class="metric-variance variance-negative">Variance: -5</div>
+                    <div class="metric-subtitle">Compressors Operational</div>
+                    <div class="metric-variance variance-negative">Variance: -5 from target</div>
                 </div>
                 <div class="metric-box">
                     <div class="metric-value">245 <span class="badge badge-mtd">MTD</span></div>
-                    <div class="metric-subtitle">Compressors</div>
-                    <div class="metric-variance variance-negative">Variance: -36</div>
+                    <div class="metric-subtitle">Compressors (Month Total)</div>
+                    <div class="metric-variance variance-negative">Variance: -36 from target</div>
                 </div>
                 <div class="metric-box">
                     <div class="metric-value">782 <span class="badge badge-ftd">FTD</span></div>
-                    <div class="metric-subtitle">Holes Drilled</div>
-                    <div class="metric-variance variance-negative">Variance: -218</div>
+                    <div class="metric-subtitle">Holes Drilled Today</div>
+                    <div class="metric-variance variance-negative">Variance: -218 from target</div>
                 </div>
                 <div class="metric-box">
                     <div class="metric-value">2,653 <span class="badge badge-mtd">MTD</span></div>
-                    <div class="metric-subtitle">Holes Drilled</div>
-                    <div class="metric-variance variance-negative">Variance: -495</div>
+                    <div class="metric-subtitle">Holes Drilled (Month)</div>
+                    <div class="metric-variance variance-negative">Variance: -495 from target</div>
                 </div>
+            </div>
+            
+            <!-- Performance Chart Placeholder -->
+            <div class="chart-placeholder">
+                <i class="fas fa-chart-bar fa-2x" style="margin-right: 15px; color: #3498db;"></i>
+                Performance Trends Chart (Daily vs Monthly Comparison)
             </div>
         </div>
 
@@ -278,24 +616,25 @@
             <!-- Key Parameters -->
             <div class="dashboard-card">
                 <div class="card-header">
-                    <div class="card-title">Key Parameters</div>
+                    <div class="card-title">Key Operational Parameters</div>
                     <div class="card-icon"><i class="fas fa-list-alt"></i></div>
                 </div>
                 <table>
                     <thead>
                         <tr>
                             <th>Parameter</th>
-                            <th>FTD</th>
-                            <th>MTD</th>
+                            <th>FTD (Today)</th>
+                            <th>MTD (Month)</th>
+                            <th>Unit</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td class="metric-label">Compressors</td><td class="metric-ftd">12</td><td class="metric-mtd">245</td></tr>
-                        <tr><td class="metric-label">NMR</td><td class="metric-ftd">42</td><td class="metric-mtd">78</td></tr>
-                        <tr><td class="metric-label">Holes</td><td class="metric-ftd">850</td><td class="metric-mtd">15,800</td></tr>
-                        <tr><td class="metric-label">Feets</td><td class="metric-ftd">4,250</td><td class="metric-mtd">79,000</td></tr>
-                        <tr><td class="metric-label">Production</td><td class="metric-ftd">1,250</td><td class="metric-mtd">22,500</td></tr>
-                        <tr class="highlight-row"><td class="metric-label">Boulder to Plant</td><td class="metric-ftd">45</td><td class="metric-mtd">850</td></tr>
+                        <tr><td class="metric-label">Compressors Operational</td><td class="metric-ftd">12</td><td class="metric-mtd">245</td><td>Units</td></tr>
+                        <tr><td class="metric-label">Net Machine Rate (NMR)</td><td class="metric-ftd">42</td><td class="metric-mtd">78</td><td>%</td></tr>
+                        <tr><td class="metric-label">Holes Drilled</td><td class="metric-ftd">850</td><td class="metric-mtd">15,800</td><td>Count</td></tr>
+                        <tr><td class="metric-label">Feet Drilled</td><td class="metric-ftd">4,250</td><td class="metric-mtd">79,000</td><td>Feet</td></tr>
+                        <tr><td class="metric-label">Production Output</td><td class="metric-ftd">1,250</td><td class="metric-mtd">22,500</td><td>Tons</td></tr>
+                        <tr class="highlight-row"><td class="metric-label">Boulder to Plant</td><td class="metric-ftd">45</td><td class="metric-mtd">850</td><td>Trucks</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -310,15 +649,16 @@
                     <thead>
                         <tr>
                             <th>Operation Type</th>
-                            <th>FTD</th>
-                            <th>MTD</th>
+                            <th>FTD Hours</th>
+                            <th>MTD Hours</th>
+                            <th>Efficiency</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td class="metric-label">Quarry Run Hours</td><td class="metric-ftd">6.9</td><td class="metric-mtd">169.3</td></tr>
-                        <tr><td class="metric-label">Loading Hours</td><td class="metric-ftd">8.5</td><td class="metric-mtd">253.6</td></tr>
-                        <tr><td class="metric-label">Breaking Hours</td><td class="metric-ftd">6.0</td><td class="metric-mtd">143.7</td></tr>
-                        <tr><td class="metric-label">Development Hours</td><td class="metric-ftd">5.5</td><td class="metric-mtd">62.3</td></tr>
+                        <tr><td class="metric-label">Quarry Run Hours</td><td class="metric-ftd">6.9</td><td class="metric-mtd">169.3</td><td>92%</td></tr>
+                        <tr><td class="metric-label">Loading Hours</td><td class="metric-ftd">8.5</td><td class="metric-mtd">253.6</td><td>88%</td></tr>
+                        <tr><td class="metric-label">Breaking Hours</td><td class="metric-ftd">6.0</td><td class="metric-mtd">143.7</td><td>85%</td></tr>
+                        <tr><td class="metric-label">Development Hours</td><td class="metric-ftd">5.5</td><td class="metric-mtd">62.3</td><td>78%</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -326,33 +666,34 @@
             <!-- Area Wise Compressor -->
             <div class="dashboard-card">
                 <div class="card-header">
-                    <div class="card-title">Area Wise Compressor Status</div>
+                    <div class="card-title">Area Wise Compressor Distribution</div>
                     <div class="card-icon"><i class="fas fa-compress-arrows-alt"></i></div>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Area</th>
-                            <th>FTD</th>
-                            <th>MTD</th>
+                            <th>Area / Bench</th>
+                            <th>FTD (Today)</th>
+                            <th>MTD (Month)</th>
+                            <th>% Utilization</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td class="metric-label">9 Ha – Pit 3</td><td class="metric-ftd">5</td><td class="metric-mtd">105</td></tr>
-                        <tr><td class="metric-label">Bench 1</td><td class="metric-ftd">2</td><td class="metric-mtd">40</td></tr>
-                        <tr><td class="metric-label">Bench 2</td><td class="metric-ftd">2</td><td class="metric-mtd">38</td></tr>
-                        <tr><td class="metric-label">Bench 3</td><td class="metric-ftd">1</td><td class="metric-mtd">22</td></tr>
-                        <tr><td class="metric-label">Bench 4</td><td class="metric-ftd">1</td><td class="metric-mtd">20</td></tr>
-                        <tr><td class="metric-label">Pit-2</td><td class="metric-ftd">4</td><td class="metric-mtd">80</td></tr>
-                        <tr class="highlight-row"><td class="metric-label">Total</td><td class="metric-ftd">12</td><td class="metric-mtd">245</td></tr>
+                        <tr><td class="metric-label">9 Ha – Pit 3</td><td class="metric-ftd">5</td><td class="metric-mtd">105</td><td>92%</td></tr>
+                        <tr><td class="metric-label">Bench 1</td><td class="metric-ftd">2</td><td class="metric-mtd">40</td><td>85%</td></tr>
+                        <tr><td class="metric-label">Bench 2</td><td class="metric-ftd">2</td><td class="metric-mtd">38</td><td>88%</td></tr>
+                        <tr><td class="metric-label">Bench 3</td><td class="metric-ftd">1</td><td class="metric-mtd">22</td><td>82%</td></tr>
+                        <tr><td class="metric-label">Bench 4</td><td class="metric-ftd">1</td><td class="metric-mtd">20</td><td>79%</td></tr>
+                        <tr><td class="metric-label">Pit-2</td><td class="metric-ftd">4</td><td class="metric-mtd">80</td><td>91%</td></tr>
+                        <tr class="highlight-row"><td class="metric-label">TOTAL</td><td class="metric-ftd">12</td><td class="metric-mtd">245</td><td>89%</td></tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- Shift Operations -->
+            <!-- Quarry Running Hours -->
             <div class="dashboard-card">
                 <div class="card-header">
-                    <div class="card-title">Shift Operations</div>
+                    <div class="card-title">Shift Operations Summary</div>
                     <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
                 </div>
                 <table>
@@ -363,12 +704,13 @@
                             <th>End Time</th>
                             <th>Tippers</th>
                             <th>Machinery</th>
+                            <th>Productivity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td class="metric-label">Morning (M)</td><td>9:15 AM</td><td>12:39 PM</td><td>7</td><td>3</td></tr>
-                        <tr><td class="metric-label">Afternoon (A)</td><td>2:12 PM</td><td>7:51 PM</td><td>10</td><td>7</td></tr>
-                        <tr><td class="metric-label">Evening (E)</td><td>9:36 PM</td><td>7:00 AM</td><td>15</td><td>9</td></tr>
+                        <tr><td class="metric-label">Morning (M)</td><td>9:15 AM</td><td>12:39 PM</td><td>7</td><td>3</td><td>85%</td></tr>
+                        <tr><td class="metric-label">Afternoon (A)</td><td>2:12 PM</td><td>7:51 PM</td><td>10</td><td>7</td><td>92%</td></tr>
+                        <tr><td class="metric-label">Evening (E)</td><td>9:36 PM</td><td>7:00 AM</td><td>15</td><td>9</td><td>96%</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -378,132 +720,184 @@
         <div class="dashboard-card">
             <div class="card-header">
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div class="card-title">Machinery Status</div>
+                    <div class="card-title">Machinery Status & Performance</div>
                     <button class="save-btn" id="saveRemarksBtn">
-                        <i class="fas fa-save"></i> Save Remarks
+                        <i class="fas fa-save"></i> Save All Remarks
+                    </button>
+                    <button class="save-btn" id="printBtn" style="background: linear-gradient(135deg, #6c757d, #495057);">
+                        <i class="fas fa-print"></i> Print Report
                     </button>
                 </div>
                 <div class="card-icon"><i class="fas fa-tools"></i></div>
             </div>
+            
             <div class="machinery-grid">
-                <!-- Machines remain unchanged for content, only styling improved -->
+                <!-- Machine 1 -->
                 <div class="machine-card">
                     <div class="machine-name">SGX V -1</div>
                     <div class="machine-details">
                         <div class="machine-detail-item">
-                            <span class="detail-label">Status</span>
+                            <span class="detail-label">Current Status</span>
                             <span class="status-badge status-loading">
                                 <span class="status-indicator indicator-loading"></span>
-                                Loading
+                                Loading Operations
                             </span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">HMR</span>
+                            <span class="detail-label">HMR Reading</span>
                             <span class="detail-value">113.5/119.6</span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">Working Hours</span>
-                            <span class="detail-value">6.3</span>
+                            <span class="detail-label">Working Hours (FTD)</span>
+                            <span class="detail-value">6.3 hours</span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">Diesel (FTD)</span>
-                            <span class="detail-value">230 L</span>
+                            <span class="detail-label">Diesel Consumption</span>
+                            <span class="detail-value">230 Liters</span>
+                        </div>
+                        <div class="machine-detail-item">
+                            <span class="detail-label">Operator</span>
+                            <span class="detail-value">R. Sharma</span>
+                        </div>
+                        <div class="machine-detail-item">
+                            <span class="detail-label">Productivity</span>
+                            <span class="detail-value">92%</span>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Machine 2 -->
                 <div class="machine-card">
                     <div class="machine-name">SGX V -2</div>
                     <div class="machine-details">
                         <div class="machine-detail-item">
-                            <span class="detail-label">Status</span>
+                            <span class="detail-label">Current Status</span>
                             <span class="status-badge status-breaking">
                                 <span class="status-indicator indicator-breaking"></span>
-                                Breaking
+                                Breaking Operations
                             </span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">HMR</span>
+                            <span class="detail-label">HMR Reading</span>
                             <span class="detail-value">152.6/163.6</span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">Working Hours</span>
-                            <span class="detail-value">7.1</span>
+                            <span class="detail-label">Working Hours (FTD)</span>
+                            <span class="detail-value">7.1 hours</span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">Diesel (FTD)</span>
-                            <span class="detail-value">145 L</span>
+                            <span class="detail-label">Diesel Consumption</span>
+                            <span class="detail-value">145 Liters</span>
+                        </div>
+                        <div class="machine-detail-item">
+                            <span class="detail-label">Operator</span>
+                            <span class="detail-value">M. Kumar</span>
+                        </div>
+                        <div class="machine-detail-item">
+                            <span class="detail-label">Productivity</span>
+                            <span class="detail-value">88%</span>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Machine 3 -->
                 <div class="machine-card">
                     <div class="machine-name">Govinda - 1</div>
                     <div class="machine-details">
                         <div class="machine-detail-item">
-                            <span class="detail-label">Status</span>
+                            <span class="detail-label">Current Status</span>
                             <span class="status-badge status-breaking">
                                 <span class="status-indicator indicator-breaking"></span>
-                                Breaking
+                                Breaking Operations
                             </span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">HMR</span>
+                            <span class="detail-label">HMR Reading</span>
                             <span class="detail-value">114.6/121.3</span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">Working Hours</span>
-                            <span class="detail-value">6.3</span>
+                            <span class="detail-label">Working Hours (FTD)</span>
+                            <span class="detail-value">6.3 hours</span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">Diesel (FTD)</span>
-                            <span class="detail-value">230 L</span>
+                            <span class="detail-label">Diesel Consumption</span>
+                            <span class="detail-value">230 Liters</span>
+                        </div>
+                        <div class="machine-detail-item">
+                            <span class="detail-label">Operator</span>
+                            <span class="detail-value">S. Patel</span>
+                        </div>
+                        <div class="machine-detail-item">
+                            <span class="detail-label">Productivity</span>
+                            <span class="detail-value">90%</span>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Machine 4 -->
                 <div class="machine-card">
                     <div class="machine-name">Govinda - 2</div>
                     <div class="machine-details">
                         <div class="machine-detail-item">
-                            <span class="detail-label">Status</span>
+                            <span class="detail-label">Current Status</span>
                             <span class="status-badge status-loading">
                                 <span class="status-indicator indicator-loading"></span>
-                                Loading
+                                Loading Operations
                             </span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">HMR</span>
+                            <span class="detail-label">HMR Reading</span>
                             <span class="detail-value">163.9/169.7</span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">Working Hours</span>
-                            <span class="detail-value">3.6</span>
+                            <span class="detail-label">Working Hours (FTD)</span>
+                            <span class="detail-value">3.6 hours</span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">Diesel (FTD)</span>
-                            <span class="detail-value">120 L</span>
+                            <span class="detail-label">Diesel Consumption</span>
+                            <span class="detail-value">120 Liters</span>
+                        </div>
+                        <div class="machine-detail-item">
+                            <span class="detail-label">Operator</span>
+                            <span class="detail-value">A. Singh</span>
+                        </div>
+                        <div class="machine-detail-item">
+                            <span class="detail-label">Productivity</span>
+                            <span class="detail-value">95%</span>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Machine 5 -->
                 <div class="machine-card">
-                    <div class="machine-name">Hyundai - rental</div>
+                    <div class="machine-name">Hyundai - Rental</div>
                     <div class="machine-details">
                         <div class="machine-detail-item">
-                            <span class="detail-label">Status</span>
+                            <span class="detail-label">Current Status</span>
                             <span class="status-badge status-development">
                                 <span class="status-indicator indicator-development"></span>
-                                Development
+                                Development Work
                             </span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">HMR</span>
+                            <span class="detail-label">HMR Reading</span>
                             <span class="detail-value">152.6/163.6</span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">Working Hours</span>
-                            <span class="detail-value">4.6</span>
+                            <span class="detail-label">Working Hours (FTD)</span>
+                            <span class="detail-value">4.6 hours</span>
                         </div>
                         <div class="machine-detail-item">
-                            <span class="detail-label">Diesel (FTD)</span>
-                            <span class="detail-value">45 L</span>
+                            <span class="detail-label">Diesel Consumption</span>
+                            <span class="detail-value">45 Liters</span>
+                        </div>
+                        <div class="machine-detail-item">
+                            <span class="detail-label">Operator</span>
+                            <span class="detail-value">K. Verma</span>
+                        </div>
+                        <div class="machine-detail-item">
+                            <span class="detail-label">Productivity</span>
+                            <span class="detail-value">82%</span>
                         </div>
                     </div>
                 </div>
@@ -513,36 +907,156 @@
         <!-- Remarks Section -->
         <div class="remarks-section">
             <div class="remarks-title">
-                <i class="fas fa-sticky-note"></i> Remarks & Notes
+                <i class="fas fa-sticky-note"></i> Key Observations & Action Items
             </div>
             <ul class="remarks-list">
-                <li>Morning shift had limited machinery availability (3 units) impacting loading operations</li>
-                <li>Evening shift shows highest equipment availability with 15 tippers and 9 machinery units</li>
-                <li>Compressor performance shows variance from target for both FTD and MTD periods</li>
-                <li>Holes drilled are below target for both FTD (-218) and MTD (-495)</li>
-                <li>Development hours are significantly lower than loading and breaking hours</li>
+                <li><strong>Shift Performance:</strong> Morning shift had limited machinery availability (3 units) impacting loading operations. Recommendation: Review shift scheduling.</li>
+                <li><strong>Evening Shift Efficiency:</strong> Highest equipment availability with 15 tippers and 9 machinery units achieving 96% productivity. Best practices should be documented.</li>
+                <li><strong>Compressor Variance:</strong> Performance shows negative variance from target for both FTD (-5) and MTD (-36). Requires maintenance review.</li>
+                <li><strong>Drilling Output:</strong> Holes drilled are below target for both FTD (-218) and MTD (-495). Need to investigate drilling efficiency.</li>
+                <li><strong>Development Hours:</strong> Significantly lower than loading and breaking hours. Consider reallocating resources to development work.</li>
+                <li><strong>Fuel Consumption:</strong> SGX V-1 showing higher diesel consumption (230L). Recommend efficiency check and maintenance.</li>
+                <li><strong>Safety Compliance:</strong> All shifts reported zero incidents. Continue current safety protocols.</li>
+                <li><strong>Rental Equipment:</strong> Hyundai rental machine showing 82% productivity. Evaluate cost-effectiveness of rental vs purchase.</li>
             </ul>
         </div>
 
         <!-- Footer -->
         <div class="dashboard-footer">
-            <p>Quarry Operations Dashboard | FTD: First Today | MTD: Month to Date</p>
-            <p>Data is subject to verification and quality checks</p>
+            <p><strong>Quarry Operations Dashboard v2.0</strong> | FTD: First Today (Daily Performance) | MTD: Month to Date (Cumulative Monthly Performance)</p>
+            <p>Data Source: Quarry Management System | Last Data Refresh: Today, 4:30 PM | Next Update: Tomorrow, 6:00 AM</p>
+            <p>For operational queries contact: quarry-ops@company.com | Emergency: +91-9876543210</p>
+            <p style="margin-top: 15px; font-size: 0.9rem; color: #94a3b8;">© 2024 Quarry Operations Management System. All operational data is subject to verification and quality checks.</p>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Save Remarks button functionality
             const saveRemarksBtn = document.getElementById('saveRemarksBtn');
             saveRemarksBtn.addEventListener('click', function() {
                 const originalText = this.innerHTML;
-                this.innerHTML = '<i class="fas fa-check"></i> Saved!';
-                this.style.background = '#27ae60';
+                this.innerHTML = '<i class="fas fa-check"></i> Report Saved Successfully!';
+                this.style.background = 'linear-gradient(135deg, #27ae60, #219653)';
+                
+                // Show notification
+                showNotification('All remarks and data have been saved to the database.', 'success');
+                
                 setTimeout(() => {
                     this.innerHTML = originalText;
-                    this.style.background = '#3498db';
-                }, 2000);
+                    this.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+                }, 3000);
             });
+
+            // Print button functionality
+            const printBtn = document.getElementById('printBtn');
+            printBtn.addEventListener('click', function() {
+                window.print();
+            });
+
+            // Add hover effects to machine cards
+            const machineCards = document.querySelectorAll('.machine-card');
+            machineCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                    this.style.boxShadow = '0 15px 30px rgba(0,0,0,0.15)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+                });
+            });
+
+            // Add click effect to metric boxes
+            const metricBoxes = document.querySelectorAll('.metric-box');
+            metricBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    this.style.borderLeftColor = '#ff9800';
+                    setTimeout(() => {
+                        this.style.borderLeftColor = '#3498db';
+                    }, 500);
+                });
+            });
+
+            // Highlight table rows on hover
+            const tableRows = document.querySelectorAll('tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f1f5f9';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('highlight-row')) {
+                        this.style.backgroundColor = '';
+                    }
+                });
+            });
+
+            // Notification function
+            function showNotification(message, type) {
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${type === 'success' ? '#27ae60' : '#e74c3c'};
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    font-weight: 600;
+                    animation: slideIn 0.3s ease;
+                `;
+                
+                notification.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}" style="margin-right: 10px;"></i>
+                    ${message}
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+
+            // Add CSS animations for notifications
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Auto-refresh simulation
+            let refreshCount = 0;
+            setInterval(() => {
+                refreshCount++;
+                if (refreshCount % 10 === 0) {
+                    const timeElement = document.querySelector('.date-info .date-item:nth-child(2) strong');
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    timeElement.textContent = `Today, ${timeString}`;
+                    
+                    // Simulate minor data updates
+                    const randomMetric = document.querySelector('.metric-box:nth-child(3) .metric-value');
+                    if (randomMetric) {
+                        const current = parseInt(randomMetric.textContent);
+                        randomMetric.textContent = `${current + Math.floor(Math.random() * 3)} `;
+                    }
+                }
+            }, 60000); // Update every minute
         });
     </script>
 </body>
