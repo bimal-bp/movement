@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FTDD Dashboard</title>
+    <title>Quarry Operations Dashboard - FTD vs MTD</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -17,6 +17,7 @@
             background-color: #f5f7fa;
             color: #333;
             padding: 20px;
+            line-height: 1.6;
         }
         
         .container {
@@ -24,208 +25,221 @@
             margin: 0 auto;
         }
         
-        .header {
-            background: linear-gradient(135deg, #1a3a5f 0%, #2c5282 100%);
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
             color: white;
-            padding: 25px 30px;
             border-radius: 10px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .header h1 {
-            font-size: 28px;
+        h1 {
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .date-display {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 20px;
             font-weight: 600;
-            margin-bottom: 5px;
         }
         
-        .header p {
-            opacity: 0.85;
-            font-size: 16px;
+        .date-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 6px;
         }
         
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
             gap: 25px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
         
         .card {
             background-color: white;
             border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             padding: 25px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2c5282;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e2e8f0;
+        .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
         }
         
-        .card-title i {
-            color: #4a90e2;
+        .card-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            font-weight: 700;
         }
         
-        .data-table {
+        .card-icon {
+            font-size: 1.8rem;
+            color: #3498db;
+        }
+        
+        table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 10px;
         }
         
-        .data-table th {
-            background-color: #edf2f7;
-            color: #4a5568;
-            font-weight: 600;
+        th {
+            background-color: #f8f9fa;
+            padding: 14px 12px;
             text-align: left;
-            padding: 12px 15px;
-            border-bottom: 1px solid #e2e8f0;
+            font-weight: 700;
+            color: #2c3e50;
+            border-bottom: 2px solid #eaeaea;
         }
         
-        .data-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e2e8f0;
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #eaeaea;
         }
         
-        .data-table tr:last-child td {
-            border-bottom: none;
+        tr:hover {
+            background-color: #f9f9f9;
         }
         
-        .data-table tr:nth-child(even) {
-            background-color: #f9fafc;
+        .metric-highlight {
+            font-weight: 700;
+            color: #2c3e50;
         }
         
-        .highlight {
-            background-color: #fff8e1 !important;
+        .ftd {
+            color: #3498db;
             font-weight: 600;
         }
         
-        .negative {
-            color: #e53e3e;
+        .mtd {
+            color: #2ecc71;
             font-weight: 600;
+        }
+        
+        .performance-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .performance-box {
+            flex: 1;
+            min-width: 250px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .performance-box h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .performance-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
         }
         
         .positive {
-            color: #38a169;
-            font-weight: 600;
+            color: #27ae60;
         }
         
-        .wide-card {
-            grid-column: span 2;
+        .negative {
+            color: #e74c3c;
         }
         
-        .tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
+        .machinery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
         
-        .tab {
-            padding: 12px 25px;
-            background-color: #edf2f7;
-            border: none;
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
-            margin-right: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            color: #4a5568;
-            transition: all 0.3s;
-        }
-        
-        .tab.active {
-            background-color: #2c5282;
-            color: white;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .summary-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        
-        .summary-box {
-            flex: 1;
-            text-align: center;
-            padding: 15px;
+        .machine-card {
             background-color: #f8f9fa;
             border-radius: 8px;
-            margin: 0 10px;
+            padding: 18px;
+            border-left: 4px solid #3498db;
+            transition: all 0.3s ease;
         }
         
-        .summary-box:first-child {
-            margin-left: 0;
+        .machine-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
         }
         
-        .summary-box:last-child {
-            margin-right: 0;
-        }
-        
-        .summary-value {
-            font-size: 28px;
+        .machine-name {
             font-weight: 700;
-            color: #2c5282;
-            margin: 5px 0;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
         }
         
-        .summary-label {
-            font-size: 14px;
-            color: #718096;
+        .machine-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
         }
         
-        .progress-bar {
-            height: 10px;
-            background-color: #e2e8f0;
-            border-radius: 5px;
-            margin-top: 10px;
-            overflow: hidden;
+        .machine-label {
+            color: #7f8c8d;
         }
         
-        .progress-fill {
-            height: 100%;
-            background-color: #38a169;
-            border-radius: 5px;
+        .machine-value {
+            font-weight: 600;
+            color: #2c3e50;
         }
         
-        .btn {
-            background-color: #2c5282;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.3s;
+        .work-L { border-left-color: #3498db; }
+        .work-B { border-left-color: #e74c3c; }
+        .work-D { border-left-color: #f39c12; }
+        
+        .remark-section {
+            background-color: #fff8e1;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 8px;
         }
         
-        .btn:hover {
-            background-color: #1a3a5f;
+        .remark-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #ff9800;
         }
         
-        @media (max-width: 1200px) {
-            .wide-card {
-                grid-column: span 1;
-            }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
         }
         
         @media (max-width: 768px) {
@@ -233,526 +247,395 @@
                 grid-template-columns: 1fr;
             }
             
-            .summary-container {
-                flex-direction: column;
+            .card {
+                padding: 20px 15px;
             }
             
-            .summary-box {
-                margin: 5px 0;
+            h1 {
+                font-size: 1.8rem;
             }
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .badge-ftd {
+            background-color: #d6eaf8;
+            color: #3498db;
+        }
+        
+        .badge-mtd {
+            background-color: #d5f4e6;
+            color: #27ae60;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>FTDD Dashboard</h1>
-            <p>Daily and Monthly Tracking Dashboard for Operations</p>
-        </div>
+        <header>
+            <h1><i class="fas fa-mountain"></i> Quarry Operations Dashboard</h1>
+            <p class="subtitle">FTD (First Today) vs MTD (Month to Date) Performance Analysis</p>
+            <div class="date-display">
+                <div class="date-box">Report Date: January 19, 2026</div>
+                <div class="date-box">Last Updated: 11:23 AM</div>
+            </div>
+        </header>
         
-        <div class="tabs">
-            <button class="tab active" data-tab="main">Main Dashboard</button>
-            <button class="tab" data-tab="monthly">View Month Wise</button>
-            <button class="tab" data-tab="quarry">Quarry Operations</button>
-            <button class="tab" data-tab="machinery">Machinery Details</button>
-        </div>
-        
-        <!-- Main Dashboard Tab -->
-        <div id="main" class="tab-content active">
-            <div class="dashboard-grid">
-                <div class="card">
-                    <h3 class="card-title">
-                        <span>FTDD vs MTD Achievement</span>
-                        <i class="fas fa-chart-line"></i>
-                    </h3>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Parameter</th>
-                                <th>FTD</th>
-                                <th>MTD</th>
-                                <th>Achievement</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Compressors</td>
-                                <td>12</td>
-                                <td>245</td>
-                                <td class="positive">+233</td>
-                            </tr>
-                            <tr>
-                                <td>NMR</td>
-                                <td>42</td>
-                                <td>78</td>
-                                <td class="positive">+36</td>
-                            </tr>
-                            <tr>
-                                <td>Holes</td>
-                                <td>850</td>
-                                <td>15,800</td>
-                                <td class="positive">+14,950</td>
-                            </tr>
-                            <tr>
-                                <td>Feets</td>
-                                <td>4,250</td>
-                                <td>79,000</td>
-                                <td class="positive">+74,750</td>
-                            </tr>
-                            <tr>
-                                <td>Production</td>
-                                <td>1,250</td>
-                                <td>22,500</td>
-                                <td class="positive">+21,250</td>
-                            </tr>
-                            <tr>
-                                <td>Boulder transport to plant</td>
-                                <td>45</td>
-                                <td>850</td>
-                                <td class="positive">+805</td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="dashboard-grid">
+            <!-- Key Parameters Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Key Parameters</h2>
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
                 </div>
-                
-                <div class="card">
-                    <h3 class="card-title">
-                        <span>Performance Summary</span>
-                        <i class="fas fa-chart-pie"></i>
-                    </h3>
-                    <div class="summary-container">
-                        <div class="summary-box">
-                            <div class="summary-label">FTD</div>
-                            <div class="summary-value">12 / -5</div>
-                            <div class="summary-label">Compressor / Holes</div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 85%"></div>
-                            </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>FTD</th>
+                            <th>MTD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="metric-highlight">Compressors</td>
+                            <td class="ftd">12</td>
+                            <td class="mtd">245</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">NMR</td>
+                            <td class="ftd">42</td>
+                            <td class="mtd">78</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Holes</td>
+                            <td class="ftd">850</td>
+                            <td class="mtd">15,800</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Feets</td>
+                            <td class="ftd">4,250</td>
+                            <td class="mtd">79,000</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Production</td>
+                            <td class="ftd">1,250</td>
+                            <td class="mtd">22,500</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Boulder transport to plant</td>
+                            <td class="ftd">45</td>
+                            <td class="mtd">850</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Performance Summary Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Performance Summary</h2>
+                    <div class="card-icon"><i class="fas fa-tachometer-alt"></i></div>
+                </div>
+                <div class="performance-container">
+                    <div class="performance-box">
+                        <h3>Compressor Performance</h3>
+                        <div class="performance-value">
+                            <span class="ftd">12 <span class="negative">/ -5</span></span>
+                            <span class="badge badge-ftd">FTD</span>
                         </div>
-                        <div class="summary-box">
-                            <div class="summary-label">MTD</div>
-                            <div class="summary-value">652 / -36</div>
-                            <div class="summary-label">Compressor / Holes</div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 92%"></div>
-                            </div>
+                        <div class="performance-value">
+                            <span class="mtd">652 <span class="negative">/ -36</span></span>
+                            <span class="badge badge-mtd">MTD</span>
+                        </div>
+                        <p>Actual / Variance from Target</p>
+                    </div>
+                    
+                    <div class="performance-box">
+                        <h3>Holes Performance</h3>
+                        <div class="performance-value">
+                            <span class="ftd">782 <span class="negative">/ -218</span></span>
+                            <span class="badge badge-ftd">FTD</span>
+                        </div>
+                        <div class="performance-value">
+                            <span class="mtd">2,653 <span class="negative">/ -495</span></span>
+                            <span class="badge badge-mtd">MTD</span>
+                        </div>
+                        <p>Actual / Variance from Target</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quarry Running Hours Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Quarry Running Hours</h2>
+                    <div class="card-icon"><i class="fas fa-clock"></i></div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Shift</th>
+                            <th>Loading Start Time</th>
+                            <th>End Time</th>
+                            <th>Tipper Available</th>
+                            <th>Machinery Available</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="metric-highlight">Morning (M)</td>
+                            <td>9:15 AM</td>
+                            <td>12:39 PM</td>
+                            <td>7</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Afternoon (A)</td>
+                            <td>2:12 PM</td>
+                            <td>7:51 PM</td>
+                            <td>10</td>
+                            <td>7</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Evening (E)</td>
+                            <td>9:36 PM</td>
+                            <td>7:00 PM</td>
+                            <td>15</td>
+                            <td>9</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Operations Breakdown Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Operations Breakdown (Hours)</h2>
+                    <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Operation Type</th>
+                            <th>FTD Hours</th>
+                            <th>MTD Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="metric-highlight">Quarry Run Hours</td>
+                            <td class="ftd">6.9</td>
+                            <td class="mtd">169.3</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Loading Hours</td>
+                            <td class="ftd">8.5</td>
+                            <td class="mtd">253.6</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Breaking Hours</td>
+                            <td class="ftd">6.0</td>
+                            <td class="mtd">143.67</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Development Hours</td>
+                            <td class="ftd">5.5</td>
+                            <td class="mtd">62.33</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Area Wise Compressor Status Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Area Wise Compressor Status</h2>
+                    <div class="card-icon"><i class="fas fa-compress-arrows-alt"></i></div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Area</th>
+                            <th>FTD</th>
+                            <th>MTD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="metric-highlight">9 Ha – Pit 3</td>
+                            <td class="ftd">5</td>
+                            <td class="mtd">105</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Bench 1</td>
+                            <td class="ftd">2</td>
+                            <td class="mtd">40</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Bench 2</td>
+                            <td class="ftd">2</td>
+                            <td class="mtd">38</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Bench 3</td>
+                            <td class="ftd">1</td>
+                            <td class="mtd">22</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Bench 4</td>
+                            <td class="ftd">1</td>
+                            <td class="mtd">20</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-highlight">Pit-2</td>
+                            <td class="ftd">4</td>
+                            <td class="mtd">80</td>
+                        </tr>
+                        <tr style="background-color: #f8f9fa; font-weight: 700;">
+                            <td class="metric-highlight">Total</td>
+                            <td class="ftd">12</td>
+                            <td class="mtd">245</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Machinery Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Machinery Status</h2>
+                    <div class="card-icon"><i class="fas fa-tools"></i></div>
+                </div>
+                <div class="machinery-grid">
+                    <div class="machine-card work-L">
+                        <div class="machine-name">SGX V -1 <span class="badge" style="background-color:#3498db; color:white;">Loading</span></div>
+                        <div class="machine-detail">
+                            <span class="machine-label">HMR (Open/Close):</span>
+                            <span class="machine-value">113.5 / 119.6</span>
+                        </div>
+                        <div class="machine-detail">
+                            <span class="machine-label">Working Hours:</span>
+                            <span class="machine-value">6.3</span>
+                        </div>
+                        <div class="machine-detail">
+                            <span class="machine-label">Diesel (FTD):</span>
+                            <span class="machine-value">230 L</span>
                         </div>
                     </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Parameter</th>
-                                <th>Value</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Compressor (MTD)</td>
-                                <td>323 / -63</td>
-                                <td><span class="positive">On Track</span></td>
-                            </tr>
-                            <tr>
-                                <td>Holes (MTD)</td>
-                                <td>3,625 / -965</td>
-                                <td><span class="negative">Below Target</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="card wide-card">
-                    <h3 class="card-title">
-                        <span>Weekly Trial Data</span>
-                        <i class="fas fa-calendar-week"></i>
-                    </h3>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Area</th>
-                                <th>Compressors</th>
-                                <th>Total Trips</th>
-                                <th>NMR</th>
-                                <th>Holes</th>
-                                <th>Feets</th>
-                                <th>Production</th>
-                                <th>Recovery %</th>
-                                <th>Breaking %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Pit 3 - 9 Ha</td>
-                                <td>8</td>
-                                <td>125</td>
-                                <td>21</td>
-                                <td>650</td>
-                                <td>3,250</td>
-                                <td>1,200</td>
-                                <td>92.5%</td>
-                                <td>85.50%</td>
-                            </tr>
-                            <tr>
-                                <td>Bench 1</td>
-                                <td>2</td>
-                                <td>45</td>
-                                <td>5</td>
-                                <td>150</td>
-                                <td>750</td>
-                                <td>280</td>
-                                <td>88.2%</td>
-                                <td>82.30%</td>
-                            </tr>
-                            <tr>
-                                <td>Bench 2</td>
-                                <td>2</td>
-                                <td>40</td>
-                                <td>6</td>
-                                <td>200</td>
-                                <td>1,000</td>
-                                <td>320</td>
-                                <td>90.5%</td>
-                                <td>87.10%</td>
-                            </tr>
-                            <tr>
-                                <td>Pit-2</td>
-                                <td>4</td>
-                                <td>80</td>
-                                <td>10</td>
-                                <td>300</td>
-                                <td>1,500</td>
-                                <td>600</td>
-                                <td>94.8%</td>
-                                <td>89.20%</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    
+                    <div class="machine-card work-B">
+                        <div class="machine-name">SGX V -2 <span class="badge" style="background-color:#e74c3c; color:white;">Breaking</span></div>
+                        <div class="machine-detail">
+                            <span class="machine-label">HMR (Open/Close):</span>
+                            <span class="machine-value">152.6 / 163.63</span>
+                        </div>
+                        <div class="machine-detail">
+                            <span class="machine-label">Working Hours:</span>
+                            <span class="machine-value">7.1</span>
+                        </div>
+                        <div class="machine-detail">
+                            <span class="machine-label">Diesel (FTD):</span>
+                            <span class="machine-value">145 L</span>
+                        </div>
+                    </div>
+                    
+                    <div class="machine-card work-B">
+                        <div class="machine-name">Govinda - 1 <span class="badge" style="background-color:#e74c3c; color:white;">Breaking</span></div>
+                        <div class="machine-detail">
+                            <span class="machine-label">HMR (Open/Close):</span>
+                            <span class="machine-value">114.6 / 121.3</span>
+                        </div>
+                        <div class="machine-detail">
+                            <span class="machine-label">Working Hours:</span>
+                            <span class="machine-value">6.3</span>
+                        </div>
+                        <div class="machine-detail">
+                            <span class="machine-label">Diesel (FTD):</span>
+                            <span class="machine-value">230 L</span>
+                        </div>
+                    </div>
+                    
+                    <div class="machine-card work-L">
+                        <div class="machine-name">Govinda - 2 <span class="badge" style="background-color:#3498db; color:white;">Loading</span></div>
+                        <div class="machine-detail">
+                            <span class="machine-label">HMR (Open/Close):</span>
+                            <span class="machine-value">163.9 / 169.7</span>
+                        </div>
+                        <div class="machine-detail">
+                            <span class="machine-label">Working Hours:</span>
+                            <span class="machine-value">3.6</span>
+                        </div>
+                        <div class="machine-detail">
+                            <span class="machine-label">Diesel (FTD):</span>
+                            <span class="machine-value">120 L</span>
+                        </div>
+                    </div>
+                    
+                    <div class="machine-card work-D">
+                        <div class="machine-name">Hyundai - rental <span class="badge" style="background-color:#f39c12; color:white;">Development</span></div>
+                        <div class="machine-detail">
+                            <span class="machine-label">HMR (Open/Close):</span>
+                            <span class="machine-value">152.6 / 163.63</span>
+                        </div>
+                        <div class="machine-detail">
+                            <span class="machine-label">Working Hours:</span>
+                            <span class="machine-value">4.6</span>
+                        </div>
+                        <div class="machine-detail">
+                            <span class="machine-label">Diesel (FTD):</span>
+                            <span class="machine-value">45 L</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- Monthly View Tab -->
-        <div id="monthly" class="tab-content">
-            <div class="card">
-                <h3 class="card-title">
-                    <span>Month Wise Data - January 2026</span>
-                    <i class="fas fa-calendar-alt"></i>
-                </h3>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Compressor</th>
-                            <th>Holes</th>
-                            <th>Feets</th>
-                            <th>NMR</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>01-01-2026</td>
-                            <td>11</td>
-                            <td>653</td>
-                            <td>3,465</td>
-                            <td>9</td>
-                        </tr>
-                        <tr>
-                            <td>02-01-2026</td>
-                            <td>9</td>
-                            <td>785</td>
-                            <td>4,652</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>03-01-2026</td>
-                            <td>10</td>
-                            <td>720</td>
-                            <td>4,120</td>
-                            <td>11</td>
-                        </tr>
-                        <tr>
-                            <td>04-01-2026</td>
-                            <td>12</td>
-                            <td>810</td>
-                            <td>4,850</td>
-                            <td>14</td>
-                        </tr>
-                        <tr>
-                            <td>05-01-2026</td>
-                            <td>11</td>
-                            <td>790</td>
-                            <td>4,720</td>
-                            <td>10</td>
-                        </tr>
-                        <tr class="highlight">
-                            <td><strong>Total</strong></td>
-                            <td><strong>53</strong></td>
-                            <td><strong>3,758</strong></td>
-                            <td><strong>21,807</strong></td>
-                            <td><strong>56</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <!-- Remark Section -->
+        <div class="remark-section">
+            <div class="remark-title"><i class="fas fa-sticky-note"></i> Remarks & Notes</div>
+            <p>• Morning shift had limited machinery availability (3 units) impacting loading operations</p>
+            <p>• Evening shift shows highest equipment availability with 15 tippers and 9 machinery units</p>
+            <p>• Compressor performance shows variance from target for both FTD and MTD periods</p>
+            <p>• Holes drilled are below target for both FTD (-218) and MTD (-495)</p>
+            <p>• Development hours are significantly lower than loading and breaking hours</p>
         </div>
         
-        <!-- Quarry Operations Tab -->
-        <div id="quarry" class="tab-content">
-            <div class="dashboard-grid">
-                <div class="card wide-card">
-                    <h3 class="card-title">
-                        <span>Quarry Running Hours</span>
-                        <i class="fas fa-clock"></i>
-                    </h3>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Quarry Start Time</th>
-                                <th>Quarry End Time</th>
-                                <th>Tipper Available at Start</th>
-                                <th>Machinery Available at Start</th>
-                                <th>Remark</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>06:00 AM</td>
-                                <td>06:00 PM</td>
-                                <td>12</td>
-                                <td>8</td>
-                                <td>Normal Operations</td>
-                            </tr>
-                            <tr>
-                                <td>06:00 AM</td>
-                                <td>04:00 PM</td>
-                                <td>10</td>
-                                <td>7</td>
-                                <td>Maintenance Break</td>
-                            </tr>
-                            <tr>
-                                <td>07:00 AM</td>
-                                <td>07:00 PM</td>
-                                <td>15</td>
-                                <td>9</td>
-                                <td>Extra Shift</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="card">
-                    <h3 class="card-title">
-                        <span>Operations Breakdown</span>
-                        <i class="fas fa-tasks"></i>
-                    </h3>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Operation</th>
-                                <th>Hours</th>
-                                <th>% of Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Loading Hours</td>
-                                <td>8.5</td>
-                                <td>42.5%</td>
-                            </tr>
-                            <tr>
-                                <td>Breaking Hours</td>
-                                <td>6.0</td>
-                                <td>30.0%</td>
-                            </tr>
-                            <tr>
-                                <td>Development Hours</td>
-                                <td>5.5</td>
-                                <td>27.5%</td>
-                            </tr>
-                            <tr class="highlight">
-                                <td><strong>Total</strong></td>
-                                <td><strong>20.0</strong></td>
-                                <td><strong>100%</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="card wide-card">
-                    <h3 class="card-title">
-                        <span>Area Wise Compressor Status</span>
-                        <i class="fas fa-map-marked-alt"></i>
-                    </h3>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Area</th>
-                                <th>FTD</th>
-                                <th>MTD</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>9 Ha – Pit 3</td>
-                                <td>5</td>
-                                <td>105</td>
-                                <td><span class="positive">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td>Bench 1</td>
-                                <td>2</td>
-                                <td>40</td>
-                                <td><span class="positive">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td>Bench 2</td>
-                                <td>2</td>
-                                <td>38</td>
-                                <td><span class="positive">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td>Bench 3</td>
-                                <td>1</td>
-                                <td>22</td>
-                                <td><span class="negative">Maintenance</span></td>
-                            </tr>
-                            <tr>
-                                <td>Bench 4</td>
-                                <td>1</td>
-                                <td>20</td>
-                                <td><span class="positive">Active</span></td>
-                            </tr>
-                            <tr>
-                                <td>Pit-2</td>
-                                <td>4</td>
-                                <td>80</td>
-                                <td><span class="positive">Active</span></td>
-                            </tr>
-                            <tr class="highlight">
-                                <td><strong>Total</strong></td>
-                                <td><strong>12</strong></td>
-                                <td><strong>245</strong></td>
-                                <td><span class="positive">Overall Active</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Machinery Details Tab -->
-        <div id="machinery" class="tab-content">
-            <div class="card">
-                <h3 class="card-title">
-                    <span>Machinery Details & Fuel Consumption</span>
-                    <i class="fas fa-cogs"></i>
-                </h3>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Machinery</th>
-                            <th>Details</th>
-                            <th>HMR Open/Close</th>
-                            <th>Working Hours</th>
-                            <th>Diesel (FTD)</th>
-                            <th>Diesel (MTD)</th>
-                            <th>Remark</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Compressor C1</td>
-                            <td>Atlas Copco XAS 400</td>
-                            <td>Open</td>
-                            <td>8.5</td>
-                            <td>85 L</td>
-                            <td>1,785 L</td>
-                            <td>Normal</td>
-                        </tr>
-                        <tr>
-                            <td>Excavator E1</td>
-                            <td>CAT 320D</td>
-                            <td>Open</td>
-                            <td>7.0</td>
-                            <td>105 L</td>
-                            <td>2,205 L</td>
-                            <td>Normal</td>
-                        </tr>
-                        <tr>
-                            <td>Tipper T5</td>
-                            <td>Ashok Leyland 3120</td>
-                            <td>Close</td>
-                            <td>0.0</td>
-                            <td>0 L</td>
-                            <td>1,890 L</td>
-                            <td>Under Repair</td>
-                        </tr>
-                        <tr>
-                            <td>Drill Machine D2</td>
-                            <td>Sandvik DX800</td>
-                            <td>Open</td>
-                            <td>6.5</td>
-                            <td>65 L</td>
-                            <td>1,365 L</td>
-                            <td>Normal</td>
-                        </tr>
-                        <tr>
-                            <td>Loader L3</td>
-                            <td>Volvo L120H</td>
-                            <td>Open</td>
-                            <td>8.0</td>
-                            <td>120 L</td>
-                            <td>2,520 L</td>
-                            <td>Normal</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="card">
-                <h3 class="card-title">
-                    <span>Notes & Remarks</span>
-                    <i class="fas fa-sticky-note"></i>
-                </h3>
-                <div style="padding: 15px 0;">
-                    <p><strong>Note 1:</strong> Raw material purchases, production entry</p>
-                    <p><strong>Note 2:</strong> Compressor attendance and billing, NMR attendance</p>
-                    <p><strong>Note 3:</strong> All data is updated daily at 8:00 PM</p>
-                    <p><strong>Note 4:</strong> Monthly reports are generated on the last day of each month</p>
-                </div>
-            </div>
-        </div>
+        <footer>
+            <p>Quarry Operations Dashboard | Generated on: January 19, 2026, 11:23 AM</p>
+            <p>FTD: First Today | MTD: Month to Date</p>
+            <p>Data is subject to verification and quality checks</p>
+        </footer>
     </div>
-
+    
     <script>
-        // Tab switching functionality
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs and tab contents
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab
-                tab.classList.add('active');
-                
-                // Show corresponding tab content
-                const tabId = tab.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
+        // Simple script for interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click effects to cards
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.99)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+            
+            // Color code performance values
+            const performanceValues = document.querySelectorAll('.performance-value span');
+            performanceValues.forEach(value => {
+                if (value.textContent.includes('-')) {
+                    value.classList.add('negative');
+                }
             });
         });
-        
-        // Auto-refresh simulation (in a real app, this would fetch data from server)
-        setInterval(() => {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString();
-            
-            // Update the time in the header
-            const header = document.querySelector('.header p');
-            if (header) {
-                header.innerHTML = `Daily and Monthly Tracking Dashboard for Operations | Last Updated: ${timeString}`;
-            }
-        }, 60000); // Update every minute
     </script>
 </body>
 </html>
