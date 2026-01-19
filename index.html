@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quarry Operations Dashboard - FTD vs MTD</title>
+    <title>Quarry Operations Dashboard - FTD vs MTD Performance Analysis</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -12,19 +12,19 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+       
         body {
             background-color: #f5f7fa;
             color: #333;
             padding: 20px;
             line-height: 1.6;
         }
-        
+       
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
-        
+       
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -34,341 +34,198 @@
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+       
         h1 {
-            font-size: 2.4rem;
+            font-size: 2.2rem;
             margin-bottom: 10px;
         }
-        
+       
         .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+       
+        .date-info {
             font-size: 1.1rem;
             opacity: 0.9;
-        }
-        
-        .date-display {
-            display: flex;
-            justify-content: center;
-            margin-top: 15px;
-            gap: 20px;
             font-weight: 600;
         }
-        
-        .date-box {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 15px;
-            border-radius: 6px;
-        }
-        
+       
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
-            gap: 25px;
+            gap: 20px;
             margin-bottom: 30px;
         }
-        
+       
         .card {
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            padding: 25px;
+            padding: 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+       
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
-        
+       
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding-bottom: 15px;
+            padding-bottom: 12px;
             border-bottom: 2px solid #f0f0f0;
         }
-        
+       
         .card-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: #2c3e50;
             font-weight: 700;
         }
-        
+       
         .card-icon {
             font-size: 1.8rem;
             color: #3498db;
         }
-        
+       
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
         }
-        
+       
         th {
             background-color: #f8f9fa;
-            padding: 14px 12px;
+            padding: 10px 8px;
             text-align: left;
             font-weight: 700;
             color: #2c3e50;
             border-bottom: 2px solid #eaeaea;
+            font-size: 0.95rem;
         }
-        
+       
         td {
-            padding: 14px 12px;
+            padding: 10px 8px;
             border-bottom: 1px solid #eaeaea;
+            font-size: 0.95rem;
         }
-        
+       
         tr:hover {
             background-color: #f9f9f9;
         }
-        
+       
         .metric-highlight {
             font-weight: 700;
             color: #2c3e50;
         }
-        
+       
         .ftd {
             color: #3498db;
             font-weight: 600;
         }
-        
+       
         .mtd {
             color: #2ecc71;
             font-weight: 600;
         }
-        
-        .performance-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .performance-box {
-            flex: 1;
-            min-width: 250px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            border-left: 5px solid #3498db;
-        }
-        
-        .performance-box.compact {
-            min-width: 200px;
-            padding: 15px;
-        }
-        
-        .performance-box h3 {
-            margin-bottom: 15px;
-            color: #2c3e50;
-            font-size: 1.2rem;
-        }
-        
-        .performance-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .performance-value.compact {
-            font-size: 1.5rem;
-        }
-        
-        .actual-value {
-            color: #2c3e50;
-        }
-        
-        .variance-positive {
-            color: #3498db; /* Changed from green to blue */
-        }
-        
-        .variance-negative {
-            color: #e74c3c;
-        }
-        
-        .remark-section {
-            background-color: #fff8e1;
-            border-left: 5px solid #ffc107;
-            padding: 25px;
-            margin-top: 30px;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .remark-title {
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #ff9800;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .remark-section p {
-            margin-bottom: 10px;
-            padding-left: 10px;
-        }
-        
-        .remark-section p:last-child {
-            margin-bottom: 0;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            border-top: 1px solid #eee;
-        }
-        
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .card {
-                padding: 20px 15px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        .badge-ftd {
-            background-color: #d6eaf8;
-            color: #3498db;
-            border: 1px solid #3498db;
-        }
-        
-        .badge-mtd {
-            background-color: #d5f4e6;
-            color: #27ae60;
-            border: 1px solid #27ae60;
-        }
-        
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-        
-        .status-loading {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        .status-breaking {
-            background-color: #e74c3c;
-            color: white;
-        }
-        
-        .status-development {
-            background-color: #f39c12;
-            color: white;
-        }
-        
-        .operations-table-container {
-            margin-top: 20px;
-        }
-        
+       
         .compact-performance {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             margin-top: 10px;
         }
-        
+       
         .compact-performance-item {
             display: flex;
             flex-direction: column;
             min-width: 140px;
         }
-        
+       
         .compact-label {
             font-size: 0.9rem;
             color: #7f8c8d;
             margin-bottom: 5px;
         }
-        
+       
         .compact-value {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #2c3e50;
         }
-        
+       
         .compact-variance {
             font-size: 1rem;
             font-weight: 600;
         }
-        
-        .number-green {
-            color: #3498db !important; /* Changed from green to blue */
+       
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
-        
-        .number-blue {
-            color: #3498db !important;
+       
+        .badge-ftd {
+            background-color: #d6eaf8;
+            color: #3498db;
+            border: 1px solid #3498db;
         }
-        
-        /* Machine status table specific styles */
-        .machine-status-row {
-            transition: all 0.2s ease;
+       
+        .badge-mtd {
+            background-color: #d5f4e6;
+            color: #27ae60;
+            border: 1px solid #27ae60;
         }
-        
+       
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+       
+        .status-loading {
+            background-color: #3498db;
+            color: white;
+        }
+       
+        .status-breaking {
+            background-color: #e74c3c;
+            color: white;
+        }
+       
+        .status-development {
+            background-color: #f39c12;
+            color: white;
+        }
+       
         .machine-status-row:hover {
             background-color: #f5f9ff !important;
         }
-        
-        .work-L {
-            border-left: 4px solid #3498db;
-        }
-        
-        .work-B {
-            border-left: 4px solid #e74c3c;
-        }
-        
-        .work-D {
-            border-left: 4px solid #f39c12;
-        }
-        
+       
+        .work-L { border-left: 4px solid #3498db; }
+        .work-B { border-left: 4px solid #e74c3c; }
+        .work-D { border-left: 4px solid #f39c12; }
+       
         .machine-name-cell {
             font-weight: 600;
             color: #2c3e50;
         }
-        
-        .hmr-value {
+       
+        .hmr-value, .hours-value, .diesel-value {
+            font-weight: 600;
             font-family: 'Courier New', monospace;
-            font-weight: 600;
-            color: #2c3e50;
         }
-        
-        .diesel-value {
-            font-weight: 600;
-            color: #e67e22;
-        }
-        
-        .hours-value {
-            font-weight: 600;
-            color: #27ae60;
-        }
-        
+       
+        .diesel-value { color: #e67e22; }
+        .hours-value { color: #27ae60; }
+       
         .status-indicator {
             display: inline-block;
             width: 10px;
@@ -376,67 +233,142 @@
             border-radius: 50%;
             margin-right: 8px;
         }
-        
-        .indicator-loading {
-            background-color: #3498db;
-        }
-        
-        .indicator-breaking {
-            background-color: #e74c3c;
-        }
-        
-        .indicator-development {
-            background-color: #f39c12;
-        }
-        
-        /* NEW: Wider card for Machinery Status */
-        .card.wider {
-            min-width: 720px;
-            grid-column: span 1.2;
-        }
-        
-        /* NEW: Save button styling */
+       
+        .indicator-loading { background-color: #3498db; }
+        .indicator-breaking { background-color: #e74c3c; }
+        .indicator-development { background-color: #f39c12; }
+       
         .save-btn {
             background-color: #3498db;
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 4px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: background-color 0.3s;
         }
-        
+       
         .save-btn:hover {
             background-color: #2980b9;
         }
-        
-        /* NEW: Header with button */
+       
         .card-header-with-btn {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding-bottom: 15px;
+            padding-bottom: 12px;
             border-bottom: 2px solid #f0f0f0;
         }
-        
+       
         .title-with-btn {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        
-        /* NEW: Performance item spacing */
-        .performance-spaced {
-            margin-bottom: 12px;
+       
+        .remark-section {
+            background-color: #fff8e1;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         }
-        
-        .performance-spaced:last-child {
-            margin-bottom: 0;
+       
+        .remark-title {
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ff9800;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+       
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 15px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+       
+        /* Print styles to fit everything on one A4 page (portrait) */
+        @page {
+            size: A4 portrait;
+            margin: 1cm;
+        }
+       
+        @media print {
+            body {
+                background: white;
+                padding: 10px;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+                font-size: 11px;
+            }
+            .container {
+                max-width: none;
+            }
+            header {
+                padding: 15px;
+                margin-bottom: 15px;
+                background: linear-gradient(135deg, #2c3e50, #4a6491) !important;
+                color: white !important;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            .subtitle, .date-info {
+                font-size: 14px;
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .card {
+                padding: 12px;
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+                margin-bottom: 0;
+            }
+            .card-header, .card-header-with-btn {
+                margin-bottom: 10px;
+                padding-bottom: 8px;
+            }
+            .card-title {
+                font-size: 15px;
+            }
+            table th, table td {
+                padding: 6px 6px;
+                font-size: 11px;
+            }
+            .compact-value {
+                font-size: 14px;
+            }
+            .save-btn {
+                display: none;
+            }
+            .remark-section {
+                padding: 12px;
+                margin-top: 15px;
+                page-break-inside: avoid;
+            }
+            footer {
+                margin-top: 15px;
+                padding: 10px;
+            }
+            .card.wider {
+                min-width: auto;
+            }
         }
     </style>
 </head>
@@ -445,12 +377,9 @@
         <header>
             <h1><i class="fas fa-mountain"></i> Quarry Operations Dashboard</h1>
             <p class="subtitle">FTD (First Today) vs MTD (Month to Date) Performance Analysis</p>
-            <div class="date-display">
-                <div class="date-box">Report Date: January 19, 2026</div>
-                <div class="date-box">Last Updated: 11:23 AM</div>
-            </div>
+            <p class="date-info">Report Date: January 19, 2026 | Last Updated: 11:23 AM</p>
         </header>
-        
+       
         <div class="dashboard-grid">
             <!-- Key Parameters Card -->
             <div class="card">
@@ -500,58 +429,48 @@
                     </tbody>
                 </table>
             </div>
-            
+           
             <!-- Performance Summary Card -->
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">Performance Summary</h2>
                     <div class="card-icon"><i class="fas fa-tachometer-alt"></i></div>
                 </div>
-                
-                <!-- Compact Performance Section -->
+               
                 <div class="compact-performance">
                     <div class="compact-performance-item">
                         <div class="compact-label">Compressor Performance</div>
-                        <div class="performance-spaced">
-                            <div class="compact-value">
-                                <span class="number-green">12</span> 
-                                <span class="compact-variance variance-negative">/ -5</span>
-                                <span class="badge badge-ftd">FTD</span>
-                            </div>
+                        <div class="compact-value">
+                            <span class="number-green">12</span>
+                            <span class="compact-variance variance-negative">/ -5</span>
+                            <span class="badge badge-ftd">FTD</span>
                         </div>
-                        <div class="performance-spaced">
-                            <div class="compact-value">
-                                <span class="number-blue">652</span> 
-                                <span class="compact-variance variance-negative">/ -36</span>
-                                <span class="badge badge-mtd">MTD</span>
-                            </div>
+                        <div class="compact-value">
+                            <span class="number-blue">652</span>
+                            <span class="compact-variance variance-negative">/ -36</span>
+                            <span class="badge badge-mtd">MTD</span>
                         </div>
                         <div class="compact-label" style="margin-top: 5px; font-style: italic;">Actual / Variance from Target</div>
                     </div>
-                    
+                   
                     <div class="compact-performance-item">
                         <div class="compact-label">Holes Performance</div>
-                        <div class="performance-spaced">
-                            <div class="compact-value">
-                                <span class="number-green">782</span> 
-                                <span class="compact-variance variance-negative">/ -218</span>
-                                <span class="badge badge-ftd">FTD</span>
-                            </div>
+                        <div class="compact-value">
+                            <span class="number-green">782</span>
+                            <span class="compact-variance variance-negative">/ -218</span>
+                            <span class="badge badge-ftd">FTD</span>
                         </div>
-                        <div class="performance-spaced">
-                            <div class="compact-value">
-                                <span class="number-blue">2,653</span> 
-                                <span class="compact-variance variance-negative">/ -495</span>
-                                <span class="badge badge-mtd">MTD</span>
-                            </div>
+                        <div class="compact-value">
+                            <span class="number-blue">2,653</span>
+                            <span class="compact-variance variance-negative">/ -495</span>
+                            <span class="badge badge-mtd">MTD</span>
                         </div>
                         <div class="compact-label" style="margin-top: 5px; font-style: italic;">Actual / Variance from Target</div>
                     </div>
                 </div>
-                
-                <!-- Operations Breakdown Table -->
-                <div class="operations-table-container">
-                    <h3 style="color: #2c3e50; margin-bottom: 15px; font-size: 1.2rem;">Operations Breakdown (Hours)</h3>
+               
+                <div class="operations-table-container" style="margin-top: 20px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 12px; font-size: 1.1rem;">Operations Breakdown (Hours)</h3>
                     <table>
                         <thead>
                             <tr>
@@ -585,7 +504,7 @@
                     </table>
                 </div>
             </div>
-            
+           
             <!-- Quarry Running Hours Card -->
             <div class="card">
                 <div class="card-header">
@@ -627,7 +546,7 @@
                     </tbody>
                 </table>
             </div>
-            
+           
             <!-- Area Wise Compressor Status Card -->
             <div class="card">
                 <div class="card-header">
@@ -681,9 +600,9 @@
                     </tbody>
                 </table>
             </div>
-            
-            <!-- Machinery Status in Row Format - WIDER CARD -->
-            <div class="card wider">
+           
+            <!-- Machinery Status Card -->
+            <div class="card">
                 <div class="card-header-with-btn">
                     <div class="title-with-btn">
                         <h2 class="card-title">Machinery Status</h2>
@@ -758,7 +677,7 @@
                 </table>
             </div>
         </div>
-        
+       
         <!-- Remark Section -->
         <div class="remark-section">
             <div class="remark-title"><i class="fas fa-sticky-note"></i> Remarks & Notes</div>
@@ -768,56 +687,29 @@
             <p>• Holes drilled are below target for both FTD (-218) and MTD (-495)</p>
             <p>• Development hours are significantly lower than loading and breaking hours</p>
         </div>
-        
+       
         <footer>
-            <p>Quarry Operations Dashboard | Generated on: January 19, 2026, 11:23 AM</p>
+            <p>Quarry Operations Dashboard | Generated on: January 19, 2026</p>
             <p>FTD: First Today | MTD: Month to Date</p>
             <p>Data is subject to verification and quality checks</p>
         </footer>
     </div>
-    
+   
     <script>
-        // Simple script for interactivity
         document.addEventListener('DOMContentLoaded', function() {
-            // Add click effects to cards
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                card.addEventListener('click', function() {
-                    this.style.transform = 'scale(0.99)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 150);
-                });
-            });
-            
-            // Add hover effect to machine rows
-            const machineRows = document.querySelectorAll('.machine-status-row');
-            machineRows.forEach(row => {
-                row.addEventListener('mouseenter', function() {
-                    this.style.backgroundColor = '#f0f8ff';
-                });
-                row.addEventListener('mouseleave', function() {
-                    this.style.backgroundColor = '';
-                });
-            });
-            
-            // Save Remarks button functionality
             const saveRemarksBtn = document.getElementById('saveRemarksBtn');
-            saveRemarksBtn.addEventListener('click', function() {
-                // Change button text and color temporarily
-                const originalText = this.innerHTML;
-                this.innerHTML = '<i class="fas fa-check"></i> Saved!';
-                this.style.backgroundColor = '#2ecc71';
-                
-                // Show a simple notification
-                alert('Machinery status remarks saved successfully!');
-                
-                // Reset button after 2 seconds
-                setTimeout(() => {
-                    this.innerHTML = originalText;
-                    this.style.backgroundColor = '#3498db';
-                }, 2000);
-            });
+            if (saveRemarksBtn) {
+                saveRemarksBtn.addEventListener('click', function() {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                    this.style.backgroundColor = '#2ecc71';
+                    alert('Machinery status remarks saved successfully!');
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.style.backgroundColor = '#3498db';
+                    }, 2000);
+                });
+            }
         });
     </script>
 </body>
