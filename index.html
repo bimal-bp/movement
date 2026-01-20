@@ -43,10 +43,10 @@
         .dashboard-header h1 i {
             font-size: 1.5rem;
         }
-        /* New Top Row - 70% Performance Summary, 30% Operations Hours */
+        /* Top Row - Now 3 columns: Performance (larger), Operations Breakdown, Shift Operations */
         .top-row {
             display: grid;
-            grid-template-columns: 7fr 3fr;
+            grid-template-columns: 7fr 3fr 3fr;
             gap: 12px;
             margin-bottom: 15px;
         }
@@ -120,7 +120,7 @@
             color: #2c3e50;
             white-space: nowrap;
         }
-        /* Compact Performance - increased min width for more space */
+        /* Compact Performance */
         .compact-metrics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -266,6 +266,15 @@
                 font-size: 1.4rem;
             }
         }
+        /* Extra styling for Shift Operations table */
+        .shift-table th,
+        .shift-table td {
+            text-align: center;
+        }
+        .shift-table td:first-child,
+        .shift-table td:nth-child(2) {
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -275,9 +284,9 @@
             <h1><i class="fas fa-mountain"></i> Quarry Operations Dashboard</h1>
         </div>
 
-        <!-- Top Row: Performance Summary (70%) + Operations Hours (30%) -->
+        <!-- Top Row: Performance Summary (large), Operations Breakdown (Hours), Shift Operations -->
         <div class="top-row">
-            <!-- Performance Summary (70% width - more breathing room) -->
+            <!-- Performance Summary -->
             <div class="dashboard-card">
                 <div class="card-header">
                     <div class="card-title">Performance Summary</div>
@@ -307,7 +316,7 @@
                 </div>
             </div>
 
-            <!-- Operations Breakdown (Hours) - moved here for 30% column -->
+            <!-- Operations Breakdown (Hours) -->
             <div class="dashboard-card">
                 <div class="card-header">
                     <div class="card-title">Operations Breakdown (Hours)</div>
@@ -329,9 +338,52 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Shift Operations (moved to top row, Shift column removed, total row added, time fixed for night shift) -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-title">Shift Operations</div>
+                    <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+                </div>
+                <table class="shift-table">
+                    <thead>
+                        <tr>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Tippers</th>
+                            <th>Machinery</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>9:15 AM</td>
+                            <td>12:39 PM</td>
+                            <td>7</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>2:12 PM</td>
+                            <td>7:51 PM</td>
+                            <td>10</td>
+                            <td>7</td>
+                        </tr>
+                        <tr>
+                            <td>9:36 PM</td>
+                            <td>7:00 AM</td>
+                            <td>15</td>
+                            <td>9</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td colspan="2"><strong>Total</strong></td>
+                            <td><strong>32</strong></td>
+                            <td><strong>19</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- Second Row: Remaining 3 cards (Key Parameters, Area Wise, Shift Operations) -->
+        <!-- Second Row: Key Parameters + Area Wise (now only 2 cards) -->
         <div class="dashboard-content">
             <!-- Key Parameters -->
             <div class="dashboard-card">
@@ -383,33 +435,9 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Shift Operations -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <div class="card-title">Shift Operations</div>
-                    <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Shift</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                            <th>Tippers</th>
-                            <th>Machinery</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td class="metric-label">Morning (M)</td><td>9:15 AM</td><td>12:39 PM</td><td>7</td><td>3</td></tr>
-                        <tr><td class="metric-label">Afternoon (A)</td><td>2:12 PM</td><td>7:51 PM</td><td>10</td><td>7</td></tr>
-                        <tr><td class="metric-label">Evening (E)</td><td>9:36 PM</td><td>7:00 PM</td><td>15</td><td>9</td></tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
 
-        <!-- Machinery Status (full width) -->
+        <!-- Machinery Status (now appears as the clear "second main section" after the top row) -->
         <div class="dashboard-card">
             <div class="card-header">
                 <div style="display: flex; align-items: center; gap: 10px;">
@@ -421,7 +449,6 @@
                 <div class="card-icon"><i class="fas fa-tools"></i></div>
             </div>
             <div class="machinery-grid">
-                <!-- Machines remain unchanged -->
                 <div class="machine-card">
                     <div class="machine-name">SGX V -1</div>
                     <div class="machine-details">
