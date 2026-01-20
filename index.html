@@ -43,7 +43,7 @@
         .dashboard-header h1 i {
             font-size: 1.5rem;
         }
-        /* Top Row */
+        /* Top Row - Now 3 columns: Performance (larger), Operations Breakdown, Shift Operations */
         .top-row {
             display: grid;
             grid-template-columns: 7fr 3fr 3fr;
@@ -60,7 +60,7 @@
         /* Cards */
         .dashboard-card {
             background: white;
-            border-radius: 8px;
+            border-radius: 6px;
             padding: 15px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             border: 1px solid #eaeaea;
@@ -82,59 +82,57 @@
             font-size: 1.3rem;
             color: #3498db;
         }
-        /* KPI Cards - 2×2 Grid */
-        .compact-metrics {
+        /* Performance Summary KPI Cards */
+        .kpi-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+            margin-top: 10px;
         }
-        .metric-box {
+        .kpi-card {
             background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border: 1px solid #eaeaea;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            border-radius: 8px;
+            padding: 20px 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            border: 1px solid #f0f0f0;
         }
-        .metric-value {
-            font-size: 2.5rem;
+        .kpi-value {
+            font-size: 2.2rem;
             font-weight: 700;
             color: #2c3e50;
+            margin-bottom: 5px;
             display: flex;
-            justify-content: center;
-            align-items: baseline;
+            align-items: center;
             gap: 10px;
-            margin-bottom: 10px;
         }
-        .metric-subtitle {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 15px;
-        }
-        .metric-variance {
-            font-size: 1rem;
-            color: #e74c3c;
-            font-weight: 600;
-        }
-        /* Badges */
-        .badge {
-            padding: 4px 10px;
-            font-size: 0.8rem;
+        .kpi-tag {
+            padding: 4px 12px;
             border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 600;
+            display: inline-block;
         }
-        .badge-ftd {
+        .tag-ftd {
             background: #e3f2fd;
             color: #1976d2;
             border: 1px solid #bbdefb;
         }
-        .badge-mtd {
+        .tag-mtd {
             background: #e8f5e9;
             color: #2e7d32;
             border: 1px solid #c8e6c9;
+        }
+        .kpi-label {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .kpi-variance {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #e74c3c;
         }
         /* Tables */
         table {
@@ -158,13 +156,9 @@
         tr:last-child td {
             border-bottom: none;
         }
+        /* Metrics */
         .metric-ftd {
             color: #3498db;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .metric-mtd {
-            color: #27ae60;
             font-weight: 600;
             font-size: 0.9rem;
         }
@@ -173,60 +167,89 @@
             color: #2c3e50;
             white-space: nowrap;
         }
-        .highlight-row {
-            background-color: #f8f9fa !important;
+        /* Compact Performance */
+        .compact-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 0;
+        }
+        .metric-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #2c3e50;
+        }
+        .metric-subtitle {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 6px;
+        }
+        .metric-variance {
+            font-size: 0.9rem;
             font-weight: 600;
+        }
+        .variance-positive {
+            color: #27ae60;
+        }
+        .variance-negative {
+            color: #e74c3c;
         }
         /* Machinery Status */
         .machinery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 15px;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         .machine-card {
-            background: white;
-            border-radius: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
             padding: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            border: 1px solid #eaeaea;
+            border-left: 4px solid #3498db;
             transition: transform 0.2s, box-shadow 0.2s;
         }
+        .machine-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
         .machine-name {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 12px;
-            border-bottom: 1px solid #eee;
             padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
         }
         .machine-details {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
         }
         .machine-detail-item {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
+            flex-direction: column;
         }
         .detail-label {
+            font-size: 0.8rem;
             color: #666;
+            margin-bottom: 4px;
         }
         .detail-value {
+            font-size: 1rem;
             font-weight: 600;
             color: #2c3e50;
         }
-        /* Status Badges */
+        /* Badges & Status */
         .status-badge {
             padding: 4px 10px;
-            border-radius: 6px;
+            border-radius: 4px;
             font-size: 0.8rem;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+            margin-top: 3px;
         }
         .status-loading {
             background-color: #e3f2fd;
@@ -240,11 +263,34 @@
             background-color: #fff3e0;
             color: #f57c00;
         }
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+        .badge-ftd {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #bbdefb;
+        }
+        .badge-mtd {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .highlight-row {
+            background-color: #f8f9fa !important;
+            font-weight: 600;
+        }
         .status-indicator {
             display: inline-block;
             width: 8px;
             height: 8px;
             border-radius: 50%;
+            margin-right: 5px;
         }
         .indicator-loading { background-color: #1976d2; }
         .indicator-breaking { background-color: #d32f2f; }
@@ -254,26 +300,17 @@
             background: #3498db;
             color: white;
             border: none;
-            padding: 6px 12px;
+            padding: 8px 15px;
             border-radius: 4px;
             font-size: 0.85rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             transition: background 0.2s;
         }
         .save-btn:hover {
             background: #2980b9;
-        }
-        /* Shift table */
-        .shift-table th,
-        .shift-table td {
-            text-align: center;
-        }
-        .shift-table td:first-child,
-        .shift-table td:nth-child(2) {
-            text-align: left;
         }
         /* Footer */
         .dashboard-footer {
@@ -284,22 +321,51 @@
             font-size: 0.8rem;
             border-top: 1px solid #eee;
         }
-        /* Responsive */
+        /* Responsive Adjustments */
         @media (max-width: 1200px) {
+            .dashboard-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .machinery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        @media (max-width: 1024px) {
             .top-row {
                 grid-template-columns: 1fr;
             }
-            .compact-metrics {
-                grid-template-columns: 1fr 1fr;
-            }
         }
         @media (max-width: 768px) {
-            .compact-metrics {
+            .dashboard-content {
                 grid-template-columns: 1fr;
             }
-            .metric-value {
-                font-size: 2rem;
+            .kpi-grid {
+                grid-template-columns: 1fr;
             }
+            .machinery-grid {
+                grid-template-columns: 1fr;
+            }
+            body {
+                padding: 5px;
+            }
+            .dashboard-card {
+                padding: 12px;
+            }
+            .metric-value {
+                font-size: 1.4rem;
+            }
+            .kpi-value {
+                font-size: 1.8rem;
+            }
+        }
+        /* Extra styling for Shift Operations table */
+        .shift-table th,
+        .shift-table td {
+            text-align: center;
+        }
+        .shift-table td:first-child,
+        .shift-table td:nth-child(2) {
+            text-align: left;
         }
     </style>
 </head>
@@ -310,39 +376,39 @@
             <h1><i class="fas fa-mountain"></i> Quarry Operations Dashboard</h1>
         </div>
 
-        <!-- Top Row -->
+        <!-- Top Row: Performance Summary (large), Operations Breakdown (Hours), Shift Operations -->
         <div class="top-row">
-            <!-- Performance Summary (Left - Large Panel with 2×2 KPI Cards) -->
+            <!-- Performance Summary -->
             <div class="dashboard-card">
                 <div class="card-header">
                     <div class="card-title">Performance Summary</div>
                     <div class="card-icon"><i class="fas fa-chart-line"></i></div>
                 </div>
-                <div class="compact-metrics">
-                    <div class="metric-box">
-                        <div class="metric-value">12 <span class="badge badge-ftd">FTD</span></div>
-                        <div class="metric-subtitle">Compressors</div>
-                        <div class="metric-variance">Variance: -5</div>
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-value">12 <span class="kpi-tag tag-ftd">FTD</span></div>
+                        <div class="kpi-label">Compressors</div>
+                        <div class="kpi-variance">Variance: -5</div>
                     </div>
-                    <div class="metric-box">
-                        <div class="metric-value">245 <span class="badge badge-mtd">MTD</span></div>
-                        <div class="metric-subtitle">Compressors</div>
-                        <div class="metric-variance">Variance: -36</div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">245 <span class="kpi-tag tag-mtd">MTD</span></div>
+                        <div class="kpi-label">Compressors</div>
+                        <div class="kpi-variance">Variance: -36</div>
                     </div>
-                    <div class="metric-box">
-                        <div class="metric-value">782 <span class="badge badge-ftd">FTD</span></div>
-                        <div class="metric-subtitle">Holes Drilled</div>
-                        <div class="metric-variance">Variance: -218</div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">782 <span class="kpi-tag tag-ftd">FTD</span></div>
+                        <div class="kpi-label">Holes Drilled</div>
+                        <div class="kpi-variance">Variance: -218</div>
                     </div>
-                    <div class="metric-box">
-                        <div class="metric-value">2,653 <span class="badge badge-mtd">MTD</span></div>
-                        <div class="metric-subtitle">Holes Drilled</div>
-                        <div class="metric-variance">Variance: -495</div>
+                    <div class="kpi-card">
+                        <div class="kpi-value">2,653 <span class="kpi-tag tag-mtd">MTD</span></div>
+                        <div class="kpi-label">Holes Drilled</div>
+                        <div class="kpi-variance">Variance: -495</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Operations Breakdown -->
+            <!-- Operations Breakdown (Hours) -->
             <div class="dashboard-card">
                 <div class="card-header">
                     <div class="card-title">Operations Breakdown (Hours)</div>
@@ -357,10 +423,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td class="metric-label">Quarry Run Hours</td><td class="metric-ftd">6.9</td><td class="metric-mtd">169.3</td></tr>
-                        <tr><td class="metric-label">Loading Hours</td><td class="metric-ftd">8.5</td><td class="metric-mtd">253.6</td></tr>
-                        <tr><td class="metric-label">Breaking Hours</td><td class="metric-ftd">6.0</td><td class="metric-mtd">143.7</td></tr>
-                        <tr><td class="metric-label">Development Hours</td><td class="metric-ftd">5.5</td><td class="metric-mtd">62.3</td></tr>
+                        <tr><td class="metric-label">Quarry Run Hours</td><td class="metric-ftd">6.9</td><td>169.3</td></tr>
+                        <tr><td class="metric-label">Loading Hours</td><td class="metric-ftd">8.5</td><td>253.6</td></tr>
+                        <tr><td class="metric-label">Breaking Hours</td><td class="metric-ftd">6.0</td><td>143.7</td></tr>
+                        <tr><td class="metric-label">Development Hours</td><td class="metric-ftd">5.5</td><td>62.3</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -409,7 +475,7 @@
             </div>
         </div>
 
-        <!-- Second Row -->
+        <!-- Second Row: Key Parameters + Area Wise (now only 2 cards) -->
         <div class="dashboard-content">
             <!-- Key Parameters -->
             <div class="dashboard-card">
@@ -426,12 +492,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td class="metric-label">Compressors</td><td class="metric-ftd">12</td><td class="metric-mtd">245</td></tr>
-                        <tr><td class="metric-label">NMR</td><td class="metric-ftd">42</td><td class="metric-mtd">78</td></tr>
-                        <tr><td class="metric-label">Holes</td><td class="metric-ftd">850</td><td class="metric-mtd">15,800</td></tr>
-                        <tr><td class="metric-label">Feets</td><td class="metric-ftd">4,250</td><td class="metric-mtd">79,000</td></tr>
-                        <tr><td class="metric-label">Production</td><td class="metric-ftd">1,250</td><td class="metric-mtd">22,500</td></tr>
-                        <tr class="highlight-row"><td class="metric-label">Boulder to Plant</td><td class="metric-ftd">45</td><td class="metric-mtd">850</td></tr>
+                        <tr><td class="metric-label">Compressors</td><td class="metric-ftd">12</td><td>245</td></tr>
+                        <tr><td class="metric-label">NMR</td><td class="metric-ftd">42</td><td>78</td></tr>
+                        <tr><td class="metric-label">Holes</td><td class="metric-ftd">850</td><td>15,800</td></tr>
+                        <tr><td class="metric-label">Feets</td><td class="metric-ftd">4,250</td><td>79,000</td></tr>
+                        <tr><td class="metric-label">Production</td><td class="metric-ftd">1,250</td><td>22,500</td></tr>
+                        <tr class="highlight-row"><td class="metric-label">Boulder to Plant</td><td class="metric-ftd">45</td><td>850</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -456,13 +522,13 @@
                         <tr><td class="metric-label">Bench 3</td><td class="metric-ftd">1</td></tr>
                         <tr><td class="metric-label">Bench 4</td><td class="metric-ftd">1</td></tr>
                         <tr><td class="metric-label">Pit-2</td><td class="metric-ftd">4</td></tr>
-                        <tr class="highlight-row"><td class="metric-label"><strong>Total</strong></td><td class="metric-ftd"><strong>12</strong></td></tr>
+                        <tr class="highlight-row"><td class="metric-label">Total</td><td class="metric-ftd">12</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Machinery Status (full-width, responsive grid with proper card sizing) -->
+        <!-- Machinery Status Section -->
         <div class="dashboard-card">
             <div class="card-header">
                 <div style="display: flex; align-items: center; gap: 10px;">
@@ -616,16 +682,15 @@
                     this.style.background = '#3498db';
                 }, 2000);
             });
-
             const machineCards = document.querySelectorAll('.machine-card');
             machineCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-4px)';
-                    this.style.boxShadow = '0 8px 20px rgba(0,0,0,0.12)';
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
                 });
                 card.addEventListener('mouseleave', function() {
                     this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)';
+                    this.style.boxShadow = 'none';
                 });
             });
         });
