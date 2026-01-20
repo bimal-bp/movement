@@ -3,130 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Production Dashboard</title>
+    <title>Mining Operations Dashboard</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, Roboto, sans-serif;
         }
         
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            width: 100vw;
+            height: 100vh;
+            background-color: #f5f5f5;
             padding: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+            overflow-x: hidden;
         }
         
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #2c3e50;
+        .dashboard-container {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto 1fr;
+            gap: 20px;
+            grid-template-areas: 
+                "performance running-hours loading"
+                "key-parameters area-status machinery"
+                "key-parameters area-status machinery";
         }
         
-        .header h1 {
-            color: #2c3e50;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .period-info {
-            background-color: #e8f4fc;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            border-left: 5px solid #3498db;
-        }
-        
-        .section {
+        .dashboard-box {
             background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            border: 1px solid #e1e5e9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
         }
         
         .section-title {
-            color: #2c3e50;
-            font-size: 20px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #ecf0f1;
-            display: flex;
-            align-items: center;
-        }
-        
-        .section-title i {
-            margin-right: 10px;
-            color: #3498db;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #333;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            font-size: 14px;
         }
         
         th {
-            background-color: #2c3e50;
-            color: white;
-            padding: 12px 15px;
+            background-color: #f2f2f2;
             text-align: left;
+            padding: 8px 10px;
             font-weight: 600;
+            border-bottom: 1px solid #ddd;
         }
         
         td {
-            padding: 12px 15px;
+            padding: 8px 10px;
             border-bottom: 1px solid #eee;
         }
         
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
-        tr:hover {
-            background-color: #f1f7fd;
-        }
-        
-        .variance-negative {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-        
-        .highlight {
-            background-color: #fff9e6;
+        .value-ftd {
+            color: #0066cc;
             font-weight: 600;
         }
         
-        .total-row {
-            background-color: #2c3e50 !important;
-            color: white;
-            font-weight: bold;
+        .value-variance {
+            color: #cc0000;
+            font-weight: 600;
         }
         
-        .flex-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 25px;
+        .text-right {
+            text-align: right;
         }
         
-        .flex-container .section {
-            flex: 1;
-            min-width: 300px;
-        }
-        
-        .footer {
+        .text-center {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            color: #7f8c8d;
-            font-size: 14px;
+        }
+        
+        /* Performance Section */
+        .performance-box {
+            grid-area: performance;
+        }
+        
+        .performance-table {
+            margin-top: 10px;
+        }
+        
+        .performance-table td {
+            padding: 6px 10px;
+        }
+        
+        /* Running Hours Section */
+        .running-hours-box {
+            grid-area: running-hours;
+        }
+        
+        .running-hours-table td {
+            padding: 6px 10px;
+        }
+        
+        /* Loading Section */
+        .loading-box {
+            grid-area: loading;
+        }
+        
+        .loading-table td {
+            padding: 6px 10px;
+        }
+        
+        /* Key Parameters Section */
+        .key-parameters-box {
+            grid-area: key-parameters;
+        }
+        
+        .key-parameters-table td {
+            padding: 6px 10px;
+        }
+        
+        /* Area Status Section */
+        .area-status-box {
+            grid-area: area-status;
+        }
+        
+        .area-status-table td {
+            padding: 6px 10px;
+        }
+        
+        .total-row {
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+        
+        /* Machinery Section */
+        .machinery-box {
+            grid-area: machinery;
+        }
+        
+        .machinery-table td {
+            padding: 6px 10px;
+        }
+        
+        .hmr-cell {
+            white-space: nowrap;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .dashboard-container {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto auto;
+                grid-template-areas: 
+                    "performance running-hours"
+                    "loading key-parameters"
+                    "area-status machinery";
+            }
         }
         
         @media (max-width: 768px) {
@@ -134,309 +173,299 @@
                 padding: 10px;
             }
             
-            .flex-container {
-                flex-direction: column;
+            .dashboard-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                grid-template-areas: 
+                    "performance"
+                    "running-hours"
+                    "loading"
+                    "key-parameters"
+                    "area-status"
+                    "machinery";
+            }
+            
+            .dashboard-box {
+                padding: 12px;
+            }
+            
+            table {
+                font-size: 13px;
             }
             
             th, td {
-                padding: 8px 10px;
-                font-size: 14px;
+                padding: 6px 8px;
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="header">
-        <h1><i class="fas fa-chart-line"></i> Production Dashboard</h1>
-        <p>FTD (First Time Data) vs MTD (Month-to-Date) Comparison</p>
-    </div>
-    
-    <div class="period-info">
-        <p><strong>Reporting Period:</strong> Month-to-Date (MTD) Performance vs Initial Baseline (FTD)</p>
-    </div>
-    
-    <div class="section">
-        <h2 class="section-title"><i class="fas fa-compress-alt"></i> Compressors Performance</h2>
-        <table>
-            <thead>
+    <div class="dashboard-container">
+        <!-- Performance Section -->
+        <div class="dashboard-box performance-box">
+            <div class="section-title">Performance</div>
+            <table class="performance-table">
                 <tr>
                     <th>Compressors</th>
-                    <th>FTD</th>
-                    <th>MTD</th>
-                    <th>Variance</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Compressor Set 1</td>
-                    <td>12</td>
-                    <td>245</td>
-                    <td class="variance-negative">-218</td>
+                    <th>Holes</th>
                 </tr>
                 <tr>
-                    <td>Compressor Set 2</td>
-                    <td>782</td>
-                    <td>365</td>
-                    <td class="variance-negative">-218</td>
+                    <td>
+                        <span class="value-ftd">12</span> FTD
+                    </td>
+                    <td>
+                        <span class="value-ftd">635</span> FTD
+                    </td>
                 </tr>
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="flex-container">
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-cogs"></i> Key Parameters</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Parameter</th>
-                        <th>FTD</th>
-                        <th>MTD</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Compressors</td>
-                        <td>12</td>
-                        <td>245</td>
-                    </tr>
-                    <tr>
-                        <td>NMR</td>
-                        <td>42</td>
-                        <td>78</td>
-                    </tr>
-                    <tr>
-                        <td>Holes</td>
-                        <td>850</td>
-                        <td>15,800</td>
-                    </tr>
-                    <tr>
-                        <td>Feet</td>
-                        <td>4,250</td>
-                        <td>79,000</td>
-                    </tr>
-                    <tr>
-                        <td>Production</td>
-                        <td>1,250</td>
-                        <td>22,500</td>
-                    </tr>
-                    <tr>
-                        <td>Boulder Transport Trips</td>
-                        <td>456</td>
-                        <td>11,520</td>
-                    </tr>
-                    <tr>
-                        <td>Boulder Transport Qty</td>
-                        <td>2,151</td>
-                        <td>36,255</td>
-                    </tr>
-                </tbody>
+                <tr>
+                    <td>
+                        Variance: <span class="value-variance">-5</span>
+                    </td>
+                    <td>
+                        Variance: <span class="value-variance">-365</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>782</span> MTD
+                    </td>
+                    <td>
+                        <span>1782</span> MTD
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Variance: <span class="value-variance">-218</span>
+                    </td>
+                    <td>
+                        Variance: <span class="value-variance">-1231</span>
+                    </td>
+                </tr>
             </table>
         </div>
         
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-clock"></i> Operation Hours</h2>
-            <table>
+        <!-- Running Hours Section -->
+        <div class="dashboard-box running-hours-box">
+            <div class="section-title">Running Hours</div>
+            <table class="running-hours-table">
                 <thead>
                     <tr>
                         <th>Operation Type</th>
-                        <th>FTD</th>
-                        <th>MTD</th>
+                        <th class="text-right">FTD</th>
+                        <th class="text-right">MTD</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>Quarry Run Hours</td>
-                        <td>6.9</td>
-                        <td>169.3</td>
+                        <td class="text-right"><span class="value-ftd">6.9</span></td>
+                        <td class="text-right">169.3</td>
                     </tr>
                     <tr>
                         <td>Loading Hours</td>
-                        <td>8.5</td>
-                        <td>253.6</td>
+                        <td class="text-right"><span class="value-ftd">8.5</span></td>
+                        <td class="text-right">253.6</td>
                     </tr>
                     <tr>
                         <td>Breaking Hours</td>
-                        <td>6.0</td>
-                        <td>143.7</td>
+                        <td class="text-right"><span class="value-ftd">6</span></td>
+                        <td class="text-right">143.7</td>
                     </tr>
                     <tr>
                         <td>Development Hours</td>
-                        <td>5.5</td>
-                        <td>62.3</td>
+                        <td class="text-right"><span class="value-ftd">5.5</span></td>
+                        <td class="text-right">62.3</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
-    
-    <div class="section">
-        <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Area-Wise Compressor Status</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Area</th>
-                    <th>FTD</th>
-                    <th>MTD</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>9 Ha – Pit 3</td>
-                    <td>5</td>
-                    <td>105</td>
-                </tr>
-                <tr>
-                    <td>Bench 1</td>
-                    <td>2</td>
-                    <td>40</td>
-                </tr>
-                <tr>
-                    <td>Bench 2</td>
-                    <td>2</td>
-                    <td>38</td>
-                </tr>
-                <tr>
-                    <td>Bench 3</td>
-                    <td>1</td>
-                    <td>22</td>
-                </tr>
-                <tr>
-                    <td>Bench 4</td>
-                    <td>1</td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <td>Pit-2</td>
-                    <td>4</td>
-                    <td>80</td>
-                </tr>
-                <tr class="total-row">
-                    <td>Total</td>
-                    <td>12</td>
-                    <td>245</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="section">
-        <h2 class="section-title"><i class="fas fa-truck"></i> Machinery / Tippers Summary</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Machinery / Tipper</th>
-                    <th>HMR Open/Close</th>
-                    <th>Working Hours</th>
-                    <th>Diesel Used</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>SGX V-1</td>
-                    <td>113.5 / 119.6</td>
-                    <td>6.3</td>
-                    <td>230 L</td>
-                </tr>
-                <tr>
-                    <td>SGX V-2</td>
-                    <td>152.6 / 163.63</td>
-                    <td>7.1</td>
-                    <td>145 L</td>
-                </tr>
-                <tr>
-                    <td>Govinda - 1</td>
-                    <td>114.6 / 121.3</td>
-                    <td>6.3</td>
-                    <td>230 L</td>
-                </tr>
-                <tr>
-                    <td>Govinda - 2</td>
-                    <td>163.9 / 169.7</td>
-                    <td>3.6</td>
-                    <td>120 L</td>
-                </tr>
-                <tr>
-                    <td>Hyundai - rental</td>
-                    <td>152.6 / 163.63</td>
-                    <td>4.6</td>
-                    <td>45 L</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="flex-container">
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Start & End Times</h2>
-            <table>
+        
+        <!-- Loading Start End Time Section -->
+        <div class="dashboard-box loading-box">
+            <div class="section-title">Loading Start End Time</div>
+            <table class="loading-table">
                 <thead>
                     <tr>
                         <th>Start Time</th>
                         <th>End Time</th>
-                        <th>Tipper Avl</th>
-                        <th>Machinery Avl</th>
+                        <th class="text-right">Tippers</th>
+                        <th class="text-right">Machinery</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>9:15 AM</td>
                         <td>12:39 PM</td>
-                        <td>7</td>
-                        <td>3</td>
+                        <td class="text-right">7</td>
+                        <td class="text-right">3</td>
                     </tr>
                     <tr>
                         <td>2:12 PM</td>
                         <td>7:51 PM</td>
-                        <td>10</td>
-                        <td>7</td>
+                        <td class="text-right">10</td>
+                        <td class="text-right">7</td>
                     </tr>
                     <tr>
-                        <td>7:00 AM</td>
                         <td>9:36 PM</td>
-                        <td>15</td>
-                        <td>9</td>
+                        <td>7:00 AM</td>
+                        <td class="text-right">15</td>
+                        <td class="text-right">9</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-sticky-note"></i> Remarks</h2>
-            <div style="padding: 15px; background-color: #f8f9fa; border-radius: 8px; margin-top: 10px;">
-                <p><strong>Summary:</strong> Total compressors increased from <strong>12 (FTD)</strong> to <strong>245 (MTD)</strong>.</p>
-                <p style="margin-top: 10px;"><strong>Note:</strong> Significant variance observed in compressor performance metrics. All operation hours show substantial increases in MTD compared to FTD baseline.</p>
+        <!-- Key Parameters Section -->
+        <div class="dashboard-box key-parameters-box">
+            <div class="section-title">Key Parameters</div>
+            <table class="key-parameters-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-right">FTD</th>
+                        <th class="text-right">MTD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Compressors</td>
+                        <td class="text-right"><span class="value-ftd">12</span></td>
+                        <td class="text-right">245</td>
+                    </tr>
+                    <tr>
+                        <td>NMR</td>
+                        <td class="text-right"><span class="value-ftd">42</span></td>
+                        <td class="text-right">78</td>
+                    </tr>
+                    <tr>
+                        <td>Holes</td>
+                        <td class="text-right"><span class="value-ftd">850</span></td>
+                        <td class="text-right">15,800</td>
+                    </tr>
+                    <tr>
+                        <td>Feets</td>
+                        <td class="text-right"><span class="value-ftd">4,250</span></td>
+                        <td class="text-right">79,000</td>
+                    </tr>
+                    <tr>
+                        <td>Production</td>
+                        <td class="text-right"><span class="value-ftd">1,250</span></td>
+                        <td class="text-right">22,500</td>
+                    </tr>
+                    <tr>
+                        <td>Boulder transport Trips</td>
+                        <td class="text-right"><span class="value-ftd">456</span></td>
+                        <td class="text-right">11,520</td>
+                    </tr>
+                    <tr>
+                        <td>Boulder transport Qty</td>
+                        <td class="text-right"><span class="value-ftd">2,151</span></td>
+                        <td class="text-right">36,255</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Area Wise Compressor Status Section -->
+        <div class="dashboard-box area-status-box">
+            <div class="section-title">Area Wise Compressor Status</div>
+            <table class="area-status-table">
+                <thead>
+                    <tr>
+                        <th>Area</th>
+                        <th class="text-right">FTD</th>
+                        <th class="text-right">MTD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>9 Ha – Pit 3</td>
+                        <td class="text-right"><span class="value-ftd">5</span></td>
+                        <td class="text-right">105</td>
+                    </tr>
+                    <tr>
+                        <td>Bench 1</td>
+                        <td class="text-right"><span class="value-ftd">2</span></td>
+                        <td class="text-right">40</td>
+                    </tr>
+                    <tr>
+                        <td>Bench 2</td>
+                        <td class="text-right"><span class="value-ftd">2</span></td>
+                        <td class="text-right">38</td>
+                    </tr>
+                    <tr>
+                        <td>Bench 3</td>
+                        <td class="text-right"><span class="value-ftd">1</span></td>
+                        <td class="text-right">22</td>
+                    </tr>
+                    <tr>
+                        <td>Bench 4</td>
+                        <td class="text-right"><span class="value-ftd">1</span></td>
+                        <td class="text-right">20</td>
+                    </tr>
+                    <tr>
+                        <td>Pit-2</td>
+                        <td class="text-right"><span class="value-ftd">4</span></td>
+                        <td class="text-right">80</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Total</td>
+                        <td class="text-right">12</td>
+                        <td class="text-right">245</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Machinery Section -->
+        <div class="dashboard-box machinery-box">
+            <div class="section-title">Machinery</div>
+            <table class="machinery-table">
+                <thead>
+                    <tr>
+                        <th>Machine</th>
+                        <th>HMR Open/Close</th>
+                        <th class="text-right">W.Hours</th>
+                        <th class="text-right">Diesel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SGX V - 1</td>
+                        <td class="hmr-cell">113.5 / 119.6</td>
+                        <td class="text-right">6.3</td>
+                        <td class="text-right">230 L</td>
+                    </tr>
+                    <tr>
+                        <td>SGX V - 2</td>
+                        <td class="hmr-cell">152.6 / 163.63</td>
+                        <td class="text-right">7.1</td>
+                        <td class="text-right">145 L</td>
+                    </tr>
+                    <tr>
+                        <td>Govinda - 1</td>
+                        <td class="hmr-cell">114.6 / 121.3</td>
+                        <td class="text-right">6.3</td>
+                        <td class="text-right">230 L</td>
+                    </tr>
+                    <tr>
+                        <td>Govinda - 2</td>
+                        <td class="hmr-cell">163.9 / 169.7</td>
+                        <td class="text-right">3.6</td>
+                        <td class="text-right">120 L</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai - rental</td>
+                        <td class="hmr-cell">152.6 / 163.63</td>
+                        <td class="text-right">4.6</td>
+                        <td class="text-right">45 L</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 15px; font-style: italic; font-size: 14px;">
+                Remark
             </div>
         </div>
     </div>
-    
-    <div class="footer">
-        <p>Production Dashboard | Last Updated: <span id="currentDate"></span></p>
-    </div>
-    
-    <script>
-        // Set current date in footer
-        const now = new Date();
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
-        
-        // Add hover effect to table rows
-        document.addEventListener('DOMContentLoaded', function() {
-            const tableRows = document.querySelectorAll('tbody tr');
-            tableRows.forEach(row => {
-                row.addEventListener('mouseenter', function() {
-                    if (!this.classList.contains('total-row')) {
-                        this.style.backgroundColor = '#f1f7fd';
-                    }
-                });
-                row.addEventListener('mouseleave', function() {
-                    if (!this.classList.contains('total-row')) {
-                        this.style.backgroundColor = '';
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>
