@@ -9,24 +9,77 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, Roboto, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
         
         body {
             width: 100vw;
-            height: 100vh;
-            background-color: #f5f5f5;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0c1a2d 0%, #1a3a5f 100%);
             padding: 20px;
-            overflow-x: hidden;
+            overflow-x: auto;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .dashboard-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .dashboard-title::before {
+            content: "⛏️";
+            font-size: 24px;
+        }
+        
+        .report-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .report-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .report-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .report-btn:active {
+            transform: translateY(0);
         }
         
         .dashboard-container {
             width: 100%;
-            height: 100%;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             grid-template-rows: auto auto 1fr;
-            gap: 20px;
+            gap: 25px;
             grid-template-areas: 
                 "performance running-hours loading"
                 "key-parameters area-status machinery"
@@ -34,22 +87,61 @@
         }
         
         .dashboard-box {
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             display: flex;
             flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dashboard-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Different color themes for each box */
+        .performance-box {
+            border-top: 5px solid #3498db;
+        }
+        
+        .running-hours-box {
+            border-top: 5px solid #2ecc71;
+        }
+        
+        .loading-box {
+            border-top: 5px solid #e74c3c;
+        }
+        
+        .key-parameters-box {
+            border-top: 5px solid #f39c12;
+        }
+        
+        .area-status-box {
+            border-top: 5px solid #9b59b6;
+        }
+        
+        .machinery-box {
+            border-top: 5px solid #1abc9c;
         }
         
         .section-title {
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #e0e0e0;
-            color: #333;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-icon {
+            font-size: 20px;
+            opacity: 0.8;
         }
         
         table {
@@ -59,25 +151,31 @@
         }
         
         th {
-            background-color: #f2f2f2;
+            background-color: rgba(52, 73, 94, 0.08);
             text-align: left;
-            padding: 8px 10px;
+            padding: 12px 15px;
             font-weight: 600;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 2px solid #ddd;
+            color: #2c3e50;
         }
         
         td {
-            padding: 8px 10px;
-            border-bottom: 1px solid #eee;
+            padding: 10px 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        tr:hover {
+            background-color: rgba(52, 152, 219, 0.05);
         }
         
         .value-ftd {
-            color: #0066cc;
-            font-weight: 600;
+            color: #3498db;
+            font-weight: 700;
+            font-size: 15px;
         }
         
         .value-variance {
-            color: #cc0000;
+            color: #e74c3c;
             font-weight: 600;
         }
         
@@ -94,12 +192,8 @@
             grid-area: performance;
         }
         
-        .performance-table {
-            margin-top: 10px;
-        }
-        
         .performance-table td {
-            padding: 6px 10px;
+            padding: 10px 15px;
         }
         
         /* Running Hours Section */
@@ -108,7 +202,7 @@
         }
         
         .running-hours-table td {
-            padding: 6px 10px;
+            padding: 10px 15px;
         }
         
         /* Loading Section */
@@ -117,7 +211,7 @@
         }
         
         .loading-table td {
-            padding: 6px 10px;
+            padding: 10px 15px;
         }
         
         /* Key Parameters Section */
@@ -126,7 +220,7 @@
         }
         
         .key-parameters-table td {
-            padding: 6px 10px;
+            padding: 10px 15px;
         }
         
         /* Area Status Section */
@@ -135,12 +229,12 @@
         }
         
         .area-status-table td {
-            padding: 6px 10px;
+            padding: 10px 15px;
         }
         
         .total-row {
             font-weight: bold;
-            background-color: #f9f9f9;
+            background-color: rgba(52, 152, 219, 0.1);
         }
         
         /* Machinery Section */
@@ -149,11 +243,37 @@
         }
         
         .machinery-table td {
-            padding: 6px 10px;
+            padding: 10px 15px;
         }
         
         .hmr-cell {
             white-space: nowrap;
+            font-family: 'Courier New', monospace;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-radius: 4px;
+            padding: 5px 8px;
+            font-weight: 600;
+        }
+        
+        .remark-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(52, 152, 219, 0.08);
+            border-radius: 8px;
+            font-style: italic;
+            font-size: 14px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .data-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
         }
         
         /* Responsive adjustments */
@@ -168,9 +288,22 @@
             }
         }
         
+        @media (max-width: 992px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .report-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
         @media (max-width: 768px) {
             body {
-                padding: 10px;
+                padding: 15px;
             }
             
             .dashboard-container {
@@ -186,7 +319,7 @@
             }
             
             .dashboard-box {
-                padding: 12px;
+                padding: 18px;
             }
             
             table {
@@ -194,16 +327,79 @@
             }
             
             th, td {
-                padding: 6px 8px;
+                padding: 8px 10px;
             }
+            
+            .report-buttons {
+                gap: 8px;
+            }
+            
+            .report-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .report-buttons {
+                flex-direction: column;
+            }
+            
+            .report-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .dashboard-title {
+                font-size: 22px;
+            }
+        }
+        
+        /* Animation for report buttons when clicked */
+        @keyframes buttonClick {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        
+        .button-clicked {
+            animation: buttonClick 0.3s ease;
         }
     </style>
 </head>
 <body>
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">Mining Operations Dashboard</h1>
+        
+        <div class="report-buttons">
+            <button class="report-btn" id="performance-report">
+                <span>📊</span> Performance Report
+            </button>
+            <button class="report-btn" id="hours-report">
+                <span>⏱️</span> Running Hours Report
+            </button>
+            <button class="report-btn" id="loading-report">
+                <span>🚚</span> Loading Report
+            </button>
+            <button class="report-btn" id="parameters-report">
+                <span>📈</span> Key Parameters
+            </button>
+            <button class="report-btn" id="area-report">
+                <span>🗺️</span> Area Status
+            </button>
+            <button class="report-btn" id="machinery-report">
+                <span>🔧</span> Machinery Report
+            </button>
+        </div>
+    </div>
+    
     <div class="dashboard-container">
         <!-- Performance Section -->
-        <div class="dashboard-box performance-box">
-            <div class="section-title">Performance</div>
+        <div class="dashboard-box performance-box" id="performance-section">
+            <div class="section-title">
+                Performance
+                <span class="section-icon">📊</span>
+            </div>
             <table class="performance-table">
                 <tr>
                     <th>Compressors</th>
@@ -245,8 +441,11 @@
         </div>
         
         <!-- Running Hours Section -->
-        <div class="dashboard-box running-hours-box">
-            <div class="section-title">Running Hours</div>
+        <div class="dashboard-box running-hours-box" id="running-hours-section">
+            <div class="section-title">
+                Running Hours
+                <span class="section-icon">⏱️</span>
+            </div>
             <table class="running-hours-table">
                 <thead>
                     <tr>
@@ -281,8 +480,11 @@
         </div>
         
         <!-- Loading Start End Time Section -->
-        <div class="dashboard-box loading-box">
-            <div class="section-title">Loading Start End Time</div>
+        <div class="dashboard-box loading-box" id="loading-section">
+            <div class="section-title">
+                Loading Start End Time
+                <span class="section-icon">🚚</span>
+            </div>
             <table class="loading-table">
                 <thead>
                     <tr>
@@ -316,14 +518,17 @@
         </div>
         
         <!-- Key Parameters Section -->
-        <div class="dashboard-box key-parameters-box">
-            <div class="section-title">Key Parameters</div>
+        <div class="dashboard-box key-parameters-box" id="key-parameters-section">
+            <div class="section-title">
+                Key Parameters
+                <span class="section-icon">📈</span>
+            </div>
             <table class="key-parameters-table">
                 <thead>
                     <tr>
                         <th></th>
-                        <th class="text-right">FTD</th>
-                        <th class="text-right">MTD</th>
+                        <th class="text-right">FTD <span class="data-badge">Today</span></th>
+                        <th class="text-right">MTD <span class="data-badge">Month</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -367,8 +572,11 @@
         </div>
         
         <!-- Area Wise Compressor Status Section -->
-        <div class="dashboard-box area-status-box">
-            <div class="section-title">Area Wise Compressor Status</div>
+        <div class="dashboard-box area-status-box" id="area-status-section">
+            <div class="section-title">
+                Area Wise Compressor Status
+                <span class="section-icon">🗺️</span>
+            </div>
             <table class="area-status-table">
                 <thead>
                     <tr>
@@ -418,8 +626,11 @@
         </div>
         
         <!-- Machinery Section -->
-        <div class="dashboard-box machinery-box">
-            <div class="section-title">Machinery</div>
+        <div class="dashboard-box machinery-box" id="machinery-section">
+            <div class="section-title">
+                Machinery
+                <span class="section-icon">🔧</span>
+            </div>
             <table class="machinery-table">
                 <thead>
                     <tr>
@@ -462,10 +673,99 @@
                     </tr>
                 </tbody>
             </table>
-            <div style="margin-top: 15px; font-style: italic; font-size: 14px;">
-                Remark
+            <div class="remark-section">
+                Remark: All machinery operating within normal parameters. SGX V-2 showing optimal fuel efficiency.
             </div>
         </div>
     </div>
+
+    <script>
+        // Add click functionality to report buttons
+        document.querySelectorAll('.report-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Add animation class
+                this.classList.add('button-clicked');
+                
+                // Remove animation class after animation completes
+                setTimeout(() => {
+                    this.classList.remove('button-clicked');
+                }, 300);
+                
+                // Get the report type from button id
+                const reportType = this.id.replace('-report', '');
+                
+                // Scroll to the corresponding section
+                const sectionId = `${reportType}-section`;
+                const section = document.getElementById(sectionId);
+                
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // Add highlight effect to the section
+                    section.style.boxShadow = '0 0 0 3px rgba(52, 152, 219, 0.5)';
+                    setTimeout(() => {
+                        section.style.boxShadow = '';
+                    }, 1500);
+                }
+                
+                // In a real application, this would fetch and display report data
+                console.log(`Generating ${reportType.replace('-', ' ')} report...`);
+                
+                // Show a notification
+                showNotification(`${this.textContent.trim()} data is being loaded...`);
+            });
+        });
+        
+        // Function to show notification
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #2ecc71;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                font-weight: 500;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            // Add animation keyframes
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Add hover effect to table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.transition = 'background-color 0.2s ease';
+            });
+        });
+    </script>
 </body>
 </html>
