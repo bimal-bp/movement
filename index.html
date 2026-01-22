@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mining Operations MIS Report </title>
+    <title>Mining Operations MIS Report</title>
     <style>
         * {
             margin: 0;
@@ -11,7 +11,7 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-        
+       
         body {
             width: 100vw;
             min-height: 100vh;
@@ -19,13 +19,13 @@
             padding: 20px;
             overflow-x: auto;
         }
-        
+       
         .dashboard-header {
             margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+       
         .dashboard-title {
             color: white;
             font-size: 28px;
@@ -34,24 +34,24 @@
             align-items: center;
             gap: 12px;
         }
-        
+       
         .dashboard-title::before {
             content: "⛏️";
             font-size: 24px;
         }
-        
+       
         .dashboard-container {
             width: 100%;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: auto auto 1fr;
             gap: 25px;
-            grid-template-areas: 
+            grid-template-areas:
                 "performance running-hours loading"
                 "key-parameters area-status machinery"
                 "key-parameters area-status machinery";
         }
-        
+       
         .dashboard-box {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
@@ -61,32 +61,39 @@
             flex-direction: column;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
+       
         /* Different color themes for each box */
         .performance-box {
             border-top: 5px solid #3498db;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        
+       
+        .performance-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+       
         .running-hours-box {
             border-top: 5px solid #2ecc71;
         }
-        
+       
         .loading-box {
             border-top: 5px solid #e74c3c;
         }
-        
+       
         .key-parameters-box {
             border-top: 5px solid #f39c12;
         }
-        
+       
         .area-status-box {
             border-top: 5px solid #9b59b6;
         }
-        
+       
         .machinery-box {
             border-top: 5px solid #1abc9c;
         }
-        
+       
         .section-title {
             font-weight: 700;
             font-size: 18px;
@@ -98,18 +105,18 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+       
         .section-icon {
             font-size: 20px;
             opacity: 0.8;
         }
-        
+       
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 14px;
         }
-        
+       
         th {
             background-color: rgba(52, 73, 94, 0.08);
             text-align: left;
@@ -118,141 +125,134 @@
             border-bottom: 2px solid #ddd;
             color: #2c3e50;
         }
-        
+       
         td {
             padding: 10px 15px;
             border-bottom: 1px solid #f0f0f0;
         }
-        
+       
         .value-ftd {
             color: #3498db;
             font-weight: 700;
             font-size: 15px;
         }
-        
+       
+        .value-mtd {
+            color: #2ecc71;
+            font-weight: 700;
+            font-size: 16px;
+        }
+       
         .value-variance {
             color: #e74c3c;
             font-weight: 600;
         }
-        
+       
         .text-right {
             text-align: right;
         }
-        
+       
         .text-center {
             text-align: center;
         }
-        
+       
+        .spacer-row {
+            height: 30px;
+        }
+       
         /* Performance Section */
         .performance-box {
             grid-area: performance;
         }
-        
-        .performance-table td {
-            padding: 10px 15px;
+       
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
         }
-        
-        /* Running Hours Section */
-        .running-hours-box {
-            grid-area: running-hours;
+       
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
         }
-        
-        .running-hours-table td {
-            padding: 10px 15px;
+       
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 1000px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
         }
-        
-        /* Loading Section */
-        .loading-box {
-            grid-area: loading;
+       
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: #aaa;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
         }
-        
-        .loading-table td {
-            padding: 10px 15px;
+       
+        .close:hover {
+            color: #000;
         }
-        
-        /* Key Parameters Section */
-        .key-parameters-box {
-            grid-area: key-parameters;
+       
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
         }
-        
-        .key-parameters-table td {
-            padding: 10px 15px;
-        }
-        
-        /* Area Status Section */
-        .area-status-box {
-            grid-area: area-status;
-        }
-        
-        .area-status-table td {
-            padding: 10px 15px;
-        }
-        
+       
         .total-row {
             font-weight: bold;
             background-color: rgba(52, 152, 219, 0.1);
         }
-        
-        /* Machinery Section */
-        .machinery-box {
-            grid-area: machinery;
-        }
-        
-        .machinery-table td {
-            padding: 10px 15px;
-        }
-        
-        .hmr-cell {
-            white-space: nowrap;
-            font-family: 'Courier New', monospace;
-            background-color: rgba(0, 0, 0, 0.03);
-            border-radius: 4px;
-            padding: 5px 8px;
-            font-weight: 600;
-        }
-        
-        .remark-section {
+       
+        .achievement-text {
             margin-top: 20px;
             padding: 15px;
-            background-color: rgba(52, 152, 219, 0.08);
+            background-color: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid #2ecc71;
             border-radius: 8px;
-            font-style: italic;
-            font-size: 14px;
-            border-left: 4px solid #3498db;
-        }
-        
-        .data-badge {
-            display: inline-block;
-            background: #3498db;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 12px;
+            font-size: 16px;
             font-weight: 600;
-            margin-left: 8px;
+            text-align: center;
+            color: #27ae60;
         }
-        
+       
         /* Responsive adjustments */
         @media (max-width: 1200px) {
             .dashboard-container {
                 grid-template-columns: 1fr 1fr;
-                grid-template-rows: auto auto auto;
-                grid-template-areas: 
+                grid-template-areas:
                     "performance running-hours"
                     "loading key-parameters"
                     "area-status machinery";
             }
         }
-        
+       
         @media (max-width: 768px) {
             body {
                 padding: 15px;
             }
-            
+           
             .dashboard-container {
                 grid-template-columns: 1fr;
-                grid-template-rows: auto;
-                grid-template-areas: 
+                grid-template-areas:
                     "performance"
                     "running-hours"
                     "loading"
@@ -260,21 +260,26 @@
                     "area-status"
                     "machinery";
             }
-            
+           
             .dashboard-box {
                 padding: 18px;
             }
-            
+           
             table {
                 font-size: 13px;
             }
-            
+           
             th, td {
                 padding: 8px 10px;
             }
-            
+           
             .dashboard-title {
                 font-size: 22px;
+            }
+           
+            .modal-content {
+                width: 95%;
+                padding: 20px;
             }
         }
     </style>
@@ -283,10 +288,10 @@
     <div class="dashboard-header">
         <h1 class="dashboard-title">Mining Operations Dashboard</h1>
     </div>
-    
+   
     <div class="dashboard-container">
-        <!-- Performance Section -->
-        <div class="dashboard-box performance-box" id="performance-section">
+        <!-- Performance Section - Clickable -->
+        <div class="dashboard-box performance-box" id="performance-section" onclick="openPerformanceModal()">
             <div class="section-title">
                 Performance
                 <span class="section-icon">📊</span>
@@ -298,10 +303,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <span class="value-ftd">12</span>      FTD
+                        <span class="value-ftd">12</span> FTD
                     </td>
                     <td>
-                        <span class="value-ftd">635</span>     FTD
+                        <span class="value-ftd">635</span> FTD
                     </td>
                 </tr>
                 <tr>
@@ -312,12 +317,15 @@
                         Variance: <span class="value-variance">-365</span>
                     </td>
                 </tr>
+                <tr class="spacer-row">
+                    <td colspan="2"></td>
+                </tr>
                 <tr>
                     <td>
-                        <span>782</span> MTD
+                        <span class="value-mtd">782</span> MTD
                     </td>
                     <td>
-                        <span>1782</span> MTD
+                        <span class="value-mtd">1782</span> MTD
                     </td>
                 </tr>
                 <tr>
@@ -330,7 +338,7 @@
                 </tr>
             </table>
         </div>
-        
+       
         <!-- Running Hours Section -->
         <div class="dashboard-box running-hours-box" id="running-hours-section">
             <div class="section-title">
@@ -369,7 +377,7 @@
                 </tbody>
             </table>
         </div>
-        
+       
         <!-- Loading Start End Time Section -->
         <div class="dashboard-box loading-box" id="loading-section">
             <div class="section-title">
@@ -407,7 +415,7 @@
                 </tbody>
             </table>
         </div>
-        
+       
         <!-- Key Parameters Section -->
         <div class="dashboard-box key-parameters-box" id="key-parameters-section">
             <div class="section-title">
@@ -461,7 +469,7 @@
                 </tbody>
             </table>
         </div>
-        
+       
         <!-- Area Wise Compressor Status Section -->
         <div class="dashboard-box area-status-box" id="area-status-section">
             <div class="section-title">
@@ -515,7 +523,7 @@
                 </tbody>
             </table>
         </div>
-        
+       
         <!-- Machinery Section -->
         <div class="dashboard-box machinery-box" id="machinery-section">
             <div class="section-title">
@@ -569,5 +577,96 @@
             </div>
         </div>
     </div>
+
+    <!-- Performance Modal -->
+    <div id="performanceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePerformanceModal()">&times;</span>
+            <h2 class="modal-title">Month Wise Data - January 2026</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th class="text-right">Compressor</th>
+                        <th class="text-right">Holes</th>
+                        <th class="text-right">Feets</th>
+                        <th class="text-right">NMR</th>
+                        <th class="text-center">Gap</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>01-01-2026</td>
+                        <td class="text-right">11</td>
+                        <td class="text-right">653</td>
+                        <td class="text-right">3,465</td>
+                        <td class="text-right">9</td>
+                        <td class="text-center">6 / 347</td>
+                    </tr>
+                    <tr>
+                        <td>02-01-2026</td>
+                        <td class="text-right">9</td>
+                        <td class="text-right">785</td>
+                        <td class="text-right">4,652</td>
+                        <td class="text-right">12</td>
+                        <td class="text-center">8 / 215</td>
+                    </tr>
+                    <tr>
+                        <td>03-01-2026</td>
+                        <td class="text-right">10</td>
+                        <td class="text-right">720</td>
+                        <td class="text-right">4,120</td>
+                        <td class="text-right">11</td>
+                        <td class="text-center">7 / 280</td>
+                    </tr>
+                    <tr>
+                        <td>04-01-2026</td>
+                        <td class="text-right">12</td>
+                        <td class="text-right">810</td>
+                        <td class="text-right">4,850</td>
+                        <td class="text-right">14</td>
+                        <td class="text-center">5 / 190</td>
+                    </tr>
+                    <tr>
+                        <td>05-01-2026</td>
+                        <td class="text-right">11</td>
+                        <td class="text-right">790</td>
+                        <td class="text-right">4,720</td>
+                        <td class="text-right">10</td>
+                        <td class="text-center">6 / 210</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Total</td>
+                        <td class="text-right">53</td>
+                        <td class="text-right">3,758</td>
+                        <td class="text-right">21,807</td>
+                        <td class="text-right">56</td>
+                        <td class="text-center">34 / 1365</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="achievement-text">
+                Compressor Achv 65% &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Holes Achv 69%
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openPerformanceModal() {
+            document.getElementById('performanceModal').style.display = 'block';
+        }
+
+        function closePerformanceModal() {
+            document.getElementById('performanceModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            var modal = document.getElementById('performanceModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
