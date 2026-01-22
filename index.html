@@ -5,332 +5,568 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mining Operations Dashboard</title>
     <style>
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #0c1a2d 0%, #1a3a5f 100%);
-            color: white;
-            padding: 30px;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            width: 100vw;
             min-height: 100vh;
+            background: linear-gradient(135deg, #0c1a2d 0%, #1a3a5f 100%);
+            padding: 20px;
+            overflow-x: auto;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        
+        .dashboard-header {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        h1 {
-            text-align: center;
-            font-size: 32px;
-            margin-bottom: 40px;
+        
+        .dashboard-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 12px;
         }
-        h1::before {
+        
+        .dashboard-title::before {
             content: "⛏️";
-            font-size: 36px;
-        }
-        h2 {
             font-size: 24px;
-            margin: 40px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid rgba(255,255,255,0.3);
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
+        
+        .dashboard-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto auto 1fr;
+            gap: 25px;
+            grid-template-areas: 
+                "performance running-hours loading"
+                "key-parameters area-status machinery"
+                "key-parameters area-status machinery";
+        }
+        
+        .dashboard-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Different color themes for each box */
+        .performance-box {
+            border-top: 5px solid #3498db;
+        }
+        
+        .running-hours-box {
+            border-top: 5px solid #2ecc71;
+        }
+        
+        .loading-box {
+            border-top: 5px solid #e74c3c;
+        }
+        
+        .key-parameters-box {
+            border-top: 5px solid #f39c12;
+        }
+        
+        .area-status-box {
+            border-top: 5px solid #9b59b6;
+        }
+        
+        .machinery-box {
+            border-top: 5px solid #1abc9c;
+        }
+        
+        .section-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-icon {
+            font-size: 20px;
+            opacity: 0.8;
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
-            background: rgba(255,255,255,0.95);
-            color: #2c3e50;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
+            font-size: 14px;
         }
+        
         th {
-            background: rgba(52, 73, 94, 0.15);
-            padding: 14px 16px;
+            background-color: rgba(52, 73, 94, 0.08);
             text-align: left;
+            padding: 12px 15px;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+            color: #2c3e50;
+        }
+        
+        td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .value-ftd {
+            color: #3498db;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        
+        .value-variance {
+            color: #e74c3c;
             font-weight: 600;
         }
-        td {
-            padding: 12px 16px;
-            border-bottom: 1px solid #eee;
-        }
-        tr:hover {
-            background: rgba(52, 152, 219, 0.08);
-        }
+        
         .text-right {
             text-align: right;
         }
-        .value-highlight {
-            font-weight: 700;
-            color: #3498db;
+        
+        .text-center {
+            text-align: center;
         }
+        
+        /* Performance Section */
+        .performance-box {
+            grid-area: performance;
+        }
+        
+        .performance-table td {
+            padding: 10px 15px;
+        }
+        
+        /* Running Hours Section */
+        .running-hours-box {
+            grid-area: running-hours;
+        }
+        
+        .running-hours-table td {
+            padding: 10px 15px;
+        }
+        
+        /* Loading Section */
+        .loading-box {
+            grid-area: loading;
+        }
+        
+        .loading-table td {
+            padding: 10px 15px;
+        }
+        
+        /* Key Parameters Section */
+        .key-parameters-box {
+            grid-area: key-parameters;
+        }
+        
+        .key-parameters-table td {
+            padding: 10px 15px;
+        }
+        
+        /* Area Status Section */
+        .area-status-box {
+            grid-area: area-status;
+        }
+        
+        .area-status-table td {
+            padding: 10px 15px;
+        }
+        
         .total-row {
             font-weight: bold;
-            background: rgba(52, 152, 219, 0.15);
+            background-color: rgba(52, 152, 219, 0.1);
         }
-        .remark {
-            background: rgba(255,255,255,0.1);
+        
+        /* Machinery Section */
+        .machinery-box {
+            grid-area: machinery;
+        }
+        
+        .machinery-table td {
+            padding: 10px 15px;
+        }
+        
+        .hmr-cell {
+            white-space: nowrap;
+            font-family: 'Courier New', monospace;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-radius: 4px;
+            padding: 5px 8px;
+            font-weight: 600;
+        }
+        
+        .remark-section {
+            margin-top: 20px;
             padding: 15px;
+            background-color: rgba(52, 152, 219, 0.08);
             border-radius: 8px;
             font-style: italic;
+            font-size: 14px;
             border-left: 4px solid #3498db;
-            margin-top: 20px;
         }
+        
+        .data-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .dashboard-container {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto auto;
+                grid-template-areas: 
+                    "performance running-hours"
+                    "loading key-parameters"
+                    "area-status machinery";
+            }
+        }
+        
         @media (max-width: 768px) {
-            body { padding: 15px; }
-            table { font-size: 14px; }
-            th, td { padding: 10px; }
+            body {
+                padding: 15px;
+            }
+            
+            .dashboard-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                grid-template-areas: 
+                    "performance"
+                    "running-hours"
+                    "loading"
+                    "key-parameters"
+                    "area-status"
+                    "machinery";
+            }
+            
+            .dashboard-box {
+                padding: 18px;
+            }
+            
+            table {
+                font-size: 13px;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+            }
+            
+            .dashboard-title {
+                font-size: 22px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Mining Operations Dashboard</h1>
-
-        <h2>Performance 📊</h2>
-        <table>
-            <thead>
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">Mining Operations Dashboard</h1>
+    </div>
+    
+    <div class="dashboard-container">
+        <!-- Performance Section -->
+        <div class="dashboard-box performance-box" id="performance-section">
+            <div class="section-title">
+                Performance
+                <span class="section-icon">📊</span>
+            </div>
+            <table class="performance-table">
                 <tr>
-                    <th>Metric</th>
                     <th>Compressors</th>
                     <th>Holes</th>
                 </tr>
-            </thead>
-            <tbody>
                 <tr>
-                    <td>FTD</td>
-                    <td class="text-right value-highlight">12</td>
-                    <td class="text-right value-highlight">635</td>
-                </tr>
-                <tr>
-                    <td>Variance</td>
-                    <td class="text-right" style="color:#e74c3c;">-5</td>
-                    <td class="text-right" style="color:#e74c3c;">-365</td>
+                    <td>
+                        <span class="value-ftd">12</span> FTD
+                    </td>
+                    <td>
+                        <span class="value-ftd">635</span> FTD
+                    </td>
                 </tr>
                 <tr>
-                    <td>MTD</td>
-                    <td class="text-right">782</td>
-                    <td class="text-right">1782</td>
+                    <td>
+                        Variance: <span class="value-variance">-5</span>
+                    </td>
+                    <td>
+                        Variance: <span class="value-variance">-365</span>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Variance</td>
-                    <td class="text-right" style="color:#e74c3c;">-218</td>
-                    <td class="text-right" style="color:#e74c3c;">-1231</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h2>Running Hours ⏱️</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Operation Type</th>
-                    <th class="text-right">FTD</th>
-                    <th class="text-right">MTD</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Quarry Run Hours</td>
-                    <td class="text-right value-highlight">6.9</td>
-                    <td class="text-right">169.3</td>
+                    <td>
+                        <span>782</span> MTD
+                    </td>
+                    <td>
+                        <span>1782</span> MTD
+                    </td>
                 </tr>
                 <tr>
-                    <td>Loading Hours</td>
-                    <td class="text-right value-highlight">8.5</td>
-                    <td class="text-right">253.6</td>
+                    <td>
+                        Variance: <span class="value-variance">-218</span>
+                    </td>
+                    <td>
+                        Variance: <span class="value-variance">-1231</span>
+                    </td>
                 </tr>
-                <tr>
-                    <td>Breaking Hours</td>
-                    <td class="text-right value-highlight">6</td>
-                    <td class="text-right">143.7</td>
-                </tr>
-                <tr>
-                    <td>Development Hours</td>
-                    <td class="text-right value-highlight">5.5</td>
-                    <td class="text-right">62.3</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h2>Loading Start End Time 🚚</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th class="text-right">Tippers</th>
-                    <th class="text-right">Machinery</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>9:15 AM</td>
-                    <td>12:39 PM</td>
-                    <td class="text-right">7</td>
-                    <td class="text-right">3</td>
-                </tr>
-                <tr>
-                    <td>2:12 PM</td>
-                    <td>7:51 PM</td>
-                    <td class="text-right">10</td>
-                    <td class="text-right">7</td>
-                </tr>
-                <tr>
-                    <td>9:36 PM</td>
-                    <td>7:00 AM</td>
-                    <td class="text-right">15</td>
-                    <td class="text-right">9</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h2>Key Parameters 📈</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Parameter</th>
-                    <th class="text-right">FTD (Today)</th>
-                    <th class="text-right">MTD (Month)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Compressors</td>
-                    <td class="text-right value-highlight">12</td>
-                    <td class="text-right">245</td>
-                </tr>
-                <tr>
-                    <td>NMR</td>
-                    <td class="text-right value-highlight">42</td>
-                    <td class="text-right">78</td>
-                </tr>
-                <tr>
-                    <td>Holes</td>
-                    <td class="text-right value-highlight">850</td>
-                    <td class="text-right">15,800</td>
-                </tr>
-                <tr>
-                    <td>Feets</td>
-                    <td class="text-right value-highlight">4,250</td>
-                    <td class="text-right">79,000</td>
-                </tr>
-                <tr>
-                    <td>Production</td>
-                    <td class="text-right value-highlight">1,250</td>
-                    <td class="text-right">22,500</td>
-                </tr>
-                <tr>
-                    <td>Boulder transport Trips</td>
-                    <td class="text-right value-highlight">456</td>
-                    <td class="text-right">11,520</td>
-                </tr>
-                <tr>
-                    <td>Boulder transport Qty</td>
-                    <td class="text-right value-highlight">2,151</td>
-                    <td class="text-right">36,255</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h2>Area Wise Compressor Status 🗺️</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Area</th>
-                    <th class="text-right">FTD</th>
-                    <th class="text-right">MTD</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>9 Ha – Pit 3</td>
-                    <td class="text-right value-highlight">5</td>
-                    <td class="text-right">105</td>
-                </tr>
-                <tr>
-                    <td>Bench 1</td>
-                    <td class="text-right value-highlight">2</td>
-                    <td class="text-right">40</td>
-                </tr>
-                <tr>
-                    <td>Bench 2</td>
-                    <td class="text-right value-highlight">2</td>
-                    <td class="text-right">38</td>
-                </tr>
-                <tr>
-                    <td>Bench 3</td>
-                    <td class="text-right value-highlight">1</td>
-                    <td class="text-right">22</td>
-                </tr>
-                <tr>
-                    <td>Bench 4</td>
-                    <td class="text-right value-highlight">1</td>
-                    <td class="text-right">20</td>
-                </tr>
-                <tr>
-                    <td>Pit-2</td>
-                    <td class="text-right value-highlight">4</td>
-                    <td class="text-right">80</td>
-                </tr>
-                <tr class="total-row">
-                    <td>Total</td>
-                    <td class="text-right">12</td>
-                    <td class="text-right">245</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h2>Machinery 🔧</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Machine</th>
-                    <th>HMR Open/Close</th>
-                    <th class="text-right">W.Hours</th>
-                    <th class="text-right">Diesel</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>SGX V - 1</td>
-                    <td>113.5 / 119.6</td>
-                    <td class="text-right">6.3</td>
-                    <td class="text-right">230 L</td>
-                </tr>
-                <tr>
-                    <td>SGX V - 2</td>
-                    <td>152.6 / 163.63</td>
-                    <td class="text-right">7.1</td>
-                    <td class="text-right">145 L</td>
-                </tr>
-                <tr>
-                    <td>Govinda - 1</td>
-                    <td>114.6 / 121.3</td>
-                    <td class="text-right">6.3</td>
-                    <td class="text-right">230 L</td>
-                </tr>
-                <tr>
-                    <td>Govinda - 2</td>
-                    <td>163.9 / 169.7</td>
-                    <td class="text-right">3.6</td>
-                    <td class="text-right">120 L</td>
-                </tr>
-                <tr>
-                    <td>Hyundai - rental</td>
-                    <td>152.6 / 163.63</td>
-                    <td class="text-right">4.6</td>
-                    <td class="text-right">45 L</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="remark">
-            Remark: All machinery operating within normal parameters. SGX V-2 showing optimal fuel efficiency.
+            </table>
+        </div>
+        
+        <!-- Running Hours Section -->
+        <div class="dashboard-box running-hours-box" id="running-hours-section">
+            <div class="section-title">
+                Running Hours
+                <span class="section-icon">⏱️</span>
+            </div>
+            <table class="running-hours-table">
+                <thead>
+                    <tr>
+                        <th>Operation Type</th>
+                        <th class="text-right">FTD</th>
+                        <th class="text-right">MTD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Quarry Run Hours</td>
+                        <td class="text-right"><span class="value-ftd">6.9</span></td>
+                        <td class="text-right">169.3</td>
+                    </tr>
+                    <tr>
+                        <td>Loading Hours</td>
+                        <td class="text-right"><span class="value-ftd">8.5</span></td>
+                        <td class="text-right">253.6</td>
+                    </tr>
+                    <tr>
+                        <td>Breaking Hours</td>
+                        <td class="text-right"><span class="value-ftd">6</span></td>
+                        <td class="text-right">143.7</td>
+                    </tr>
+                    <tr>
+                        <td>Development Hours</td>
+                        <td class="text-right"><span class="value-ftd">5.5</span></td>
+                        <td class="text-right">62.3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Loading Start End Time Section -->
+        <div class="dashboard-box loading-box" id="loading-section">
+            <div class="section-title">
+                Loading Start End Time
+                <span class="section-icon">🚚</span>
+            </div>
+            <table class="loading-table">
+                <thead>
+                    <tr>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th class="text-right">Tippers</th>
+                        <th class="text-right">Machinery</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>9:15 AM</td>
+                        <td>12:39 PM</td>
+                        <td class="text-right">7</td>
+                        <td class="text-right">3</td>
+                    </tr>
+                    <tr>
+                        <td>2:12 PM</td>
+                        <td>7:51 PM</td>
+                        <td class="text-right">10</td>
+                        <td class="text-right">7</td>
+                    </tr>
+                    <tr>
+                        <td>9:36 PM</td>
+                        <td>7:00 AM</td>
+                        <td class="text-right">15</td>
+                        <td class="text-right">9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Key Parameters Section -->
+        <div class="dashboard-box key-parameters-box" id="key-parameters-section">
+            <div class="section-title">
+                Key Parameters
+                <span class="section-icon">📈</span>
+            </div>
+            <table class="key-parameters-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-right">FTD <span class="data-badge">Today</span></th>
+                        <th class="text-right">MTD <span class="data-badge">Month</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Compressors</td>
+                        <td class="text-right"><span class="value-ftd">12</span></td>
+                        <td class="text-right">245</td>
+                    </tr>
+                    <tr>
+                        <td>NMR</td>
+                        <td class="text-right"><span class="value-ftd">42</span></td>
+                        <td class="text-right">78</td>
+                    </tr>
+                    <tr>
+                        <td>Holes</td>
+                        <td class="text-right"><span class="value-ftd">850</span></td>
+                        <td class="text-right">15,800</td>
+                    </tr>
+                    <tr>
+                        <td>Feets</td>
+                        <td class="text-right"><span class="value-ftd">4,250</span></td>
+                        <td class="text-right">79,000</td>
+                    </tr>
+                    <tr>
+                        <td>Production</td>
+                        <td class="text-right"><span class="value-ftd">1,250</span></td>
+                        <td class="text-right">22,500</td>
+                    </tr>
+                    <tr>
+                        <td>Boulder transport Trips</td>
+                        <td class="text-right"><span class="value-ftd">456</span></td>
+                        <td class="text-right">11,520</td>
+                    </tr>
+                    <tr>
+                        <td>Boulder transport Qty</td>
+                        <td class="text-right"><span class="value-ftd">2,151</span></td>
+                        <td class="text-right">36,255</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Area Wise Compressor Status Section -->
+        <div class="dashboard-box area-status-box" id="area-status-section">
+            <div class="section-title">
+                Area Wise Compressor Status
+                <span class="section-icon">🗺️</span>
+            </div>
+            <table class="area-status-table">
+                <thead>
+                    <tr>
+                        <th>Area</th>
+                        <th class="text-right">FTD</th>
+                        <th class="text-right">MTD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>9 Ha – Pit 3</td>
+                        <td class="text-right"><span class="value-ftd">5</span></td>
+                        <td class="text-right">105</td>
+                    </tr>
+                    <tr>
+                        <td>Bench 1</td>
+                        <td class="text-right"><span class="value-ftd">2</span></td>
+                        <td class="text-right">40</td>
+                    </tr>
+                    <tr>
+                        <td>Bench 2</td>
+                        <td class="text-right"><span class="value-ftd">2</span></td>
+                        <td class="text-right">38</td>
+                    </tr>
+                    <tr>
+                        <td>Bench 3</td>
+                        <td class="text-right"><span class="value-ftd">1</span></td>
+                        <td class="text-right">22</td>
+                    </tr>
+                    <tr>
+                        <td>Bench 4</td>
+                        <td class="text-right"><span class="value-ftd">1</span></td>
+                        <td class="text-right">20</td>
+                    </tr>
+                    <tr>
+                        <td>Pit-2</td>
+                        <td class="text-right"><span class="value-ftd">4</span></td>
+                        <td class="text-right">80</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Total</td>
+                        <td class="text-right">12</td>
+                        <td class="text-right">245</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Machinery Section -->
+        <div class="dashboard-box machinery-box" id="machinery-section">
+            <div class="section-title">
+                Machinery
+                <span class="section-icon">🔧</span>
+            </div>
+            <table class="machinery-table">
+                <thead>
+                    <tr>
+                        <th>Machine</th>
+                        <th>HMR Open/Close</th>
+                        <th class="text-right">W.Hours</th>
+                        <th class="text-right">Diesel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SGX V - 1</td>
+                        <td class="hmr-cell">113.5 / 119.6</td>
+                        <td class="text-right">6.3</td>
+                        <td class="text-right">230 L</td>
+                    </tr>
+                    <tr>
+                        <td>SGX V - 2</td>
+                        <td class="hmr-cell">152.6 / 163.63</td>
+                        <td class="text-right">7.1</td>
+                        <td class="text-right">145 L</td>
+                    </tr>
+                    <tr>
+                        <td>Govinda - 1</td>
+                        <td class="hmr-cell">114.6 / 121.3</td>
+                        <td class="text-right">6.3</td>
+                        <td class="text-right">230 L</td>
+                    </tr>
+                    <tr>
+                        <td>Govinda - 2</td>
+                        <td class="hmr-cell">163.9 / 169.7</td>
+                        <td class="text-right">3.6</td>
+                        <td class="text-right">120 L</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai - rental</td>
+                        <td class="hmr-cell">152.6 / 163.63</td>
+                        <td class="text-right">4.6</td>
+                        <td class="text-right">45 L</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="remark-section">
+                Remark: All machinery operating within normal parameters. SGX V-2 showing optimal fuel efficiency.
+            </div>
         </div>
     </div>
 </body>
