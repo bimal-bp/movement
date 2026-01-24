@@ -244,7 +244,6 @@
     <div class="dashboard-header">
         <h1 class="dashboard-title">Mining Operations MIS Report - 25/01/2026</h1>
     </div>
-
     <div class="dashboard-container">
         <!-- Performance (Modernized) -->
         <div class="dashboard-box performance-box" id="performance-section" onclick="openPerformanceModal()">
@@ -269,7 +268,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Running Hours -->
         <div class="dashboard-box running-hours-box" id="running-hours-section" onclick="openRunningHoursModal()">
             <div class="section-title">
@@ -288,7 +286,6 @@
                 </tbody>
             </table>
         </div>
-
         <!-- Loading -->
         <div class="dashboard-box loading-box" id="loading-section" onclick="openLoadingModal()">
             <div class="section-title">
@@ -309,7 +306,6 @@
                 </tbody>
             </table>
         </div>
-
         <!-- Key Parameters -->
         <div class="dashboard-box key-parameters-box">
             <div class="section-title">
@@ -331,7 +327,6 @@
                 </tbody>
             </table>
         </div>
-
         <!-- Area Wise Compressor Status -->
         <div class="dashboard-box area-status-box">
             <div class="section-title">
@@ -353,7 +348,6 @@
                 </tbody>
             </table>
         </div>
-
         <!-- Machinery -->
         <div class="dashboard-box machinery-box" id="machinery-section" onclick="openMachineryModal()">
             <div class="section-title">
@@ -382,7 +376,6 @@
             </div>
         </div>
     </div>
-
     <!-- Additional Small Buttons Row -->
     <div class="buttons-container">
         <div class="buttons-row">
@@ -393,7 +386,6 @@
             <button class="action-btn" onclick="openRevenueModal()">Revenue Loss</button>
         </div>
     </div>
-
     <!-- Existing MODALS -->
     <!-- Performance Modal -->
     <div id="performanceModal" class="modal">
@@ -435,7 +427,6 @@
             </div>
         </div>
     </div>
-
     <!-- Running Hours Modal -->
     <div id="runningHoursModal" class="modal">
         <div class="modal-content">
@@ -473,7 +464,6 @@
             </table>
         </div>
     </div>
-
     <!-- Loading Modal -->
     <div id="loadingModal" class="modal">
         <div class="modal-content">
@@ -532,7 +522,6 @@
             </div>
         </div>
     </div>
-
     <!-- Machinery Modal -->
     <div id="machineryModal" class="modal">
         <div class="modal-content">
@@ -620,7 +609,6 @@
             </div>
         </div>
     </div>
-
     <!-- New Modals for Buttons -->
     <!-- Trial Details Modal -->
     <div id="trialModal" class="modal">
@@ -651,8 +639,7 @@
             </table>
         </div>
     </div>
-
-    <!-- Explosive Details Modal -->
+    <!-- Explosive Modal (UPDATED) -->
     <div id="explosiveModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeExplosiveModal()">×</span>
@@ -663,10 +650,10 @@
                     <tr>
                         <th>Date</th>
                         <th>Material</th>
-                        <th class="text-right">Opening</th>
+                        <th class="text-right">Opening Balance</th>
                         <th class="text-right">Received</th>
                         <th class="text-right">Issued</th>
-                        <th class="text-right">Closing</th>
+                        <th class="text-right">Closing Balance</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -674,167 +661,114 @@
                         <td rowspan="4">01-01-2026</td>
                         <td>PG</td>
                         <td class="text-right">550</td>
-                        <td class="text-right">38</td>
-                        <td class="text-right">17</td>
-                        <td class="text-right">571</td>
+                        <td class="text-right">381</td>
+                        <td class="text-right">7</td>
+                        <td class="text-right">924</td>
                     </tr>
                     <tr>
                         <td>DF</td>
-                        <td class="text-right">1710</td>
-                        <td class="text-right">0</td>
-                        <td class="text-right">120</td>
-                        <td class="text-right">1590</td>
+                        <td class="text-right">171</td>
+                        <td class="text-right">1</td>
+                        <td class="text-right">203</td>
+                        <td class="text-right">507</td>
                     </tr>
                     <tr>
                         <td>ED</td>
                         <td class="text-right">420</td>
-                        <td class="text-right">21</td>
-                        <td class="text-right">21</td>
-                        <td class="text-right">420</td>
+                        <td class="text-right">212</td>
+                        <td class="text-right">1</td>
+                        <td class="text-right">631</td>
                     </tr>
                     <tr>
                         <td>WIRE</td>
                         <td class="text-right">210</td>
-                        <td class="text-right">51</td>
-                        <td class="text-right">60</td>
-                        <td class="text-right">201</td>
+                        <td class="text-right">516</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">726</td>
                     </tr>
                     <tr>
                         <td rowspan="4">02-01-2026</td>
                         <td>PG</td>
-                        <td class="text-right">571</td>
-                        <td class="text-right">0</td>
-                        <td class="text-right">19</td>
-                        <td class="text-right">552</td>
+                        <td class="text-right">171</td>
+                        <td class="text-right">81</td>
+                        <td class="text-right">9</td>
+                        <td class="text-right">243</td>
                     </tr>
                     <tr>
                         <td>DF</td>
-                        <td class="text-right">1590</td>
-                        <td class="text-right">70</td>
-                        <td class="text-right">200</td>
-                        <td class="text-right">1460</td>
+                        <td class="text-right">507</td>
+                        <td class="text-right">20</td>
+                        <td class="text-right">30</td>
+                        <td class="text-right">497</td>
                     </tr>
                     <tr>
                         <td>ED</td>
-                        <td class="text-right">420</td>
+                        <td class="text-right">210</td>
                         <td class="text-right">7</td>
                         <td class="text-right">14</td>
-                        <td class="text-right">413</td>
+                        <td class="text-right">203</td>
                     </tr>
                     <tr>
                         <td>WIRE</td>
-                        <td class="text-right">201</td>
-                        <td class="text-right">65</td>
-                        <td class="text-right">41</td>
-                        <td class="text-right">225</td>
-                    </tr>
-                    <tr class="total-row">
-                        <td colspan="2">Total (PG+DF+ED+WIRE)</td>
-                        <td class="text-right">2,890</td>
-                        <td class="text-right">251</td>
-                        <td class="text-right">492</td>
-                        <td class="text-right">2,649</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Compressor Payment Modal -->
-    <div id="compressorModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeCompressorModal()">×</span>
-            <h2 class="modal-title">Compressor Payment Till Date</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Area</th>
-                        <th class="text-right">Compressors</th>
-                        <th class="text-right">Rate (₹)</th>
-                        <th class="text-right">Amount (₹)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>01-01-2026</td><td>9 Ha – Pit 3</td><td class="text-right">5</td><td class="text-right">2,500</td><td class="text-right">12,500</td></tr>
-                    <tr><td>02-01-2026</td><td>Bench 1</td><td class="text-right">2</td><td class="text-right">2,500</td><td class="text-right">5,000</td></tr>
-                    <tr><td>03-01-2026</td><td>Bench 2</td><td class="text-right">2</td><td class="text-right">2,500</td><td class="text-right">5,000</td></tr>
-                    <tr><td>04-01-2026</td><td>Bench 3</td><td class="text-right">1</td><td class="text-right">2,500</td><td class="text-right">2,500</td></tr>
-                    <tr><td>05-01-2026</td><td>Bench 4</td><td class="text-right">1</td><td class="text-right">2,500</td><td class="text-right">2,500</td></tr>
-                    <tr><td>06-01-2026</td><td>Pit-2</td><td class="text-right">4</td><td class="text-right">2,500</td><td class="text-right">10,000</td></tr>
-                    <tr><td>07-01-2026</td><td>9 Ha – Pit 3</td><td class="text-right">5</td><td class="text-right">2,500</td><td class="text-right">12,500</td></tr>
-                    <tr><td>08-01-2026</td><td>Bench 1</td><td class="text-right">2</td><td class="text-right">2,500</td><td class="text-right">5,000</td></tr>
-                    <tr class="total-row">
-                        <td colspan="4">Total Payment Till Date</td>
-                        <td class="text-right"><strong>55,000</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- NMR Payment Modal -->
-    <div id="nmrModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeNMRModal()">×</span>
-            <h2 class="modal-title">NMR Payment Till Date</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>NMR Count</th>
-                        <th class="text-right">Rate per NMR (₹)</th>
-                        <th class="text-right">Amount (₹)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>01-01-2026</td><td>9</td><td class="text-right">800</td><td class="text-right">7,200</td></tr>
-                    <tr><td>02-01-2026</td><td>12</td><td class="text-right">800</td><td class="text-right">9,600</td></tr>
-                    <tr><td>03-01-2026</td><td>11</td><td class="text-right">800</td><td class="text-right">8,800</td></tr>
-                    <tr><td>04-01-2026</td><td>14</td><td class="text-right">800</td><td class="text-right">11,200</td></tr>
-                    <tr><td>05-01-2026</td><td>10</td><td class="text-right">800</td><td class="text-right">8,000</td></tr>
-                    <tr><td>06-01-2026</td><td>16</td><td class="text-right">800</td><td class="text-right">12,800</td></tr>
-                    <tr><td>07-01-2026</td><td>15</td><td class="text-right">800</td><td class="text-right">12,000</td></tr>
-                    <tr><td>08-01-2026</td><td>14</td><td class="text-right">800</td><td class="text-right">11,200</td></tr>
-                    <tr class="total-row">
-                        <td colspan="3">Total Payment Till Date</td>
-                        <td class="text-right"><strong>80,800</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Revenue Loss Modal -->
-    <div id="revenueModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeRevenueModal()">×</span>
-            <h2 class="modal-title">Revenue Loss Analysis</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width:70%;">Reason for Revenue Loss</th>
-                        <th class="text-right">Estimated Loss (₹)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>1. Machinery Breakdown (SGX V-1 - 2 days downtime)</td><td class="text-right">85,000</td></tr>
-                    <tr><td>2. Low Compressor Efficiency (Below target by 29%)</td><td class="text-right">42,500</td></tr>
-                    <tr><td>3. Reduced Loading Hours (8.5 vs target 12 hours)</td><td class="text-right">28,750</td></tr>
-                    <tr><td>4. Delayed Explosive Supply (2 days delay)</td><td class="text-right">15,300</td></tr>
-                    <tr><td>5. Weather Conditions (Rain - 1 day operations halt)</td><td class="text-right">12,450</td></tr>
-                    <tr class="total-row">
-                        <td>Total Estimated Revenue Loss (MTD)</td>
-                        <td class="text-right"><strong>184,000</strong></td>
+                        <td class="text-right">165</td>
+                        <td class="text-right">4</td>
+                        <td class="text-right">17</td>
+                        <td class="text-right">152</td>
                     </tr>
                 </tbody>
             </table>
             <div style="margin-top:24px; padding:16px; background:rgba(231,76,60,0.08); border-left:4px solid #e74c3c; border-radius:8px; font-size:17px; font-weight:600; text-align:center; color:#c0392b;">
-                Total Revenue Loss: ₹1,84,000 | Recovery Plan: Increase compressor efficiency to 85%
+                Total Issued = Sum(PG + DF + ED + WIRE) across dates
             </div>
         </div>
     </div>
-
+    <!-- Compressor Modal (UPDATED) -->
+    <div id="compressorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCompressorModal()">×</span>
+            <h2 class="modal-title">Compressor Details</h2>
+            <div style="margin-top:24px; padding:18px; background:rgba(52,152,219,0.08); border-left:5px solid #3498db; border-radius:8px; font-size:20px; font-weight:700; text-align:center; color:#2980b9;">
+                Compressor Payment Till Date: ₹8,96,750
+            </div>
+        </div>
+    </div>
+    <!-- NMR Modal (UPDATED) -->
+    <div id="nmrModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeNMRModal()">×</span>
+            <h2 class="modal-title">NMR Payment</h2>
+            <div style="margin-top:24px; padding:18px; background:rgba(39,174,96,0.08); border-left:5px solid #27ae60; border-radius:8px; font-size:20px; font-weight:700; text-align:center; color:#1e8449;">
+                NMR Payment Till Date: ₹4,12,350
+            </div>
+        </div>
+    </div>
+    <!-- Revenue Modal (UPDATED with 5 lines) -->
+    <div id="revenueModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRevenueModal()">×</span>
+            <h2 class="modal-title">Revenue Loss</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Reason</th>
+                        <th class="text-right">Amount (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>[Update reason here]</td><td class="text-right">0</td></tr>
+                    <tr><td>2</td><td>[Update reason here]</td><td class="text-right">0</td></tr>
+                    <tr><td>3</td><td>[Update reason here]</td><td class="text-right">0</td></tr>
+                    <tr><td>4</td><td>[Update reason here]</td><td class="text-right">0</td></tr>
+                    <tr><td>5</td><td>[Update reason here]</td><td class="text-right">0</td></tr>
+                    <tr class="total-row">
+                        <td colspan="2">Total Revenue Loss</td>
+                        <td class="text-right">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <script>
         // Existing modal functions
         function openPerformanceModal() { document.getElementById('performanceModal').style.display = 'block'; }
@@ -845,7 +779,6 @@
         function closeLoadingModal() { document.getElementById('loadingModal').style.display = 'none'; }
         function openMachineryModal() { document.getElementById('machineryModal').style.display = 'block'; }
         function closeMachineryModal() { document.getElementById('machineryModal').style.display = 'none'; }
-
         // New modal functions
         function openTrialModal() { document.getElementById('trialModal').style.display = 'block'; }
         function closeTrialModal() { document.getElementById('trialModal').style.display = 'none'; }
@@ -857,7 +790,6 @@
         function closeNMRModal() { document.getElementById('nmrModal').style.display = 'none'; }
         function openRevenueModal() { document.getElementById('revenueModal').style.display = 'block'; }
         function closeRevenueModal() { document.getElementById('revenueModal').style.display = 'none'; }
-
         // Close modal when clicking outside
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
