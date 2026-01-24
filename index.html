@@ -298,8 +298,8 @@
                 </thead>
                 <tbody>
                     <tr><td>9:15 AM</td><td>12:39 PM</td><td class="text-right">7</td><td class="text-right">3</td></tr>
-                    <tr><td>2:12 PM</td><td>7:51 PM</td><td class="text-right">10</td><td class="text-right">7</td></tr>
-                    <tr><td>9:36 PM</td><td>7:00 AM</td><td class="text-right">15</td><td class="text-right">9</td></tr>
+                    <tr><td>2:12 PM</td><td>7:51 PM</td><td class="text-right">10</td><td class="text-right">4</td></tr>
+                    <tr><td>9:36 PM</td><td>7:00 AM</td><td class="text-right">5</td><td class="text-right">2</td></tr>
                     <tr><td colspan="4">
                         <div class="loading-ftd-highlight">FTD - 87 Trips & 2436 Mt Qty</div>
                     </td></tr>
@@ -318,11 +318,11 @@
                 </thead>
                 <tbody>
                     <tr><td>Compressors</td><td class="text-right"><span class="value-ftd">12</span></td><td class="text-right">245</td></tr>
-                    <tr><td>NMR</td><td class="text-right"><span class="value-ftd">42</span></td><td class="text-right">78</td></tr>
+                    <tr><td>NMR</td><td class="text-right"><span class="value-ftd">12</span></td><td class="text-right">78</td></tr>
                     <tr><td>Holes</td><td class="text-right"><span class="value-ftd">850</span></td><td class="text-right">15,800</td></tr>
                     <tr><td>Feets</td><td class="text-right"><span class="value-ftd">4,250</span></td><td class="text-right">79,000</td></tr>
                     <tr><td>Production</td><td class="text-right"><span class="value-ftd">1,250</span></td><td class="text-right">22,500</td></tr>
-                    <tr><td>Boulder transport Trips</td><td class="text-right"><span class="value-ftd">456</span></td><td class="text-right">11,520</td></tr>
+                    <tr><td>Boulder transport Trips</td><td class="text-right"><span class="value-ftd">45</span></td><td class="text-right">11,52</td></tr>
                     <tr><td>Boulder transport Qty</td><td class="text-right"><span class="value-ftd">2,151</span></td><td class="text-right">36,255</td></tr>
                 </tbody>
             </table>
@@ -341,8 +341,8 @@
                     <tr><td>9 Ha – Pit 3</td><td class="text-right"><span class="value-ftd">5</span></td><td class="text-right">105</td></tr>
                     <tr><td>Bench 1</td><td class="text-right"><span class="value-ftd">2</span></td><td class="text-right">40</td></tr>
                     <tr><td>Bench 2</td><td class="text-right"><span class="value-ftd">2</span></td><td class="text-right">38</td></tr>
-                    <tr><td>Bench 3</td><td class="text-right"><span class="value-ftd">1</span></td><td class="text-right">22</td></tr>
-                    <tr><td>Bench 4</td><td class="text-right"><span class="value-ftd">1</span></td><td class="text-right">20</td></tr>
+                    <tr><td>Bench 3</td><td class="text-right"><span class="value-ftd">0</span></td><td class="text-right">22</td></tr>
+                    <tr><td>Bench 4</td><td class="text-right"><span class="value-ftd">0</span></td><td class="text-right">20</td></tr>
                     <tr><td>Pit-2</td><td class="text-right"><span class="value-ftd">4</span></td><td class="text-right">80</td></tr>
                     <tr class="total-row"><td>Total</td><td class="text-right">12</td><td class="text-right">245</td></tr>
                 </tbody>
@@ -454,8 +454,8 @@
                     <tr><td>08-01-2026</td><td class="text-right">6.9</td><td class="text-right">8.5</td><td class="text-right">6.0</td><td class="text-right">5.5</td><td class="text-right">26.9</td></tr>
                     <tr class="total-row">
                         <td>Total</td>
-                        <td class="text-right">63.7</td>
-                        <td class="text-right">80.3</td>
+                        <td class="text-right">83.7</td>
+                        <td class="text-right">67.3</td>
                         <td class="text-right">55.1</td>
                         <td class="text-right">47.1</td>
                         <td class="text-right">246.2</td>
@@ -718,7 +718,7 @@
                 </tbody>
             </table>
             <div style="margin-top:24px; padding:16px; background:rgba(231,76,60,0.08); border-left:4px solid #e74c3c; border-radius:8px; font-size:17px; font-weight:600; text-align:center; color:#c0392b;">
-                Total Issued = Sum(PG + DF + ED + WIRE) across dates
+                Total Issued = PG - 16 || DF -233 || WIRE - 14 || ED - 17
             </div>
         </div>
     </div>
@@ -728,7 +728,8 @@
             <span class="close" onclick="closeCompressorModal()">×</span>
             <h2 class="modal-title">Compressor Details</h2>
             <div style="margin-top:24px; padding:18px; background:rgba(52,152,219,0.08); border-left:5px solid #3498db; border-radius:8px; font-size:20px; font-weight:700; text-align:center; color:#2980b9;">
-                Compressor Payment Till Date: ₹8,96,750
+                Total Compressor Placed 245 , with 15800 feets Drilled 
+                 Payment Till Date: ₹8,96,750
             </div>
         </div>
     </div>
@@ -738,7 +739,7 @@
             <span class="close" onclick="closeNMRModal()">×</span>
             <h2 class="modal-title">NMR Payment</h2>
             <div style="margin-top:24px; padding:18px; background:rgba(39,174,96,0.08); border-left:5px solid #27ae60; border-radius:8px; font-size:20px; font-weight:700; text-align:center; color:#1e8449;">
-                NMR Payment Till Date: ₹4,12,350
+                NMR Payment Till Date: ₹1,12,350
             </div>
         </div>
     </div>
